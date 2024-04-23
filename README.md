@@ -1,5 +1,12 @@
 # wp-bot
 
+## Features
+- UNO
+- Poketwo bot
+- Chat bots
+- NYT Games wordle,crossword
+- Chess puzzles
+
 ## Installation
 ```powershell
 npm i -g yarn@latest
