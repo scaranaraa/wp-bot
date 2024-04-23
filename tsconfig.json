@@ -1,0 +1,23 @@
+{
+	"compilerOptions": {
+		"target": "ES2022",
+		"module": "NodeNext",
+		"outDir": "./dist",
+		"allowJs": true,
+		//"checkJs": true,
+		"rootDir": "./",
+		"strict": true,
+		"skipLibCheck": true,
+		"strictFunctionTypes": true,
+		"strictNullChecks": false,
+		"strictBindCallApply": true,
+		"experimentalDecorators": true,
+		"moduleResolution": "NodeNext",
+		"esModuleInterop": true
+	},
+	"include": ["./src/**/*"],
+	"exclude": ["./node_modules", "./dist/**/*"],
+	"ts-node": {
+		"swc": true
+	}
+}

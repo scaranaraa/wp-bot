@@ -1,0 +1,23 @@
+
+/node_modules
+.env
+/dist
+/.vscode
+/.vs
+#auth
+/.wwebjs_auth
+/wauth
+/.wwebjs_cache
+src/commands/utils/msgreset.json
+src/commands/utils/unlocked.json
+src/commands/utils/rm.json
+#big files
+/src/commands/chess/lichess_db_puzzle.csv
+/pngs
+
+#not needed
+/.yarn
+
+#other
+a.js
+

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Pokemon Battle Scene</title>
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+  <!-- A wrapper for the game  -->
+  <div class="container pokemon-background">
+    
+    <!-- Opponent section -->
+    <div class="top-section">
+      <!-- opponent scoreboard -->
+      <div class="scoreboard opponent-scoreboard">
+        <div class="tag">
+          Opponent
+        </div>
+        <div class="name">
+          <%= opponentName %>
+        </div>
+        <div class="progressbar">
+          <div class="total-progressbar">
+            <div class="actual-progressbar" style="width: <%= (parseInt(opponentHP) / parseInt(opponentMAXHP)) * 100 %>%"></div>
+          </div>
+        </div>
+        <div class="score">
+          <span class="actual-score"><%= opponentHP %>/</span>
+          <span class="total-score"><%= opponentMAXHP %></span>
+        </div>
+      </div>
+
+      <!-- Opponent Pokemon image -->
+      <div class="image-section opponent-image">
+        <div class="pokemon-image pokemon-1">
+          <img src="<%= opponentPokemonSrc %>" alt="">
+        </div>
+      </div>
+    </div>
+
+    <!-- User Section -->
+    <div class="bottom-section">
+      
+      <!-- User Pokemon image -->
+      <div class="image-section user-image ">
+        <div class="pokemon-image pokemon-2">
+          <img src="<%= userPokemonSrc %>" alt="">
+        </div>
+      </div>
+
+      <!-- User scoreboard -->
+      <div class="scoreboard user-scoreboard">
+        <div class="tag">
+          Yours
+        </div>
+        <div class="name">
+          <%= userName %>
+        </div>
+        <div class="progressbar">
+          <div class="total-progressbar">
+            <div class="actual-progressbar" style="width:<%= (parseInt(userHP) / parseInt(userMAXHP)) * 100 %>%"></div>
+          </div>
+        </div>
+        <div class="score">
+          <span class="actual-score"><%= userHP %>/</span>
+          <span class="total-score"><%= userMAXHP %></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Attacks section -->
+    <div class="attacks-section">
+      <div class="attacks">
+        <% attacks.forEach(function(attack) { %>
+            <div class="attack attack-medium">
+                <%= attack.name %>
+            </div>
+        <% }); %>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
