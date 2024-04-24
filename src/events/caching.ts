@@ -8,7 +8,7 @@ async function globalCache(userId: string) {
 	}
 }
 
-/*client.on('message_create', async msg => {
+/* client.on('message_create', async msg => {
 	const user = await msg.getContact();
 	await globalCache(user.number);
 });

@@ -13,8 +13,8 @@ const msgcountdb = new JsonDB(
 
 console.log('Client is ready!');
 
-//change to bots phone number
-//TODO - use redis
+// change to bots phone number
+// TODO - use redis
 const foundUser = client.cachedUsers.get(`${process.env.PHONE}`);
 if (!foundUser) {
 	client.cachedUsers.set(
@@ -23,7 +23,7 @@ if (!foundUser) {
 	);
 }
 
-//ONLY use if very few people use the bot
+// ONLY use if very few people use the bot
 const frequsers = await msgcountdb.getData('/users');
 for (const number of frequsers) {
 	const foundUser = new baseuser({ userId: number, users: client.cachedUsers });
@@ -55,7 +55,7 @@ for (const dat of r) {
 	}
 }
 
-//not good for a large number of users
+// not good for a large number of users
 const dailyTask = scheduleJob('0 0 * * *', async function () {
 	await msgcountdb.reload();
 	const users = await msgcountdb.getData('/users');

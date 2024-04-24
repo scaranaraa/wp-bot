@@ -39,9 +39,9 @@ const user = new Schema<BaseUserType>({
 		type: Number,
 		default: 0,
 	},
-	crossword : {
+	crossword: {
 		type: Number,
-		default : 0,
+		default: 0,
 	},
 	yellowtea: {
 		type: Number,

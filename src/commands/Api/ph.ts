@@ -50,11 +50,7 @@ export async function run(client: Client, msg: Message, args: string[]) {
 		await msg.reply(thumbnail, undefined, {
 			caption: `${res.result.title}\nDownloading..`,
 		});
-	} 
-	catch (e) 
-	{
-
-	}
+	} catch (e) {}
 	for (let i = 0; i < res.result.media.length; i++) {
 		if (
 			res.result.media[i].quality == 480 &&

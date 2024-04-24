@@ -16,10 +16,7 @@ export async function run(
 	args: string[]
 ) {
 	const mem = await msg.getContact();
-	if (
-		msg.fromMe ||
-		mem.number == `${process.env.OWNER_NUMBER}`
-	) {
+	if (msg.fromMe || mem.number == `${process.env.OWNER_NUMBER}`) {
 		try {
 			let evaled;
 			let code = args.join(' ');

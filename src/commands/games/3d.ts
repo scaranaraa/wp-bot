@@ -368,12 +368,18 @@ class ttt implements ttts {
 			letter: string = null,
 			index: string
 		) {
-			image.scan(x, y, gridWidth, gridHeight, function (x: any, y: any, idx: number) {
-				this.bitmap.data[idx + 0] = (bgColor >> 24) & 0xff;
-				this.bitmap.data[idx + 1] = (bgColor >> 16) & 0xff;
-				this.bitmap.data[idx + 2] = (bgColor >> 8) & 0xff;
-				this.bitmap.data[idx + 3] = bgColor & 0xff;
-			});
+			image.scan(
+				x,
+				y,
+				gridWidth,
+				gridHeight,
+				function (x: any, y: any, idx: number) {
+					this.bitmap.data[idx + 0] = (bgColor >> 24) & 0xff;
+					this.bitmap.data[idx + 1] = (bgColor >> 16) & 0xff;
+					this.bitmap.data[idx + 2] = (bgColor >> 8) & 0xff;
+					this.bitmap.data[idx + 3] = bgColor & 0xff;
+				}
+			);
 
 			if (letter) {
 				letter = letter.toUpperCase();

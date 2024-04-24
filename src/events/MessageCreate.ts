@@ -28,7 +28,7 @@ client.on('message', async msg => {
 
 	let args: string[];
 	if (msg.body.toLowerCase().startsWith(prefix))
-	args = msg.body.slice(prefix.length).trim().split(/ +/);
+		args = msg.body.slice(prefix.length).trim().split(/ +/);
 	else args = msg.body.slice(1).trim().split(/ +/);
 	const cmd = args.shift()?.toLowerCase();
 

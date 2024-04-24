@@ -494,6 +494,7 @@ export default class baseuser implements BaseUserClient {
 			}
 		);
 	}
+
 	addCrossword() {
 		const winAmt = this.users.get(this.userId).crossword;
 		this.users.get(this.userId).crossword = winAmt + 1;
@@ -508,6 +509,7 @@ export default class baseuser implements BaseUserClient {
 			}
 		);
 	}
+
 	addRedtea() {
 		const winAmt = this.users.get(this.userId).redtea;
 		this.users.get(this.userId).redtea = winAmt + 1;

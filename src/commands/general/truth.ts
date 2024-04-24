@@ -1,22 +1,22 @@
 import pkg from 'whatsapp-web.js';
-import { type truthordateapi } from '../../types/games.js';
-
 import { JsonDB, Config } from 'node-json-db';
+import { type truthordateapi } from '../../types/games.js';
 
 const db = new JsonDB(
 	new Config('./src/commands/utils/truth.json', true, true, '/')
 );
 
-let questions: truthordateapi[] = await db.getData('./truth') 
+let questions: truthordateapi[] = await db.getData('./truth');
 
 async function getQuestion(): Promise<truthordateapi> {
-
-	const question = questions.splice(Math.floor(Math.random() * questions.length), 1)[0];
-	if(questions.length == 0){
-		questions = await db.getData('./truth')
+	const question = questions.splice(
+		Math.floor(Math.random() * questions.length),
+		1
+	)[0];
+	if (questions.length == 0) {
+		questions = await db.getData('./truth');
 	}
-	return question
-
+	return question;
 }
 
 export const name = 'truth';
@@ -26,10 +26,11 @@ export const description = 'Get a truth';
 export const category = 'General';
 
 const { Client, LocalAuth, MessageMedia } = pkg;
-export async function run(client: pkg.Client, msg: pkg.Message, args: string[]) {
-
-	let res: truthordateapi = await getQuestion();
+export async function run(
+	client: pkg.Client,
+	msg: pkg.Message,
+	args: string[]
+) {
+	const res: truthordateapi = await getQuestion();
 	return msg.reply(res.question);
-
 }
-

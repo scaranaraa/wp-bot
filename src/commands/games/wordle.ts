@@ -79,12 +79,18 @@ class wordle implements wordleBase {
 			bgColor: any,
 			letter: string = null
 		) {
-			image.scan(x, y, gridWidth, gridHeight, function (x: any, y: any, idx: number) {
-				this.bitmap.data[idx + 0] = (bgColor >> 24) & 0xff;
-				this.bitmap.data[idx + 1] = (bgColor >> 16) & 0xff;
-				this.bitmap.data[idx + 2] = (bgColor >> 8) & 0xff;
-				this.bitmap.data[idx + 3] = bgColor & 0xff;
-			});
+			image.scan(
+				x,
+				y,
+				gridWidth,
+				gridHeight,
+				function (x: any, y: any, idx: number) {
+					this.bitmap.data[idx + 0] = (bgColor >> 24) & 0xff;
+					this.bitmap.data[idx + 1] = (bgColor >> 16) & 0xff;
+					this.bitmap.data[idx + 2] = (bgColor >> 8) & 0xff;
+					this.bitmap.data[idx + 3] = bgColor & 0xff;
+				}
+			);
 
 			for (let i = 0; i < borderWidth; i++) {
 				for (let j = 0; j < gridWidth; j++) {
@@ -123,8 +129,8 @@ class wordle implements wordleBase {
 		}
 
 		await drawGrid();
-		const b64 = await image.getBase64Async('image/png')
-		return b64.slice(22)
+		const b64 = await image.getBase64Async('image/png');
+		return b64.slice(22);
 	}
 }
 export const name = 'wordle';
@@ -142,7 +148,7 @@ export async function run(client: pkg.Client, msg: Message, args: string[]) {
 	const chat = await msg.getChat();
 	const game = new wordle(client, chat.id._serialized);
 	const b64 = await game.genimage();
-	const media2 = new MessageMedia('image/png',b64)
+	const media2 = new MessageMedia('image/png', b64);
 	await msg.reply(media2);
 	let done = true;
 	client.on('message_create', async function trial(msg) {
@@ -177,7 +183,7 @@ export async function run(client: pkg.Client, msg: Message, args: string[]) {
 
 			const res = await game.guess(guessed);
 			const base = await game.genimage();
-			const media = new MessageMedia('image/png',base)
+			const media = new MessageMedia('image/png', base);
 			await msg.reply(media);
 			done = true;
 			if (game.res.includes('🟩🟩🟩🟩🟩')) {

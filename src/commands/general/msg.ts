@@ -23,7 +23,7 @@ export async function run(client: Client, msg: Message, args: string[]) {
 		return;
 	}
 	let member;
-	let curruser = await msg.getContact();
+	const curruser = await msg.getContact();
 	const mentions = await msg.getMentions();
 	if (mentions.length) {
 		member =

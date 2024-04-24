@@ -4,6 +4,7 @@ import { type BaseUserType } from '../types/baseuser.js';
 
 class user implements BaseUserType {
 	crossword: number;
+
 	wchain: number;
 
 	msgcount: {

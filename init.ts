@@ -95,9 +95,8 @@ client.getruleset = function () {
 client.snipe = [];
 client.downloading = false;
 
-//very badly optimized not worth it
-//client.character = 'Leon Kennedy' 
-
+// very badly optimized not worth it
+// client.character = 'Leon Kennedy'
 
 client.ingame = false;
 client.ind = false;

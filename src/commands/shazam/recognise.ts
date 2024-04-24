@@ -59,8 +59,7 @@ export async function run(
 		return msg.reply('Not found');
 	}
 
-		const image = await MessageMedia.fromUrl(recognise.track.images.background);
-	
+	const image = await MessageMedia.fromUrl(recognise.track.images.background);
 
 	const trackData = recognise.track;
 	const mainSection = trackData.sections.find((e: any) => e.type === 'SONG');
@@ -76,12 +75,11 @@ export async function run(
 			null || _b === void 0
 			? void 0
 			: _b.text;
-	try{
+	try {
 		await msg.reply(image, undefined, {
-		caption: `${title}\n\n*Artist* - ${artist}\n\n*Album* - ${album}`,
-	});
-	}
-	catch{
+			caption: `${title}\n\n*Artist* - ${artist}\n\n*Album* - ${album}`,
+		});
+	} catch {
 		await msg.reply(`${title}\n\n*Artist* - ${artist}\n\n*Album* - ${album}`);
 	}
 	await msg.reply(`Shazam song ID - ${recognise.matches[0].id}`);

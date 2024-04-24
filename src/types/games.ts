@@ -184,5 +184,4 @@ export type Icrossword = {
 	clues: { across: string[]; down: string[] };
 	usergrid: string[];
 	init(): Promise<void>;
-}
-
+};

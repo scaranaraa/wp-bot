@@ -1,22 +1,22 @@
 import pkg from 'whatsapp-web.js';
-import { type truthordateapi } from '../../types/games.js';
-
 import { JsonDB, Config } from 'node-json-db';
+import { type truthordateapi } from '../../types/games.js';
 
 const db = new JsonDB(
 	new Config('./src/commands/utils/wyp.json', true, true, '/')
 );
 
-let questions: truthordateapi[] = await db.getData('./wyp') 
+let questions: truthordateapi[] = await db.getData('./wyp');
 
 async function getQuestion(): Promise<truthordateapi> {
-
-	const question = questions.splice(Math.floor(Math.random() * questions.length), 1)[0];
-	if(questions.length == 0){
-		questions = await db.getData('./wyp')
+	const question = questions.splice(
+		Math.floor(Math.random() * questions.length),
+		1
+	)[0];
+	if (questions.length == 0) {
+		questions = await db.getData('./wyp');
 	}
-	return question
-
+	return question;
 }
 
 export const name = 'Will You Press';

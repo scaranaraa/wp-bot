@@ -5,7 +5,7 @@ import 'dotenv/config';
 
 const { Client, LocalAuth } = pkg;
 
-//"start": "(pm2 stop all && pm2 start pm2.config.js || pm2 start pm2.config.js)",
+// "start": "(pm2 stop all && pm2 start pm2.config.js || pm2 start pm2.config.js)",
 
 const client = new Client({
 	authStrategy: new LocalAuth(),
@@ -44,7 +44,7 @@ client.on('qr', qr => {
 import('./init.js');
 
 client.on('ready', (_: any) => {
-	const handlers = ['command_handler.js','event_handler.js'];
+	const handlers = ['command_handler.js', 'event_handler.js'];
 	handlers.forEach((handler: string) => {
 		import(`./src/handlers/${handler}`).then(module => module.default(client));
 	});

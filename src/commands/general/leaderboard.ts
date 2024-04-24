@@ -65,7 +65,7 @@ export async function run(client: Client, msg: Message, args: string[]) {
 			'pinktea',
 			'chesspuzzle',
 			'hangman',
-			'crossword'
+			'crossword',
 		];
 		let foundCommand = client.commands.get(game);
 		if (!foundCommand) {

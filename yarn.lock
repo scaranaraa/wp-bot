@@ -476,9 +476,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gradio/client@git+https://github.com/throwaway5665/gradio.git":
+"@gradio/client@git+https://github.com/scaranaraa/gradio.git":
   version: 0.13.0
-  resolution: "@gradio/client@https://github.com/throwaway5665/gradio.git#commit=0312fcea5031783f45714b69e6a25ce2c6e03c2f"
+  resolution: "@gradio/client@https://github.com/scaranaraa/gradio.git#commit=0312fcea5031783f45714b69e6a25ce2c6e03c2f"
   dependencies:
     bufferutil: "npm:^4.0.7"
     semiver: "npm:^1.1.0"
@@ -2879,9 +2879,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@waylaidwanderer/chatgpt-api@git+https://github.com/throwaway5665/node-chatgpt-api.git":
+"@waylaidwanderer/chatgpt-api@git+https://github.com/scaranaraa/node-chatgpt-api.git":
   version: 1.37.3
-  resolution: "@waylaidwanderer/chatgpt-api@https://github.com/throwaway5665/node-chatgpt-api.git#commit=fa168807d5cd337d0a9653c061fd337dd5867a4e"
+  resolution: "@waylaidwanderer/chatgpt-api@https://github.com/scaranaraa/node-chatgpt-api.git#commit=fa168807d5cd337d0a9653c061fd337dd5867a4e"
   dependencies:
     "@dqbd/tiktoken": "npm:^1.0.2"
     "@fastify/cors": "npm:^8.2.0"
@@ -5694,21 +5694,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-n@npm:^17.2.1":
-  version: 17.2.1
-  resolution: "eslint-plugin-n@npm:17.2.1"
+"eslint-plugin-n@npm:^17.3.0":
+  version: 17.3.0
+  resolution: "eslint-plugin-n@npm:17.3.0"
   dependencies:
     "@eslint-community/eslint-utils": "npm:^4.4.0"
     enhanced-resolve: "npm:^5.15.0"
     eslint-plugin-es-x: "npm:^7.5.0"
     get-tsconfig: "npm:^4.7.0"
-    globals: "npm:^14.0.0"
+    globals: "npm:^15.0.0"
     ignore: "npm:^5.2.4"
     minimatch: "npm:^9.0.0"
     semver: "npm:^7.5.3"
   peerDependencies:
     eslint: ">=8.23.0"
-  checksum: 10c0/f00ea5de2dcc990be18b719834a1296ede93c66911fc9369a3d2357e0d3fcf23b5c91c7e022c58d88652cd13206a33e40440db035937c059c721098fd5e07e86
+  checksum: 10c0/9b4926ae0c78c07c1b45ea69cce556e60893912ad6366ad345bd7334ff007c6c37a8bb893b39b492f958fc8a69f20b467f5d9921c77d881f0ea1df296efc7d7e
   languageName: node
   linkType: hard
 
@@ -12619,9 +12619,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"whatsapp-web.js@git+https://github.com/throwaway5665/whatsapp-web.js.git":
+"whatsapp-web.js@git+https://github.com/scaranaraa/whatsapp-web.js.git":
   version: 1.23.1-alpha.5
-  resolution: "whatsapp-web.js@https://github.com/throwaway5665/whatsapp-web.js.git#commit=712a3af979fd441283ed84d5942b5c9994279eab"
+  resolution: "whatsapp-web.js@https://github.com/scaranaraa/whatsapp-web.js.git#commit=75b517842492e140f396723c95e7169e748c8348"
   dependencies:
     archiver: "npm:^5.3.1"
     fluent-ffmpeg: "npm:2.1.2"
@@ -12639,7 +12639,7 @@ __metadata:
       optional: true
     unzipper:
       optional: true
-  checksum: 10c0/7025feec77007d62668e957940b7d2a6e2378ea967504dd0328860458f57339e3dbb4d3a896f1bf0aa1e7f3db0899340d0495e89a0e71f47ad36ffe03ec38d5d
+  checksum: 10c0/fa801dcf042b23d5187704a5f7adba9d688f4b08d044fae2e7950ea560b5fdd8efeea50a4f0b0642a8506c0672202181c9a91ea912f2c1fde5b14a5a3c856076
   languageName: node
   linkType: hard
 
@@ -12764,7 +12764,7 @@ __metadata:
     "@ffmpeg-installer/ffmpeg": "npm:^1.1.0"
     "@ffmpeg/ffmpeg": "npm:^0.12.10"
     "@google/generative-ai": "npm:^0.8.0"
-    "@gradio/client": "git+https://github.com/throwaway5665/gradio.git"
+    "@gradio/client": "git+https://github.com/scaranaraa/gradio.git"
     "@langchain/anthropic": "npm:^0.1.16"
     "@langchain/community": "npm:^0.0.51"
     "@napi-rs/canvas": "npm:^0.1.52"
@@ -12782,7 +12782,7 @@ __metadata:
     "@types/request": "npm:^2.48.12"
     "@typescript-eslint/eslint-plugin": "npm:7.7.1"
     "@typescript-eslint/parser": "npm:7.7.1"
-    "@waylaidwanderer/chatgpt-api": "git+https://github.com/throwaway5665/node-chatgpt-api.git"
+    "@waylaidwanderer/chatgpt-api": "git+https://github.com/scaranaraa/node-chatgpt-api.git"
     aki-api: "npm:^6.0.9"
     axios: "npm:^1.6.8"
     canvacord: "npm:^6.0.2"
@@ -12801,7 +12801,7 @@ __metadata:
     eslint-config-standard-with-typescript: "npm:^43.0.1"
     eslint-config-xo-typescript: "npm:^4.0.0"
     eslint-plugin-import: "npm:^2.29.1"
-    eslint-plugin-n: "npm:^17.2.1"
+    eslint-plugin-n: "npm:^17.3.0"
     eslint-plugin-node: "npm:11.1.0"
     eslint-plugin-prettier: "npm:5.1.3"
     eslint-plugin-promise: "npm:^6.1.1"
@@ -12842,7 +12842,7 @@ __metadata:
     typescript: "npm:^5.4.5"
     typescript-eslint: "npm:^7.7.1"
     uuid: "npm:^9.0.1"
-    whatsapp-web.js: "git+https://github.com/throwaway5665/whatsapp-web.js.git"
+    whatsapp-web.js: "git+https://github.com/scaranaraa/whatsapp-web.js.git"
     wordnet: "npm:^2.0.0"
     yt-dl-playlist: "npm:^2.1.0"
     yt-search: "npm:^2.10.4"
