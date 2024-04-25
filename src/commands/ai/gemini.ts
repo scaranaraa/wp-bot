@@ -7,7 +7,7 @@ import {
 import pkg from 'whatsapp-web.js';
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
-const model = genAI.getGenerativeModel({ model: 'gemini-1.0-pro-latest' });
+const model = genAI.getGenerativeModel({ model: 'gemini-1.5-pro-latest' });
 const imgmodel = genAI.getGenerativeModel({ model: 'gemini-pro-vision' });
 const safetySettings = [
 	{

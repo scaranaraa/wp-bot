@@ -1,4 +1,3 @@
-// @ts-nocheck
 import ARTISTS from './constants.js';
 import { get_data_from } from './utils.js';
 import {
@@ -20,10 +19,11 @@ import {
 	Evolution,
 	EvolutionList,
 } from './models.js';
+import { IItem, IMove, IMoveMeta, IMoveNames, IPokemonMove, MoveEffectProse, MoveMetaStatChanges, Pokemon } from '../types/pokemondata.js';
 
 async function get_pokemon(instance: DataManager) {
-	const specie = await get_data_from<any>('pokemon.csv');
-	const species = specie.reduce((acc, x) => {
+	const specie = await get_data_from<Pokemon>('pokemon.csv');
+	const species = specie.reduce((acc : {[key: string]: Pokemon} , x) => {
 		acc[x.id] = x;
 		return acc;
 	}, {});
@@ -82,7 +82,7 @@ async function get_pokemon(instance: DataManager) {
 		return new OtherTrigger(instance);
 	}
 
-	const pokemon = {};
+	const pokemon : {[key: string] : Species} = {};
 	for (const row of Object.values(species)) {
 		if (!('enabled' in row)) {
 			continue;
@@ -156,38 +156,38 @@ async function get_pokemon(instance: DataManager) {
 		}
 
 		pokemon[row.id] = new Species(
-			row.id,
+			parseInt(row.id),
 			names,
 			row.slug,
 			new Stats(
-				row['base.hp'],
-				row['base.atk'],
-				row['base.def'],
-				row['base.satk'],
-				row['base.sdef'],
-				row['base.spd']
+				parseInt(row['base.hp']),
+				parseInt(row['base.atk']),
+				parseInt(row['base.def']),
+				parseInt(row['base.satk']),
+				parseInt(row['base.sdef']),
+				parseInt(row['base.spd'])
 			),
 			parseInt(row.height) / 10,
 			parseInt(row.weight) / 10,
-			row.dex_number,
-			row.catchable,
+			parseInt(row.dex_number),
+			row.catchable ? true : false,
 			types,
-			row.abundance || 0,
-			row.gender_rate || -1,
-			row.has_gender_differences || 0,
+			parseInt(row.abundance) || 0,
+			parseInt(row.gender_rate) || -1,
+			row.has_gender_differences ? true : false,
 			row.description || null,
-			row['evo.mega'] || null,
-			row['evo.mega_x'] || null,
-			row['evo.mega_y'] || null,
+			parseInt(row['evo.mega']) || null,
+			parseInt(row['evo.mega_x']) || null,
+			parseInt(row['evo.mega_y']) || null,
 			/* new Species(:mega_id?: null, mega_x_id?: null, mega_y_id?: null, evolution_from?: null, evolution_to?: null, mythical?: boolean, legendary?: boolean, ultra_beast?: boolean, event?: boolean, is_form?: boolean, form_item?: null, moves?: null, region?: null, art_credit?: null, instance?: UnregisteredDataManager): Species */
-			evo_from ? new EvolutionList(evo_from) : null,
+			evo_from ? new EvolutionList([evo_from]) : null,
 			evo_to ? new EvolutionList(evo_to) : null,
-			row.mythical,
-			row.legendary,
-			row.ultra_beast,
-			row.event,
-			row.is_form,
-			row.form_item || null,
+			row.mythical ? true : false,
+			row.legendary ? true : false ,
+			row.ultra_beast ? true : false,
+			row.event ? true : false,
+			row.is_form ? true : false,
+			parseInt(row.form_item) || null,
 			row.region,
 			art_credit,
 			instance,
@@ -195,8 +195,8 @@ async function get_pokemon(instance: DataManager) {
 		);
 	}
 
-	const moves = await get_data_from('pokemon_moves.csv');
-	const version_group = {};
+	const moves = await get_data_from<IPokemonMove>('pokemon_moves.csv');
+	const version_group : {[key: number]: any} = {};
 	for (const row of moves) {
 		version_group[row.pokemon_id] = Math.max(
 			version_group[row.pokemon_id] || 0,
@@ -225,15 +225,16 @@ async function get_pokemon(instance: DataManager) {
 	}
 
 	for (const p of Object.values(pokemon)) {
+		//@ts-ignore
 		p.moves.sort((a, b) => a.method.level - b.method.level);
 	}
 
 	return pokemon;
 }
 
-async function get_items(instance) {
-	const data = await get_data_from('items.csv');
-	const items = {};
+async function get_items(instance: DataManager) {
+	const data = await get_data_from<IItem>('items.csv');
+	const items: {[key: number] : Item}= {};
 	for (const row of data) {
 		items[row.id] = new Item(
 			row.id,
@@ -244,7 +245,7 @@ async function get_items(instance) {
 			row.action,
 			!row.seperate,
 			row.emote || null,
-			row.shard,
+			row.shard ? true :false,
 			instance
 		);
 	}
@@ -252,9 +253,9 @@ async function get_items(instance) {
 	return items;
 }
 
-async function get_effects(instance) {
-	const data = await get_data_from('move_effect_prose.csv');
-	const effects = {};
+async function get_effects(instance: DataManager) {
+	const data = await get_data_from<MoveEffectProse>('move_effect_prose.csv');
+	const effects: {[key :number]: MoveEffect} = {};
 	for (const row of data) {
 		let description = row.short_effect.replace(
 			ARTISTS.DESCRIPTION_LINK_REGEX,
@@ -271,22 +272,22 @@ async function get_effects(instance) {
 	return effects;
 }
 
-async function get_moves(instance) {
-	const data = await get_data_from('moves.csv');
-	const name = await get_data_from('move_names.csv');
+async function get_moves(instance: DataManager) {
+	const data = await get_data_from<IMove>('moves.csv');
+	const name = await get_data_from<IMoveNames>('move_names.csv');
 	const names = name
 		.filter(x => x.local_language_id === 9)
-		.reduce((acc, x) => {
+		.reduce((acc :{[key: number]: any}, x) => {
 			acc[x.move_id] = x.name;
 			return acc;
 		}, {});
-	const metas = await get_data_from('move_meta.csv');
-	const meta = metas.reduce((acc, x) => {
+	const metas = await get_data_from<IMoveMeta>('move_meta.csv');
+	const meta = metas.reduce((acc: {[key: number]: any}, x) => {
 		acc[x.move_id] = x;
 		return acc;
 	}, {});
-	const meta_stat = await get_data_from('move_meta_stat_changes.csv');
-	const meta_stats = meta_stat.reduce((acc, x) => {
+	const meta_stat = await get_data_from<MoveMetaStatChanges>('move_meta_stat_changes.csv');
+	const meta_stats = meta_stat.reduce((acc: {[key: number]: any}, x) => {
 		const moveId = x.move_id;
 
 		if (!acc[moveId]) {
@@ -298,7 +299,7 @@ async function get_moves(instance) {
 
 		return acc;
 	}, {});
-	const moves = {};
+	const moves: {[key: number]: Move} = {};
 	for (const row of data) {
 		if (row.id > 10000) {
 			continue;
@@ -311,7 +312,7 @@ async function get_moves(instance) {
 
 		delete mmeta.move_id;
 		const statchanges = meta_stats[row.id]
-			? meta_stats[row.id].map(x => new StatChange(x.stat_id, x.change))
+			? meta_stats[row.id].map((x: any) => new StatChange(x.stat_id, x.change))
 			: [];
 		const { effect_id } = row;
 		let accuracy = row.accuracy || null;
@@ -359,21 +360,21 @@ async function get_moves(instance) {
 }
 
 class DataManager extends DataManagerBase {
-	constructor(assets_base_url = null) {
+	constructor(assets_base_url: string = null) {
+		//@ts-ignore
 		super();
-		this.assets_base_url = assets_base_url || 'https://cdn.poketwo.net';
 		this.init();
 	}
 
-	asset(path) {
-		const base_url = this.assets_base_url || 'https://cdn.poketwo.net';
-		return base_url + path;
-	}
-
+	
 	async init() {
+		//@ts-ignore
 		this.effects = await get_effects(this);
+		//@ts-ignore
 		this.moves = await get_moves(this);
-		this.pokemon = await get_pokemon(this);
+		//@ts-ignore
+		this.pokemon= await get_pokemon(this);
+		//@ts-ignore
 		this.items = await get_items(this);
 	}
 }

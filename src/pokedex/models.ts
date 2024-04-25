@@ -882,7 +882,7 @@ class Evolution implements EvolutionBase {
 	get text() {
 		if (this.target[`evolution_${this.dir}`] !== null) {
 			const pevo = this.target[`evolution_${this.dir}`];
-			return `evolves ${this.dir} ${this.target} ${this.trigger.text}, which `;
+			return `evolves ${this.dir} ${this.target} ${this.trigger.text}, which ${pevo.text} `;
 		}
 
 		return `evolves ${this.dir} ${this.target} ${this.trigger.text}`;
@@ -901,7 +901,7 @@ class EvolutionList implements EvolutionListBase {
 	items: Evolution[];
 
 	get text() {
-		let txt = this.items.map(e => e.text).join(' and ');
+		let txt: any = this.items.map(e => e.text).join(' and ');
 		txt = txt.replace(' and ', ', ');
 		return txt;
 	}
@@ -1054,7 +1054,7 @@ class Species implements SpeciesBase {
 
 	instance: DataManagerBase;
 
-	moves: PokemonMove[] | [];
+	moves: PokemonMove[];
 
 	get name() {
 		const found = this.names.find(x => (x[0] ? x[0] === '🇬🇧' : null));
