@@ -68,6 +68,7 @@ class Battle implements BattleBase {
 		this.turn.push(this.turn.shift());
 		const app = express();
 		app.set('view engine', 'ejs');
+		app.set('views','./src/pokedex')
 		app.use((req, res, next) => {
 			res.setHeader(
 				'Cache-Control',
