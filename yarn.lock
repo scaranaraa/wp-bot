@@ -12,7 +12,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@anthropic-ai/sdk@npm:^0.20.1, @anthropic-ai/sdk@npm:^0.20.6":
+"@anthropic-ai/sdk@npm:^0.20.1":
   version: 0.20.6
   resolution: "@anthropic-ai/sdk@npm:0.20.6"
   dependencies:
@@ -25,6 +25,22 @@ __metadata:
     node-fetch: "npm:^2.6.7"
     web-streams-polyfill: "npm:^3.2.1"
   checksum: 10c0/d0e55fa06272d936b224f12403bffab1c441cab389ba533aa7e261cff519f153619c4d581688d7086e18b8a6b22835b4992f7f3f978dbc655bb0dd8209e22ea5
+  languageName: node
+  linkType: hard
+
+"@anthropic-ai/sdk@npm:^0.20.6":
+  version: 0.20.7
+  resolution: "@anthropic-ai/sdk@npm:0.20.7"
+  dependencies:
+    "@types/node": "npm:^18.11.18"
+    "@types/node-fetch": "npm:^2.6.4"
+    abort-controller: "npm:^3.0.0"
+    agentkeepalive: "npm:^4.2.1"
+    form-data-encoder: "npm:1.7.2"
+    formdata-node: "npm:^4.3.2"
+    node-fetch: "npm:^2.6.7"
+    web-streams-polyfill: "npm:^3.2.1"
+  checksum: 10c0/be5068f98efb1daaec3377a4c69f181aab7093769b3e5b298f76abd9150136d761d56a0a5101157eaf73e7d04de4f05e8bb381f1cb6aff4c9ec7098808d1f4cb
   languageName: node
   linkType: hard
 
@@ -1530,6 +1546,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@langchain/core@npm:~0.1, @langchain/core@npm:~0.1.60":
+  version: 0.1.60
+  resolution: "@langchain/core@npm:0.1.60"
+  dependencies:
+    ansi-styles: "npm:^5.0.0"
+    camelcase: "npm:6"
+    decamelize: "npm:1.2.0"
+    js-tiktoken: "npm:^1.0.8"
+    langsmith: "npm:~0.1.7"
+    ml-distance: "npm:^4.0.0"
+    mustache: "npm:^4.2.0"
+    p-queue: "npm:^6.6.2"
+    p-retry: "npm:4"
+    uuid: "npm:^9.0.0"
+    zod: "npm:^3.22.4"
+    zod-to-json-schema: "npm:^3.22.3"
+  checksum: 10c0/80cc1f6895277a24868c892ad318a2a6d5fbcc4d0b9205a006d9d608af565b1dddcfa5b5b7d0ea9163b1486db3554822f05979fdb21c1b6bb249ae59a2357d9b
+  languageName: node
+  linkType: hard
+
 "@langchain/core@npm:~0.1.56":
   version: 0.1.58
   resolution: "@langchain/core@npm:0.1.58"
@@ -1560,6 +1596,16 @@ __metadata:
     zod: "npm:^3.22.4"
     zod-to-json-schema: "npm:^3.22.3"
   checksum: 10c0/324d5a76502afcbf657b712a763743e0fcfa9494a201d3b8a3fc8ca398af53b6cdb9b3da6936909681a69fb4310dceb8add364f64efae8356d7316160e7363c1
+  languageName: node
+  linkType: hard
+
+"@langchain/textsplitters@npm:~0.0.0":
+  version: 0.0.0
+  resolution: "@langchain/textsplitters@npm:0.0.0"
+  dependencies:
+    "@langchain/core": "npm:~0.1"
+    js-tiktoken: "npm:^1.0.11"
+  checksum: 10c0/ca7009b4383abb7bc3799409f3719c4df71414d2201f17ff7b9ea37c323c7802f0c0f91484e38ce740cf08307d290f2493fb944a4bf80720bb1ba0dd9a1537e5
   languageName: node
   linkType: hard
 
@@ -2047,9 +2093,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@puppeteer/browsers@npm:2.2.2":
-  version: 2.2.2
-  resolution: "@puppeteer/browsers@npm:2.2.2"
+"@puppeteer/browsers@npm:2.2.3":
+  version: 2.2.3
+  resolution: "@puppeteer/browsers@npm:2.2.3"
   dependencies:
     debug: "npm:4.3.4"
     extract-zip: "npm:2.0.1"
@@ -2061,7 +2107,7 @@ __metadata:
     yargs: "npm:17.7.2"
   bin:
     browsers: lib/cjs/main-cli.js
-  checksum: 10c0/4c49b53da60b4c7e0b08a6cc4c12debc5f750e7cbedecf6ae2966b7cfde4bee4d11c798f5c536340f9e351d209eeccef986e1e86881ae8f69daef54bffe78d03
+  checksum: 10c0/0d3442b44daf7469dba4ab641bae1450c7616818f1da465f5bbd96de14afd78e86b5015d3f28a2f06401f4b5bc09a72a7fd2ad77f1b51e4b54a3de4a0bcc82ea
   languageName: node
   linkType: hard
 
@@ -2596,13 +2642,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^18.2.79":
-  version: 18.2.79
-  resolution: "@types/react@npm:18.2.79"
+"@types/react@npm:^18.3.0":
+  version: 18.3.0
+  resolution: "@types/react@npm:18.3.0"
   dependencies:
     "@types/prop-types": "npm:*"
     csstype: "npm:^3.0.2"
-  checksum: 10c0/c8a8a005d8830a48cc1ef93c3510c4935a2a03e5557dbecaa8f1038450cbfcb18eb206fa7fba7077d54b8da21faeb25577e897a333392770a7797f625b62c78a
+  checksum: 10c0/6405f805700daf096a507a191bc4f8814ebed49120f156926b0a5b7b6f41424214320cea3dbb6df85f476b220f0554ef7e587baa88f59375e64bdbab525f58aa
   languageName: node
   linkType: hard
 
@@ -3075,14 +3121,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aki-api@npm:^6.0.9":
-  version: 6.0.9
-  resolution: "aki-api@npm:6.0.9"
+"aki-api@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "aki-api@npm:7.0.0"
   dependencies:
-    axios: "npm:^1.4.0"
-    https-proxy-agent: "npm:^6.1.0"
-    node_extra_ca_certs_mozilla_bundle: "npm:^1.0.5"
-  checksum: 10c0/92479d1e1cfad02e334aaf2feb7bfa1a8ccb55544787357a55280784c431bf14835e3fe6fde38ef006f366efc3c040948868426e257d6b883af4af5a3168dcb5
+    axios: "npm:^1.6.8"
+    form-data: "npm:^4.0.0"
+    html-entities: "npm:^2.5.2"
+    https-proxy-agent: "npm:^6.2.1"
+    node_extra_ca_certs_mozilla_bundle: "npm:^1.0.6"
+  checksum: 10c0/144f3a52852d4085fafdd0c2833fef745889c7e53125a255efc401273e6e1cddeda7117c49e8d7d6abfa4acc59bd9a0176179c316ed392941ad2c016ad494463
   languageName: node
   linkType: hard
 
@@ -3612,7 +3660,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.4.0, axios@npm:^1.6.5, axios@npm:^1.6.8":
+"axios@npm:^1.6.5, axios@npm:^1.6.8":
   version: 1.6.8
   resolution: "axios@npm:1.6.8"
   dependencies:
@@ -4226,16 +4274,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chromium-bidi@npm:0.5.17":
-  version: 0.5.17
-  resolution: "chromium-bidi@npm:0.5.17"
+"chromium-bidi@npm:0.5.19":
+  version: 0.5.19
+  resolution: "chromium-bidi@npm:0.5.19"
   dependencies:
     mitt: "npm:3.0.1"
     urlpattern-polyfill: "npm:10.0.0"
     zod: "npm:3.22.4"
   peerDependencies:
     devtools-protocol: "*"
-  checksum: 10c0/1d503c3af43f1e9e2b9d0a61a88ab67d90cc72ec823ec40a62c25777532d887e51f672046ea41d853754b52a3aa933f024bd69abfd85586396e06460b11481a0
+  checksum: 10c0/b48b1eb0a6ea029abf72d0e474b99d421d2e234eb92f743d592804b0130909f942b0dbd86147ba22d7d2d84e4345f4a9994030fcdac83ebee7a8892f575b7539
   languageName: node
   linkType: hard
 
@@ -5694,9 +5742,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-n@npm:^17.3.0":
-  version: 17.3.0
-  resolution: "eslint-plugin-n@npm:17.3.0"
+"eslint-plugin-n@npm:^17.3.1":
+  version: 17.3.1
+  resolution: "eslint-plugin-n@npm:17.3.1"
   dependencies:
     "@eslint-community/eslint-utils": "npm:^4.4.0"
     enhanced-resolve: "npm:^5.15.0"
@@ -5708,7 +5756,7 @@ __metadata:
     semver: "npm:^7.5.3"
   peerDependencies:
     eslint: ">=8.23.0"
-  checksum: 10c0/9b4926ae0c78c07c1b45ea69cce556e60893912ad6366ad345bd7334ff007c6c37a8bb893b39b492f958fc8a69f20b467f5d9921c77d881f0ea1df296efc7d7e
+  checksum: 10c0/9faf1e99201150c14a1071cefa5261047c0412f867641fe785236ddd0b73d98080eb8bce6da27aabfeb60fdf6977d08d0cac21bdd2343f341654f901d408ad8b
   languageName: node
   linkType: hard
 
@@ -7084,6 +7132,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"html-entities@npm:^2.5.2":
+  version: 2.5.2
+  resolution: "html-entities@npm:2.5.2"
+  checksum: 10c0/f20ffb4326606245c439c231de40a7c560607f639bf40ffbfb36b4c70729fd95d7964209045f1a4e62fe17f2364cef3d6e49b02ea09016f207fde51c2211e481
+  languageName: node
+  linkType: hard
+
 "htmlparser2@npm:^8.0.1":
   version: 8.0.2
   resolution: "htmlparser2@npm:8.0.2"
@@ -7147,7 +7202,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"https-proxy-agent@npm:^6.1.0":
+"https-proxy-agent@npm:^6.2.1":
   version: 6.2.1
   resolution: "https-proxy-agent@npm:6.2.1"
   dependencies:
@@ -7820,7 +7875,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"js-tiktoken@npm:^1.0.7, js-tiktoken@npm:^1.0.8":
+"js-tiktoken@npm:^1.0.11, js-tiktoken@npm:^1.0.7, js-tiktoken@npm:^1.0.8":
   version: 1.0.11
   resolution: "js-tiktoken@npm:1.0.11"
   dependencies:
@@ -8054,13 +8109,14 @@ __metadata:
   linkType: hard
 
 "langchain@npm:^0.1.35":
-  version: 0.1.35
-  resolution: "langchain@npm:0.1.35"
+  version: 0.1.36
+  resolution: "langchain@npm:0.1.36"
   dependencies:
     "@anthropic-ai/sdk": "npm:^0.9.1"
     "@langchain/community": "npm:~0.0.47"
-    "@langchain/core": "npm:~0.1.56"
+    "@langchain/core": "npm:~0.1.60"
     "@langchain/openai": "npm:~0.0.28"
+    "@langchain/textsplitters": "npm:~0.0.0"
     binary-extensions: "npm:^2.2.0"
     js-tiktoken: "npm:^1.0.7"
     js-yaml: "npm:^4.1.0"
@@ -8085,6 +8141,7 @@ __metadata:
     "@gomomento/sdk-web": ^1.51.1
     "@google-ai/generativelanguage": ^0.2.1
     "@google-cloud/storage": ^6.10.1 || ^7.7.0
+    "@mendable/firecrawl-js": ^0.0.13
     "@notionhq/client": ^2.2.10
     "@pinecone-database/pinecone": "*"
     "@supabase/supabase-js": ^2.10.0
@@ -8145,6 +8202,8 @@ __metadata:
     "@google-ai/generativelanguage":
       optional: true
     "@google-cloud/storage":
+      optional: true
+    "@mendable/firecrawl-js":
       optional: true
     "@notionhq/client":
       optional: true
@@ -8228,7 +8287,7 @@ __metadata:
       optional: true
     youtubei.js:
       optional: true
-  checksum: 10c0/47b81c4fb7e2e98330b31f8918dedd072ebd5b162069b99ad1aea6c0760347b154767363ae55be521f007eff6392d1c97dbce3d42638b180962c8d405155b0cd
+  checksum: 10c0/efe24e809927b2b2499f61ff8c72feeb1ddd25366f5267d5ea83cc3ef4cbe6bb7e28355d61c2100d85be53328673803bd141f8a0432c26e2bba4a49b8e968afb
   languageName: node
   linkType: hard
 
@@ -9295,18 +9354,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-shazam@npm:^1.2.1":
-  version: 1.2.1
-  resolution: "node-shazam@npm:1.2.1"
+"node-shazam@npm:^1.2.2":
+  version: 1.2.2
+  resolution: "node-shazam@npm:1.2.2"
   dependencies:
     "@ffmpeg-installer/ffmpeg": "npm:^1.1.0"
     "@types/fluent-ffmpeg": "npm:^2.1.24"
     buffer: "npm:^6.0.3"
     fluent-ffmpeg: "npm:^2.1.2"
     node-fetch: "npm:^3.3.2"
-    shazamio-core: "npm:^1.2.1"
-    typescript: "npm:5.4.3"
-  checksum: 10c0/2da8cc7684f550f7f97782cbe8f92f7f8059f376e1314b73b20d8259aafeaa3d3e4e4fff01b6777168216645d233ca7f47de30d3e3c5f101ed8c78b06be9cbe0
+    shazamio-core: "npm:^1.3.1"
+    typescript: "npm:5.4.5"
+  checksum: 10c0/f7679034f698b7714e896b87a27f3e1bb7320293d4e1bf450ce19af3a9cac7db4dc58324c7dca60edf913a834b7d8d12a64ea39dd8f25abb3f7ac2d3f318269e
   languageName: node
   linkType: hard
 
@@ -9332,7 +9391,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node_extra_ca_certs_mozilla_bundle@npm:^1.0.5":
+"node_extra_ca_certs_mozilla_bundle@npm:^1.0.6":
   version: 1.0.6
   resolution: "node_extra_ca_certs_mozilla_bundle@npm:1.0.6"
   dependencies:
@@ -9588,9 +9647,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"openai@npm:^4.38.3":
-  version: 4.38.3
-  resolution: "openai@npm:4.38.3"
+"openai@npm:^4.38.5":
+  version: 4.38.5
+  resolution: "openai@npm:4.38.5"
   dependencies:
     "@types/node": "npm:^18.11.18"
     "@types/node-fetch": "npm:^2.6.4"
@@ -9602,7 +9661,7 @@ __metadata:
     web-streams-polyfill: "npm:^3.2.1"
   bin:
     openai: bin/cli
-  checksum: 10c0/dcc9ddfc54fda4d318377fdb2f181664efe961ad07e36c5430dbc6a8bf22c3b232f569634d0e28a992390805c3a70819dc61bf12410670392316987bfa5bb2ec
+  checksum: 10c0/2145b54debf87c7c92b08cd04bfe510130011adbcfa03f36363a8539c88c040d2eb15f734a92173e23a8dfd92d8ba78fa3954ea6c44f1d5b450cdac50f26aea8
   languageName: node
   linkType: hard
 
@@ -10443,16 +10502,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"puppeteer-core@npm:22.7.0":
-  version: 22.7.0
-  resolution: "puppeteer-core@npm:22.7.0"
+"puppeteer-core@npm:22.7.1":
+  version: 22.7.1
+  resolution: "puppeteer-core@npm:22.7.1"
   dependencies:
-    "@puppeteer/browsers": "npm:2.2.2"
-    chromium-bidi: "npm:0.5.17"
+    "@puppeteer/browsers": "npm:2.2.3"
+    chromium-bidi: "npm:0.5.19"
     debug: "npm:4.3.4"
     devtools-protocol: "npm:0.0.1273771"
     ws: "npm:8.16.0"
-  checksum: 10c0/69f6588e0f1a37f8ba8bb90ae4c766491881ea9a12cd72805acfbcf4b38e4f6a847228429d6e32f6ebc6250cd8e2b45d0108f7aab7ff09cb922c779d43683f87
+  checksum: 10c0/3e7b7f2acff17f4501edd721abbfbaa826c229a25fab280f907d5812bb8d2409fdbd4d9e4846f260579f41790170daa15cfa1ec67ff365ea9bf655ace2bbda4c
   languageName: node
   linkType: hard
 
@@ -10593,17 +10652,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"puppeteer@npm:^22.7.0":
-  version: 22.7.0
-  resolution: "puppeteer@npm:22.7.0"
+"puppeteer@npm:^22.7.1":
+  version: 22.7.1
+  resolution: "puppeteer@npm:22.7.1"
   dependencies:
-    "@puppeteer/browsers": "npm:2.2.2"
+    "@puppeteer/browsers": "npm:2.2.3"
     cosmiconfig: "npm:9.0.0"
     devtools-protocol: "npm:0.0.1273771"
-    puppeteer-core: "npm:22.7.0"
+    puppeteer-core: "npm:22.7.1"
   bin:
     puppeteer: lib/esm/puppeteer/node/cli.js
-  checksum: 10c0/3f2168c001e3478a54f8c2790b8f4d49237696158f533d4b8027859b4fc40cd3713eab7dfa1dae2f0e126dd4a3a22da3bac80602738f49d807e20caa28532b0d
+  checksum: 10c0/6f7e1e171b519fd0c57c3f668f76ce12b096ee419e6e2e1627fe3ebb55b8884fa4bd41789e66fbb9b2e2c33a2dd06cd87133d77d20d9e63cd36719d182a4e123
   languageName: node
   linkType: hard
 
@@ -11340,10 +11399,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"shazamio-core@npm:^1.2.1":
-  version: 1.3.0
-  resolution: "shazamio-core@npm:1.3.0"
-  checksum: 10c0/d4219fc5bb9e64c5450382752b6388033a1a223c2f2e65c70d3d70a19973c53a9f5db189ba825c882bb087a2edca02548cc847b4ab06688435078974931e35ef
+"shazamio-core@npm:^1.3.1":
+  version: 1.3.1
+  resolution: "shazamio-core@npm:1.3.1"
+  checksum: 10c0/ac25e065f9d7d9dd57cacf5299fe1b574ff7fd0a17718fd0a14893d404e7ce77e5aa579e305a6ce4c569f605e7484e3e9ceb3cc501a7ed0108e683c59e9f75e1
   languageName: node
   linkType: hard
 
@@ -12310,17 +12369,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:5.4.3":
-  version: 5.4.3
-  resolution: "typescript@npm:5.4.3"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 10c0/22443a8760c3668e256c0b34b6b45c359ef6cecc10c42558806177a7d500ab1a7d7aac1f976d712e26989ddf6731d2fbdd3212b7c73290a45127c1c43ba2005a
-  languageName: node
-  linkType: hard
-
-"typescript@npm:^5.4.5":
+"typescript@npm:5.4.5, typescript@npm:^5.4.5":
   version: 5.4.5
   resolution: "typescript@npm:5.4.5"
   bin:
@@ -12330,17 +12379,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A5.4.3#optional!builtin<compat/typescript>":
-  version: 5.4.3
-  resolution: "typescript@patch:typescript@npm%3A5.4.3#optional!builtin<compat/typescript>::version=5.4.3&hash=5adc0c"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 10c0/6e51f8b7e6ec55b897b9e56b67e864fe8f44e30f4a14357aad5dc0f7432db2f01efc0522df0b6c36d361c51f2dc3dcac5c832efd96a404cfabf884e915d38828
-  languageName: node
-  linkType: hard
-
-"typescript@patch:typescript@npm%3A^5.4.5#optional!builtin<compat/typescript>":
+"typescript@patch:typescript@npm%3A5.4.5#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A^5.4.5#optional!builtin<compat/typescript>":
   version: 5.4.5
   resolution: "typescript@patch:typescript@npm%3A5.4.5#optional!builtin<compat/typescript>::version=5.4.5&hash=5adc0c"
   bin:
@@ -12778,12 +12817,12 @@ __metadata:
     "@types/mongoose": "npm:^5.11.97"
     "@types/node-schedule": "npm:^2.1.7"
     "@types/qrcode-terminal": "npm:^0.12.2"
-    "@types/react": "npm:^18.2.79"
+    "@types/react": "npm:^18.3.0"
     "@types/request": "npm:^2.48.12"
     "@typescript-eslint/eslint-plugin": "npm:7.7.1"
     "@typescript-eslint/parser": "npm:7.7.1"
     "@waylaidwanderer/chatgpt-api": "git+https://github.com/scaranaraa/node-chatgpt-api.git"
-    aki-api: "npm:^6.0.9"
+    aki-api: "npm:^7.0.0"
     axios: "npm:^1.6.8"
     canvacord: "npm:^6.0.2"
     canvas: "npm:^2.11.2"
@@ -12801,7 +12840,7 @@ __metadata:
     eslint-config-standard-with-typescript: "npm:^43.0.1"
     eslint-config-xo-typescript: "npm:^4.0.0"
     eslint-plugin-import: "npm:^2.29.1"
-    eslint-plugin-n: "npm:^17.3.0"
+    eslint-plugin-n: "npm:^17.3.1"
     eslint-plugin-node: "npm:11.1.0"
     eslint-plugin-prettier: "npm:5.1.3"
     eslint-plugin-promise: "npm:^6.1.1"
@@ -12823,14 +12862,14 @@ __metadata:
     node-fetch: "npm:^3.3.2"
     node-json-db: "npm:^2.3.0"
     node-schedule: "npm:^2.1.1"
-    node-shazam: "npm:^1.2.1"
+    node-shazam: "npm:^1.2.2"
     node_characterai: "npm:^1.2.7"
-    openai: "npm:^4.38.3"
+    openai: "npm:^4.38.5"
     parse-duration: "npm:^1.1.0"
     pm2: "npm:^5.3.1"
     prettier: "npm:3.2.5"
     pretty-ms: "npm:^9.0.0"
-    puppeteer: "npm:^22.7.0"
+    puppeteer: "npm:^22.7.1"
     qrcode-terminal: "npm:^0.12.0"
     request: "npm:^2.88.2"
     rimraf: "npm:^5.0.5"

@@ -32,15 +32,18 @@ const llm = new ChatOpenAI({
 	openAIApiKey: process.env.OPENAI_KEY,
 });
 
-const agent = await createOpenAIFunctionsAgent({
-	llm,
+const agent = await createOpenAIFunctionsAgent({	// @ts-ignore
+
+	llm,	// @ts-ignore
+
 	tools,
 	// @ts-ignore
 	prompt,
 });
 const history: Array<HumanMessage | AIMessage> = [];
 const agentExecutor = new AgentExecutor({
-	agent,
+	agent,	// @ts-ignore
+
 	tools,
 });
 export const name = 'wolframgpt';

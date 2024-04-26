@@ -62,17 +62,15 @@ class akinator implements aki {
 				}
 
 				const win = await game.checkwin();
-				if (win) {
+				if (game.aki.guess) {
 					game.client.removeListener('message_create', trial);
 					game.client.ingame = false;
-					const guess = game.aki.answers[0];
+					const guess = game.aki.guess
 					const res = 'Im thinking of....';
 					await msg.reply(res);
-					// @ts-ignore
-					const media = await MessageMedia.fromUrl(guess.absolute_picture_path);
+					const media = await MessageMedia.fromUrl(guess.photo);
 					await game.client.sendMessage(game.chatid, media, {
-						// @ts-ignore
-						caption: `Is your character *${guess.name}*? \n\nProbability - ${guess.proba}\nDescription - ${guess.description}`,
+						caption: `Is your character *${guess.name_proposition}*? \n\nProbability - ${game.aki.progress}\nDescription - ${guess.description_proposition}`,
 					});
 					return;
 				}
@@ -85,11 +83,6 @@ class akinator implements aki {
 	}
 
 	async checkwin() {
-		if (this.aki.progress >= 75 || this.aki.currentStep >= 78) {
-			await this.aki.win();
-			return true;
-		}
-
 		return false;
 	}
 }
