@@ -203,6 +203,10 @@ client.checkpokemon = async function (
 	}
 };
 
+if(process.env.CHROME_PATH == ""){
+	console.log("CHROME_PATH not given, chromium will be used. Trying to send videos/gifs will throw an error")
+}
+
 client.curr = function (userId: string) {
 	return new curr({ userId, users: client.cachedUsers });
 };

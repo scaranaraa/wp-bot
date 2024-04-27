@@ -61,7 +61,6 @@ class akinator implements aki {
 					await game.aki.step(ans);
 				}
 
-				const win = await game.checkwin();
 				if (game.aki.guess) {
 					game.client.removeListener('message_create', trial);
 					game.client.ingame = false;
@@ -80,10 +79,6 @@ class akinator implements aki {
 
 			done = true;
 		});
-	}
-
-	async checkwin() {
-		return false;
 	}
 }
 

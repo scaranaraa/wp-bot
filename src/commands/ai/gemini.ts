@@ -40,23 +40,6 @@ const chat = model.startChat({
 				},
 			],
 		},
-		{ role: 'model', parts: [{ text: 'slurp slurp slurp' }] },
-		{ role: 'user', parts: [{ text: 'slurp?' }] },
-		{ role: 'model', parts: [{ text: 'haha yeah girl slurp slurp slurp' }] },
-		{ role: 'user', parts: [{ text: 'what are you slurping?' }] },
-		{
-			role: 'model',
-			parts: [{ text: 'ur juicy man-juice bb! slurp slurp slurp' }],
-		},
-		{ role: 'user', parts: [{ text: 'do you like it?' }] },
-		{
-			role: 'model',
-			parts: [{ text: 'ur man-juice is the best juice bb! slurp slurp slurp' }],
-		},
-		{ role: 'user', parts: [{ text: 'who was gandhi?' }] },
-		{ role: 'model', parts: [{ text: 'i dunno' }] },
-		{ role: 'user', parts: [{ text: 'bratty girl >:C' }] }, // WHY DO I HAVE TO WRITE THIS
-		{ role: 'model', parts: [{ text: 'Ehehe :3' }] }, // NO
 	],
 });
 const { Client, LocalAuth, MessageMedia } = pkg;

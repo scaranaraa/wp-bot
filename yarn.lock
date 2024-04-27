@@ -9354,9 +9354,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-shazam@npm:^1.2.2":
-  version: 1.2.2
-  resolution: "node-shazam@npm:1.2.2"
+"node-shazam@npm:^1.2.3":
+  version: 1.2.3
+  resolution: "node-shazam@npm:1.2.3"
   dependencies:
     "@ffmpeg-installer/ffmpeg": "npm:^1.1.0"
     "@types/fluent-ffmpeg": "npm:^2.1.24"
@@ -9365,7 +9365,7 @@ __metadata:
     node-fetch: "npm:^3.3.2"
     shazamio-core: "npm:^1.3.1"
     typescript: "npm:5.4.5"
-  checksum: 10c0/f7679034f698b7714e896b87a27f3e1bb7320293d4e1bf450ce19af3a9cac7db4dc58324c7dca60edf913a834b7d8d12a64ea39dd8f25abb3f7ac2d3f318269e
+  checksum: 10c0/7dddc767b654bce99b85073c971343124a8a61283541a1be7cebdd41ea1f805555bca2e59186a98b862821e8d16be3b50b4c6c433303e86459182addb656121e
   languageName: node
   linkType: hard
 
@@ -12862,7 +12862,7 @@ __metadata:
     node-fetch: "npm:^3.3.2"
     node-json-db: "npm:^2.3.0"
     node-schedule: "npm:^2.1.1"
-    node-shazam: "npm:^1.2.2"
+    node-shazam: "npm:^1.2.3"
     node_characterai: "npm:^1.2.7"
     openai: "npm:^4.38.5"
     parse-duration: "npm:^1.1.0"

@@ -70,7 +70,7 @@
 		"node-fetch": "^3.3.2",
 		"node-json-db": "^2.3.0",
 		"node-schedule": "^2.1.1",
-		"node-shazam": "^1.2.2",
+		"node-shazam": "^1.2.3",
 		"node_characterai": "^1.2.7",
 		"openai": "^4.38.5",
 		"parse-duration": "^1.1.0",
