@@ -30,6 +30,15 @@ export const args = true;
 export const aliases = ['ph'];
 export const description = 'shhhh';
 export const category = 'API';
+/**
+ * Downloads content from a public Pornhub video and sends them or provides links within WhatsApp.
+ * 
+ * **Usage:**
+ * - `!ph {Instagram post URL}` - Downloads media content from the provided Pornhub video and attempts to send it or provides links. 
+ * 
+ * **Notes:**
+ * - This command requires an API key for 'lolhuman.xyz'.
+ */
 export async function run(client: Client, msg: Message, args: string[]) {
 	if (!args.length) {
 		return msg.reply('Provide url');

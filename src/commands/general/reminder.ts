@@ -13,6 +13,16 @@ export const args = true;
 export const aliases = ['remind', 'rm'];
 export const description = 'Set a reminder';
 export const category = 'General';
+/**
+ * Sets reminders for users within a WhatsApp chat. 
+ * 
+ * **Usage:**
+ * - `!reminder {time duration} {message}` - Sets a reminder (e.g., `!reminder 1h30m Call John`).
+ * - `!reminder list` - Displays a list of the user's active reminders.
+ * 
+ * **Notes:**
+ * - Time durations can be specified using various formats (e.g., 1h, 30m, 2d).
+ */
 export async function run(client: Client, msg: Message, args: string[]) {
 	if (args.length == 0) {
 		return;

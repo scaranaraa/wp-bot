@@ -158,6 +158,18 @@ export const aliases = ['pt'];
 export const description = 'Play a game of pinktea';
 export const disabled = false;
 export const category = 'Games';
+/**
+ * Implements the Pink Tea word game (anagram-based) within a WhatsApp chat. 
+ *
+ * **Usage (within the bot):**
+ * - Call `startgame` to initiate the game and send instructions.
+ * - Use `sendword` to send a scrambled word and handle player responses, awarding points for the fastest correct answers.
+ * 
+ * **User Commands:**
+ * - `!pinktea` or `!pt` - Starts a new Pink Tea game.
+ * - `join` - Joins the ongoing game. 
+ * - `{word}` - Submits an unscrambled word.
+ */ 
 export async function run(client: Client, msg: Message, args: string[]) {
 	let activated = false;
 	if (client.ingame) {

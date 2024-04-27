@@ -87,6 +87,14 @@ export const args = true;
 export const aliases = ['aki'];
 export const description = 'Start a game of akinator';
 export const category = 'General';
+/**
+ * Implements the Akinator game within WhatsApp.
+ * 
+ * **Usage:** 
+ * - `!akinator` or `!aki` - Starts a new game of Akinator.
+ * - `ans {answer number}` - Provides an answer to the current question (e.g., `ans 1`).
+ * - `QUIT` - Ends the current game.
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

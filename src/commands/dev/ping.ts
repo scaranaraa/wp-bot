@@ -7,6 +7,12 @@ export const args = true;
 export const aliases: string[] = ['p'];
 export const description = 'Check bot reponse time';
 export const category = 'Dev';
+/**
+ * Measures and reports the bot's response time
+ * 
+ * **Usage:**
+ * - `!ping` - Replies with the time taken for the bot to process and respond.
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

@@ -11,6 +11,12 @@ export const args = true;
 export const aliases: string[] = [];
 export const description = 'Make a trash image of someone';
 export const category = 'Image';
+/**
+ * Generate modified image of a members pfp
+ * 
+ * **Usage:**
+ * - `!trash {user}` - Generates trash image of users pfp
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

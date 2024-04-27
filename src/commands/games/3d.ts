@@ -440,6 +440,18 @@ export const args = true;
 export const aliases = ['3d', '3dttt'];
 export const description = 'Play 3d Tic Tac Toe with someone';
 export const category = 'Games';
+/**
+ * Implements a 3D Tic Tac Toe game within WhatsApp, including image generation. 
+ *
+ * **Usage (within the bot):**
+ * - Call `genimage` to create the initial image of the 3D game board.
+ * - Use `start` to begin the game and handle player moves, including selecting the active smaller board and placing marks. 
+ *
+ * **User Commands:** 
+ * - `!3dtictactoe` or `!3dttt` - Starts a new 3D Tic Tac Toe game.
+ * - `{number}` (1-9) - Selects the active smaller board to play in or places a mark within the active board. 
+ * - `QUIT` - Ends the current game. 
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

@@ -1,0 +1,420 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="generator" content="JSDoc 4.0.2">
+  <meta charset="utf-8">
+  <title>wp-bot 4.3.2 &raquo; Source: src/commands/games/2048.js</title>
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+  <link href="css/baseline.css" rel="stylesheet">
+</head>
+
+<body onload="prettyPrint()">
+  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+      <div id="jsdoc-navbar-content">
+        <a href="index.html" class="jsdoc-navbar-package-name">wp-bot 4.<wbr>3.<wbr>2</a>
+      </div>
+    </div>
+  </nav>
+  <div id="jsdoc-body-container">
+    <div id="jsdoc-content">
+      <div id="jsdoc-content-container">
+        <div id="jsdoc-banner" role="banner">
+        </div>
+        <div id="jsdoc-main" role="main">
+          <header class="page-header">
+            <h1>Source: src/commands/games/2048.js</h1>
+          </header>
+          <article>
+            <pre class="prettyprint linenums"><code>import Jimp from &#x27;jimp&#x27;;
+import pkg from &#x27;whatsapp-web.js&#x27;;
+const colors &#x3D; {
+    8: {
+        text: 0xf8f5f1ff,
+        background: 0xf2b179ff,
+    },
+    2: {
+        text: 0x776e65ff,
+        background: 0xeee4daff,
+    },
+    4: {
+        text: 0x776e65ff,
+        background: 0xeee1c9ff,
+    },
+    16: {
+        text: 0xf8f5f1ff,
+        background: 0xf59563ff,
+    },
+    32: {
+        text: 0xf8f5f1ff,
+        background: 0xf57c5fff,
+    },
+    64: {
+        text: 0xf8f5f1ff,
+        background: 0xf45f3cff,
+    },
+    128: {
+        text: 0xf8f5f1ff,
+        background: 0xeccd72ff,
+    },
+    256: {
+        text: 0xf8f5f1ff,
+        background: 0xedc12dff,
+    },
+    512: {
+        text: 0xf8f5f1ff,
+        background: 0xebc74eff,
+    },
+    1024: {
+        text: 0xf8f5f1ff,
+        background: 0xecc441ff,
+    },
+    2048: {
+        text: 0xf8f5f1ff,
+        background: 0xebc12fff,
+    },
+    4096: {
+        text: 0xf8f5f1ff,
+        background: 0xef666dff,
+    },
+    8192: {
+        text: 0xf8f5f1ff,
+        background: 0xeb4d57ff,
+    },
+    16384: {
+        text: 0xf8f5f1ff,
+        background: 0xe14338ff,
+    },
+    32768: {
+        text: 0xf8f5f1ff,
+        background: 0x72b4d6ff,
+    },
+    65536: {
+        text: 0xf8f5f1ff,
+        background: 0x5ca0dfff,
+    },
+    131072: {
+        text: 0xf8f5f1ff,
+        background: 0x007bbeff,
+    },
+};
+const gamestarted &#x3D; [];
+class Game2048 {
+    constructor(client, id, userid) {
+        this.userid &#x3D; userid;
+        this.chatid &#x3D; id;
+        this.client &#x3D; client;
+        this.board &#x3D; [
+            [0, 0, 0, 0],
+            [0, 0, 0, 0],
+            [0, 0, 0, 0],
+            [0, 0, 0, 0],
+        ];
+        const idx &#x3D; randomidx();
+        this.board[Math.floor(idx / 4)][idx % 4] &#x3D; get2or4();
+        this.score &#x3D; 0;
+    }
+    userid;
+    chatid;
+    client;
+    board;
+    score;
+    async start() {
+        let idx &#x3D; randomidx();
+        while (this.board[Math.floor(idx / 4)][idx % 4] !&#x3D; 0) {
+            idx &#x3D; randomidx();
+        }
+        this.board[Math.floor(idx / 4)][idx % 4] &#x3D; get2or4();
+        await this.genimage();
+        const media &#x3D; MessageMedia.fromFilePath(&#x27;im.png&#x27;);
+        await this.client.sendMessage(this.chatid, media);
+        await this.getmove();
+    }
+    async getmove() {
+        const cantplay &#x3D; await this.checkgameover();
+        if (cantplay) {
+            gamestarted.splice(gamestarted.indexOf(this.userid), 1);
+            await this.client.sendMessage(this.chatid, &#x60;Game Over, you have no valid moves\nScore - ${this.score}&#x60;);
+            return;
+        }
+        const game &#x3D; this;
+        let done &#x3D; false;
+        this.client.on(&#x27;message_create&#x27;, async function wait(msg) {
+            const user &#x3D; await msg.getContact();
+            if (user.number !&#x3D;&#x3D; game.userid) {
+                return;
+            }
+            const chat &#x3D; await msg.getChat();
+            if (chat.id._serialized !&#x3D; game.chatid) {
+                return;
+            }
+            if (msg.body &#x3D;&#x3D; &#x27;QUIT&#x27;) {
+                done &#x3D; true;
+                gamestarted.splice(gamestarted.indexOf(game.userid), 1);
+                game.client.removeListener(&#x27;message_create&#x27;, wait);
+                await game.client.sendMessage(game.chatid, &#x27;Game stopped&#x27;);
+                return;
+            }
+            const res &#x3D; msg.body.toLowerCase();
+            if (done) {
+                return;
+            }
+            if (res &#x3D;&#x3D; &#x27;left&#x27; || res &#x3D;&#x3D; &#x27;right&#x27; || res &#x3D;&#x3D; &#x27;up&#x27; || res &#x3D;&#x3D; &#x27;down&#x27;) {
+                done &#x3D; true;
+                game.client.removeListener(&#x27;message_create&#x27;, wait);
+                await game.move(res);
+            }
+        });
+    }
+    async move(direction) {
+        const { board } &#x3D; this;
+        const tempboard &#x3D; JSON.parse(JSON.stringify(board));
+        if (direction &#x3D;&#x3D; &#x27;left&#x27;) {
+            for (let i &#x3D; 0; i &amp;lt; 4; i++) {
+                for (let j &#x3D; 0; j &amp;lt; 4; j++) {
+                    if (board[i][j] !&#x3D;&#x3D; 0) {
+                        let idx &#x3D; j;
+                        while (idx &gt; 0) {
+                            if (board[i][idx - 1] &#x3D;&#x3D; 0) {
+                                board[i][idx - 1] &#x3D; board[i][idx];
+                                board[i][idx] &#x3D; 0;
+                                idx--;
+                                continue;
+                            }
+                            if (board[i][idx - 1] &#x3D;&#x3D; board[i][idx]) {
+                                board[i][idx - 1] *&#x3D; 2;
+                                this.score +&#x3D; board[i][idx - 1];
+                                board[i][idx] &#x3D; 0;
+                                break;
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        if (direction &#x3D;&#x3D; &#x27;right&#x27;) {
+            for (let i &#x3D; 0; i &amp;lt; 4; i++) {
+                for (let j &#x3D; 3; j &gt;&#x3D; 0; j--) {
+                    if (board[i][j] !&#x3D;&#x3D; 0) {
+                        let idx &#x3D; j;
+                        while (idx &amp;lt; 3) {
+                            if (board[i][idx + 1] &#x3D;&#x3D; 0) {
+                                board[i][idx + 1] &#x3D; board[i][idx];
+                                board[i][idx] &#x3D; 0;
+                                idx++;
+                                continue;
+                            }
+                            if (board[i][idx + 1] &#x3D;&#x3D; board[i][idx]) {
+                                board[i][idx + 1] *&#x3D; 2;
+                                this.score +&#x3D; board[i][idx + 1];
+                                board[i][idx] &#x3D; 0;
+                                break;
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        if (direction &#x3D;&#x3D; &#x27;up&#x27;) {
+            for (let j &#x3D; 0; j &amp;lt; 4; j++) {
+                for (let i &#x3D; 0; i &amp;lt; 4; i++) {
+                    if (board[i][j] !&#x3D;&#x3D; 0) {
+                        let idx &#x3D; i;
+                        while (idx &gt; 0) {
+                            if (board[idx - 1][j] &#x3D;&#x3D; 0) {
+                                board[idx - 1][j] &#x3D; board[idx][j];
+                                board[idx][j] &#x3D; 0;
+                                idx--;
+                                continue;
+                            }
+                            if (board[idx - 1][j] &#x3D;&#x3D; board[idx][j]) {
+                                board[idx - 1][j] *&#x3D; 2;
+                                this.score +&#x3D; board[idx - 1][j];
+                                board[idx][j] &#x3D; 0;
+                                break;
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        if (direction &#x3D;&#x3D; &#x27;down&#x27;) {
+            for (let j &#x3D; 0; j &amp;lt; 4; j++) {
+                for (let i &#x3D; 3; i &gt;&#x3D; 0; i--) {
+                    if (board[i][j] !&#x3D;&#x3D; 0) {
+                        let idx &#x3D; i;
+                        while (idx &amp;lt; 3) {
+                            if (board[idx + 1][j] &#x3D;&#x3D; 0) {
+                                board[idx + 1][j] &#x3D; board[idx][j];
+                                board[idx][j] &#x3D; 0;
+                                idx++;
+                                continue;
+                            }
+                            if (board[idx + 1][j] &#x3D;&#x3D; board[idx][j]) {
+                                board[idx + 1][j] *&#x3D; 2;
+                                this.score +&#x3D; board[idx + 1][j];
+                                board[idx][j] &#x3D; 0;
+                                break;
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        if (JSON.stringify(tempboard) &#x3D;&#x3D; JSON.stringify(board)) {
+            await this.client.sendMessage(this.chatid, &#x27;Invalid move&#x27;);
+            this.board &#x3D; tempboard;
+            await this.getmove();
+            return;
+        }
+        let idx &#x3D; randomidx();
+        while (this.board[Math.floor(idx / 4)][idx % 4] !&#x3D; 0) {
+            idx &#x3D; randomidx();
+        }
+        this.board[Math.floor(idx / 4)][idx % 4] &#x3D; get2or4();
+        await this.genimage();
+        const media &#x3D; MessageMedia.fromFilePath(&#x27;im.png&#x27;);
+        await this.client.sendMessage(this.chatid, media, {
+            caption: &#x60;Score - ${this.score}&#x60;,
+        });
+        await this.getmove();
+    }
+    async checkgameover() {
+        for (let i &#x3D; 0; i &amp;lt; 4; i++) {
+            for (let j &#x3D; 0; j &amp;lt; 4; j++) {
+                if (this.board[i][j] &#x3D;&#x3D; 0) {
+                    return false;
+                }
+            }
+        }
+        for (let i &#x3D; 0; i &amp;lt; 4; i++) {
+            for (let j &#x3D; 0; j &amp;lt; 4; j++) {
+                if (i &gt; 0 &amp;amp;&amp;amp; this.board[i][j] &#x3D;&#x3D; this.board[i - 1][j]) {
+                    return false;
+                }
+                if (j &gt; 0 &amp;amp;&amp;amp; this.board[i][j] &#x3D;&#x3D; this.board[i][j - 1]) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    async genimage() {
+        const game &#x3D; this;
+        const gridSize &#x3D; 4;
+        const gridRows &#x3D; 4;
+        const gridWidth &#x3D; 370;
+        const gridHeight &#x3D; 370;
+        const separation &#x3D; 32;
+        const imageWidth &#x3D; gridSize * gridWidth + (gridSize - 1) * separation + 64;
+        const imageHeight &#x3D; gridRows * gridHeight + (gridRows - 1) * separation + 64;
+        const image &#x3D; new Jimp(imageWidth, imageHeight, 0x5e5750ff);
+        async function drawGridCell(x, y, bgColor, letter &#x3D; null) {
+            image.scan(x, y, gridWidth, gridHeight, function (x, y, idx) {
+                this.bitmap.data[idx + 0] &#x3D; (bgColor &gt;&gt; 24) &amp;amp; 0xff;
+                this.bitmap.data[idx + 1] &#x3D; (bgColor &gt;&gt; 16) &amp;amp; 0xff;
+                this.bitmap.data[idx + 2] &#x3D; (bgColor &gt;&gt; 8) &amp;amp; 0xff;
+                this.bitmap.data[idx + 3] &#x3D; bgColor &amp;amp; 0xff;
+            });
+            if (letter) {
+                let font;
+                if (letter.length &gt; 8) {
+                    font &#x3D; await Jimp.loadFont(Jimp.FONT_SANS_64_BLACK);
+                }
+                else {
+                    font &#x3D; await Jimp.loadFont(Jimp.FONT_SANS_128_BLACK);
+                }
+                const textWidth &#x3D; Jimp.measureText(font, letter);
+                // @ts-ignore
+                const textHeight &#x3D; Jimp.measureTextHeight(font, letter);
+                const textX &#x3D; x + (gridWidth - textWidth) / 2;
+                let textY;
+                if (letter.length &gt; 8) {
+                    textY &#x3D; y + 37 + (gridHeight - textHeight) / 2;
+                }
+                else {
+                    textY &#x3D; y + 74 + (gridHeight - textHeight) / 2;
+                }
+                await image.print(font, textX, textY, letter);
+            }
+        }
+        async function drawGrid() {
+            let a &#x3D; 1;
+            for (let i &#x3D; 0; i &amp;lt; gridRows; i++) {
+                for (let j &#x3D; 0; j &amp;lt; gridSize; j++) {
+                    const x &#x3D; j * gridWidth + j * separation;
+                    const y &#x3D; i * gridHeight + i * separation;
+                    const letter &#x3D; game.board[i][j] || null;
+                    await drawGridCell(x + 32, y + 32, letter ? colors[letter].background : 0xb9aea2ff, letter ? String(letter) : null);
+                    a++;
+                }
+            }
+        }
+        await drawGrid();
+        await image.writeAsync(&#x27;im.png&#x27;);
+        return &#x27;done&#x27;;
+    }
+}
+const { MessageMedia } &#x3D; pkg;
+export const name &#x3D; &#x27;2048&#x27;;
+export const args &#x3D; true;
+export const aliases &#x3D; [];
+export const description &#x3D; &#x27;Play a game of 2048&#x27;;
+export const category &#x3D; &#x27;Games&#x27;;
+/**
+ * Implements the 2048 game within WhatsApp, including image generation.
+ *
+ * **Usage (within the bot):**
+ * - Call &#x60;start&#x60; to begin the game, generate the initial board image, and handle player moves.
+ *
+ * **User Commands:**
+ * - &#x60;!2048&#x60; - Starts a new 2048 game.
+ * - &#x60;{direction}&#x60; (left, right, up, down) - Makes a move in the specified direction.
+ * - &#x60;QUIT&#x60; - Ends the current game.
+ */
+export async function run(client, msg, args) {
+    const chat &#x3D; await msg.getChat();
+    const user &#x3D; await msg.getContact();
+    if (gamestarted.includes(user.number)) {
+        return msg.reply(&#x27;A 2048 game is already in progress for you&#x27;);
+    }
+    gamestarted.push(user.number);
+    const game &#x3D; new Game2048(client, chat.id._serialized, user.number);
+    await game.start();
+}
+function randomidx() {
+    return Math.floor(Math.random() * 16);
+}
+function get2or4() {
+    return Math.random() &gt; 0.1 ? 2 : 4;
+}
+</code></pre>
+          </article>
+        </div>
+      </div>
+      <nav id="jsdoc-toc-nav" role="navigation"></nav>
+    </div>
+  </div>
+  <footer id="jsdoc-footer" class="jsdoc-footer">
+    <div id="jsdoc-footer-container">
+      <p>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 4.0.2 on April 27, 2024.
+      </p>
+    </div>
+  </footer>
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/tree.jquery.js"></script>
+  <script src="scripts/prettify.js"></script>
+  <script src="scripts/jsdoc-toc.js"></script>
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/scrollanchor.js"></script>
+</body>
+
+</html>

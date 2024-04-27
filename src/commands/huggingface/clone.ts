@@ -13,6 +13,13 @@ export const args = true;
 export const aliases = ['say', 'talk'];
 export const description = 'Clone someones voice/make the bot say anything';
 export const category = 'HuggingFace';
+/**
+ * Clones a voice from a provided audio message or generates speech from text.
+ * 
+ * **Usage:**
+ * - `!clone {text}` - Generates speech using the default voice.
+ * - `!clone {text}` (as a reply to an audio message) - Attempts to clone the voice in the audio message and speak the provided text. 
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

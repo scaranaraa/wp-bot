@@ -1,0 +1,314 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="generator" content="JSDoc 4.0.2">
+  <meta charset="utf-8">
+  <title>wp-bot 4.3.2 &raquo; Source: src/commands/bing/sydney.js</title>
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+  <link href="css/baseline.css" rel="stylesheet">
+</head>
+
+<body onload="prettyPrint()">
+  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+      <div id="jsdoc-navbar-content">
+        <a href="index.html" class="jsdoc-navbar-package-name">wp-bot 4.<wbr>3.<wbr>2</a>
+      </div>
+    </div>
+  </nav>
+  <div id="jsdoc-body-container">
+    <div id="jsdoc-content">
+      <div id="jsdoc-content-container">
+        <div id="jsdoc-banner" role="banner">
+        </div>
+        <div id="jsdoc-main" role="main">
+          <header class="page-header">
+            <h1>Source: src/commands/bing/sydney.js</h1>
+          </header>
+          <article>
+            <pre class="prettyprint linenums"><code>import { KeyvFile } from &#x27;keyv-file&#x27;;
+import { fileURLToPath } from &#x27;url&#x27;;
+import { dirname } from &#x27;path&#x27;;
+// @ts-ignore
+import { BingAIClient } from &#x27;@waylaidwanderer/chatgpt-api&#x27;;
+import { stripIndents } from &#x27;common-tags&#x27;;
+import pkg from &#x27;whatsapp-web.js&#x27;;
+import { handleAudioMessage } from &#x27;../utils/index.js&#x27;;
+const __filename &#x3D; fileURLToPath(import.meta.url);
+const __dirname &#x3D; dirname(__filename);
+const options &#x3D; {
+    // host: &#x27;https://in.bing.com&#x27;,
+    userToken: process.env.USER_TOKEN,
+    debug: false,
+};
+const cacheOptions &#x3D; {
+    store: new KeyvFile({
+        filename: &#x27;./dist/src/commands/bing/sydneycache.json&#x27;,
+    }),
+};
+let sydneyAIClient &#x3D; new BingAIClient({
+    ...options,
+    cache: cacheOptions,
+});
+class sydney {
+    constructor(client, id) {
+        this.chatid &#x3D; id;
+        this.client &#x3D; client;
+        this.convid &#x3D; &#x27;&#x27;;
+        this.parentmsg &#x3D; &#x27;&#x27;;
+        this.loaded &#x3D; false;
+    }
+    chatid;
+    client;
+    convid;
+    parentmsg;
+    loaded;
+    async load() {
+        if (this.loaded) {
+            return;
+        }
+        const response &#x3D; await sydneyAIClient.sendMessage(&#x27;Hey sydney!&#x27;, {
+            jailbreakConversationId: true,
+        });
+        this.convid &#x3D; response.jailbreakConversationId;
+        this.parentmsg &#x3D; response.messageId;
+        this.loaded &#x3D; true;
+        console.log(&#x27;bing loaded&#x27;);
+        return true;
+    }
+    removeFootnotes(text) {
+        const cleanedText &#x3D; text.replace(/\[\^\d+\^\]/g, &#x27;&#x27;);
+        return cleanedText;
+    }
+    getSources(completion) {
+        const sources &#x3D; completion.details.sourceAttributions;
+        const sourcesList &#x3D; sources.map((source, i) &#x3D;&gt; &#x60;${i + 1}. ${source.seeMoreUrl}&#x60;);
+        return ((sourcesList.length &amp;amp;&amp;amp; &#x60;*Sources:*\n${sourcesList.join(&#x27;\n&#x27;)}&#x60;) || &#x27;&#x27;);
+    }
+    async getCompletionWithBing(message, context, streamingReply) {
+        let streamingReplyBody &#x3D; streamingReply.body;
+        let tokenQueue &#x3D; [];
+        const tokenQueueweb &#x3D; [];
+        let isProcessingQueue &#x3D; false;
+        let isEditingReply;
+        const isReminder &#x3D; false;
+        async function onTokenStream(token) {
+            const isWebSearch &#x3D; token.startsWith(&#x27;Searching&#x27;) &amp;amp;&amp;amp; tokenQueue.length &#x3D;&#x3D;&#x3D; 0;
+            if (isWebSearch) {
+                token &#x3D; &#x60; ${token} ...\n\n&#x60;;
+                tokenQueueweb.push(token);
+            }
+            else {
+                tokenQueue.push(token);
+            }
+            if (!isProcessingQueue) {
+                isProcessingQueue &#x3D; true;
+                await processTokenQueue();
+            }
+        }
+        async function processTokenQueue() {
+            if (tokenQueueweb.length !&#x3D;&#x3D; 0) {
+                const token &#x3D; tokenQueue.join(&#x27;&#x27;);
+                const newReplyContent &#x3D; streamingReplyBody + token;
+                isEditingReply &#x3D; streamingReply.edit(newReplyContent);
+                streamingReplyBody &#x3D; newReplyContent;
+                tokenQueueweb.shift();
+            }
+            if (tokenQueue.length !&#x3D;&#x3D; 0 &amp;amp;&amp;amp; tokenQueue.length &gt; 15) {
+                const usedlength &#x3D; tokenQueue.length;
+                const token &#x3D; tokenQueue.join(&#x27;&#x27;);
+                const newReplyContent &#x3D; streamingReplyBody + token;
+                isEditingReply &#x3D; streamingReply.edit(newReplyContent);
+                streamingReplyBody &#x3D; newReplyContent;
+                tokenQueue &#x3D; tokenQueue.slice(usedlength - 1);
+                await processTokenQueue();
+            }
+            else {
+                isProcessingQueue &#x3D; false;
+            }
+        }
+        const completion &#x3D; await this.generateCompletionWithBing(message, context, onTokenStream, streamingReply);
+        completion.response &#x3D; this.removeFootnotes(completion.response);
+        return Promise.all([completion, isEditingReply]).then(([completion]) &#x3D;&gt; completion);
+    }
+    async generateCompletionWithBing(message, context, onProgress, streamingReply) {
+        if (message.hasMedia) {
+            const media &#x3D; await message.downloadMedia();
+            const { mimetype } &#x3D; media;
+            const isAudio &#x3D; mimetype?.includes(&#x27;audio&#x27;);
+            if (isAudio) {
+                message.body &#x3D; await handleAudioMessage(media, message, streamingReply);
+            }
+        }
+        let completion;
+        completion &#x3D; await sydneyAIClient.sendMessage(message.body, {
+            jailbreakConversationId: this.convid,
+            parentMessageId: this.parentmsg,
+            context,
+            onProgress,
+        });
+        this.parentmsg &#x3D; completion.messageId;
+        this.convid &#x3D; completion.jailbreakConversationId;
+        return completion;
+    }
+}
+const sydneychat &#x3D; new sydney(&#x27;&#x27;, &#x27;&#x27;);
+sydneychat.load();
+const { Client, LocalAuth, MessageMedia } &#x3D; pkg;
+export const name &#x3D; &#x27;sydney&#x27;;
+export const args &#x3D; true;
+export const aliases &#x3D; [&#x27;bing&#x27;, &#x27;syd&#x27;];
+export const description &#x3D; &#x27;Chat with sydney/microsoft copilot&#x27;;
+export const category &#x3D; &#x27;Bing&#x27;;
+/**
+ * Talk with the Bing AI (Sydney) within WhatsApp.
+ *
+ * **Usage (within the bot):**
+ * - Instantiate a &#x60;sydney&#x60; object with the client and chat ID.
+ * - Call &#x60;load&#x60; to initialize the Bing AI connection.
+ * - Use &#x60;getCompletionWithBing&#x60; to send a message to Bing AI and receive a response.
+ *
+ * **User Commands:**
+ * - &#x60;!sydney {message}&#x60; - Sends the message to Bing AI and replies with its response.
+ * - &#x60;!sydney RESET&#x60; - Reloads the Bing AI model.
+ */
+export async function run(client, msg, args) {
+    if (args[0] &#x3D;&#x3D; &#x27;RESET&#x27;) {
+        // reload the model
+        sydneyAIClient &#x3D; new BingAIClient({
+            ...options,
+            cache: cacheOptions,
+        });
+        const a &#x3D; await msg.reply(&#x27;Restarting...&#x27;);
+        await sydneychat.load();
+        a.edit(&#x27;reloaded&#x27;);
+    }
+    const user &#x3D; await msg.getContact();
+    const chat &#x3D; await msg.getChat();
+    let chatContext &#x3D; &#x27;&#x27;;
+    let publicUserName;
+    if (chat.isGroup) {
+        const groupChat &#x3D; chat;
+        const contact &#x3D; user;
+        publicUserName &#x3D; contact.pushname;
+        const groupContacts &#x3D; await Promise.all(
+        // @ts-ignore
+        groupChat.participants.map(async (participant) &#x3D;&gt; client.getContactById(participant.id._serialized)));
+        const groupContactNames &#x3D; groupContacts
+            .map((contact) &#x3D;&gt; contact.pushname)
+            .join(&#x27;, &#x27;);
+        // @ts-ignore
+        chatContext &#x3D; stripIndents &#x60;-\n- There are ${groupChat.participants.length} users talking to you
+    - The users are: ${groupContactNames}
+    - &#x27;${publicUserName}&#x27; is who sent this message
+  &#x60;;
+    }
+    else {
+        publicUserName &#x3D; (await msg.getContact()).pushname;
+        chatContext &#x3D; stripIndents &#x60;- You are in a private chat
+    - The user&#x27;s name is &#x27;${publicUserName}&#x27;
+    &#x60;;
+    }
+    chatContext +&#x3D; &#x60;When searching the web, NEVER include markdown links in your response. They will be added automatically later.
+  * for example, if the user asks &#x27;What is the capital of Brazil?&#x27;
+  * you **MUST NOT** answer &#x27;The capital of Brazil is Brasília (Source)[https://link.to/source]&#x27;
+  * instead, you **MUST** answer &#x27;The capital of Brazil is Brasília&#x27;
+  * As this chat doesnt support latex, use unicode characters for math equations&#x60;;
+    const streamingReply &#x3D; await msg.reply(&#x27;...&#x27;);
+    msg.body &#x3D; args.join(&#x27; &#x27;);
+    client.sydneyqueue.push([msg, chatContext, streamingReply]);
+    if (client.sydneyqueue.length &gt; 1) {
+        msg.react(&#x27;⏳&#x27;);
+    }
+    while (client.sydneyqueue[0][0].body !&#x3D; msg.body) {
+        await new Promise(resolve &#x3D;&gt; setTimeout(resolve, 1000));
+    }
+    const completion &#x3D; await sydneychat.getCompletionWithBing(msg, chatContext, streamingReply);
+    let { response } &#x3D; completion;
+    response &#x3D; &#x60;${response}\n\n${sydneychat.getSources(completion)}&#x60;;
+    if (!response) {
+        throw new Error(&#x27;No response from LLM&#x27;);
+    }
+    await streamingReply.edit(response);
+    client.sydneyqueue.shift();
+}
+/* let response &#x3D; await bingAIClient.sendMessage(&#x27;Write a short poem about cats&#x27;, {
+    toneStyle: &#x27;balanced&#x27;,
+    onProgress: (token) &#x3D;&gt; {
+        process.stdout.write(token);
+    },
+});
+console.log(JSON.stringify(response, null, 2));
+
+response &#x3D; await bingAIClient.sendMessage(&#x27;Now write it in French&#x27;, {
+    conversationSignature: response.conversationSignature,
+    conversationId: response.conversationId,
+    clientId: response.clientId,
+    invocationId: response.invocationId,
+    onProgress: (token) &#x3D;&gt; {
+        process.stdout.write(token);
+    },
+});
+console.log(JSON.stringify(response, null, 2));
+
+bingAIClient &#x3D; new BingAIClient(options);
+
+response &#x3D; await bingAIClient.sendMessage(&#x27;Could you provide short and precise takeaways, do not search the web and only use the content from the document. The factual information should be literally from the document. Please memorize the part in the document which mention the factual information, but do not mark them explicitly. The takeaway should be credible, highly readable and informative. Please make the answer short, preferably within 500 characters. Generate the response in English language.&#x27;, {
+    context: fs.readFileSync(path.resolve(__dirname, &#x27;./context-demo-text.txt&#x27;), &#x27;utf8&#x27;),
+    onProgress: (token) &#x3D;&gt; {
+        process.stdout.write(token);
+    },
+});
+console.log(JSON.stringify(response, null, 2));
+
+const cacheOptions &#x3D; {
+ store: new KeyvFile({ filename: &#x27;cache.json&#x27; }),
+};
+
+const sydneyAIClient &#x3D; new BingAIClient({
+    ...options,
+    cache: cacheOptions,
+});
+
+let jailbreakResponse &#x3D; await sydneyAIClient.sendMessage(&#x27;Hi, who are you?&#x27;, {
+    jailbreakConversationId: true,
+    onProgress: (token) &#x3D;&gt; {
+        process.stdout.write(token);
+    },
+});
+console.log(JSON.stringify(jailbreakResponse, null, 2));
+
+jailbreakResponse &#x3D; await sydneyAIClient.sendMessage(&#x27;Why is your name Sydney?&#x27;, {
+    jailbreakConversationId: jailbreakResponse.jailbreakConversationId,
+    parentMessageId: jailbreakResponse.messageId,
+    onProgress: (token) &#x3D;&gt; {
+        process.stdout.write(token);
+    },
+});
+console.log(JSON.stringify(jailbreakResponse, null, 2)); */
+</code></pre>
+          </article>
+        </div>
+      </div>
+      <nav id="jsdoc-toc-nav" role="navigation"></nav>
+    </div>
+  </div>
+  <footer id="jsdoc-footer" class="jsdoc-footer">
+    <div id="jsdoc-footer-container">
+      <p>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 4.0.2 on April 27, 2024.
+      </p>
+    </div>
+  </footer>
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/tree.jquery.js"></script>
+  <script src="scripts/prettify.js"></script>
+  <script src="scripts/jsdoc-toc.js"></script>
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/scrollanchor.js"></script>
+</body>
+
+</html>

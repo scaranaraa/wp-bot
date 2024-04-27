@@ -9,7 +9,15 @@ export default class TableCommand extends BaseCommand {
 	constructor(client: Client) {
 		super(client, 'table');
 	}
-
+	/**
+	 * Displays information about the current UNO game in a WhatsApp chat.
+	 * 
+	 * This command shows the list of players, the current player's turn, the last played card, 
+	 * the game duration, and the number of cards drawn. 
+	 *
+	 * **Usage:**
+	 * - `uno table` - Shows the game table information. 
+	 */
 	async execute(msg: Message) {
 		const chat = await msg.getChat();
 		const member = await msg.getContact();

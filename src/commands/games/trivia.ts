@@ -235,6 +235,24 @@ export const args = true;
 export const aliases = ['triv', 'tv'];
 export const description = 'Start a game of trivia';
 export const category = 'Games';
+/**
+ * Implements a trivia game using the Open Trivia DB within WhatsApp.
+ * 
+ * **Usage (within the bot):**
+ * - Call `getSession` to obtain a session token from the Open Trivia DB.
+ * - Use `loadQuestions` to retrieve questions based on the configured options. 
+ * - Call `sendQuestion` to send a question to the chat and handle user responses. 
+ * 
+ * **User Commands:**
+ * - `!trivia` - Starts a new trivia game with random questions.
+ * - `!trivia {category ID}` - Starts a game with questions from a specific category.
+ * - `!trivia --choices` - Enables multiple choice questions.
+ * - `!trivia --{easy/medium/hard}` - Sets the difficulty level of questions. 
+ * - `!trivia --timed` - Enables timed mode for answering questions.
+ * - `ans {answer}` - Submits an answer to the current question.
+ * - `SKIP` - Skips the current question and reveals the answer. 
+ * - `QUIT` - Ends the trivia game. 
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

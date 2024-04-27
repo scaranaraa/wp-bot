@@ -1,6 +1,11 @@
 import { readdirSync } from 'fs';
 import { type Client } from 'whatsapp-web.js';
-
+/**
+ * Loads command files for the WhatsApp bot and registers them with the client.
+ *
+ *  iterates through command files in the 'src/commands' directory, and loads into the bot
+ *  also checks environment variables before loading commands.
+ */ 
 export default (client: Client) => {
 	try {
 		let command = 0;

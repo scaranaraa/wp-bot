@@ -188,6 +188,19 @@ export const args = true;
 export const aliases = ['dd'];
 export const description = 'Play duodle, 2 wordles at once';
 export const category = 'Games';
+/**
+ * Implements a Duodle game (two Wordle puzzles simultaneously) within WhatsApp
+ *
+ * **Usage (within the bot):**
+ * - Call `genimage` to create an initial image of the two game boards.
+ * - Use `guess` to process user guesses and update the game state for both puzzles.
+ * - Call `genimage` again to generate an updated image after each guess.
+ *
+ * **User Commands:**
+ * - `!duodle` or `!dd` - Starts a new Duodle game.
+ * - `guess {word}` - Submits a guess for both Wordle puzzles.
+ * - `quit` - Ends the current game. 
+ */ 
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

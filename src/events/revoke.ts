@@ -1,5 +1,10 @@
 import client from '../../index.js';
-
+/**
+ * Handles message revoke and edit events.
+ * 
+ * listens for 'message_revoke_everyone' and 'message_edit' events and adds the 
+ * deleted/edited message information to the `client.snipe` array
+ */
 client.on('message_revoke_everyone', async (_msg, delmsg) => {
 	if (delmsg?.hasMedia) {
 		const media = await delmsg.downloadMedia2();

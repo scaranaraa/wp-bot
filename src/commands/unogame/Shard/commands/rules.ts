@@ -6,7 +6,18 @@ export default class RulesCommand extends BaseCommand {
 	constructor(client: Client) {
 		super(client, 'rules');
 	}
-
+	/**
+	 * Manages UNO game rules within a WhatsApp chat. 
+	 *
+	 * This command allows viewing and setting game rules before the game starts.
+	 *
+	 * **Usage:**
+	 * - `!uno rules` - Displays the current game rules.
+	 * - `!uno rules {rule key} {value}` - Sets the value for a specific rule (e.g., `!uno rules REVERSE_SKIP true`).
+	 *
+	 * **Notes:**
+	 * - Only the player who initiated the game can modify the rules.
+	 */
 	async execute(msg: Message, words: string[]) {
 		const chat = await msg.getChat();
 		const member = await msg.getContact();

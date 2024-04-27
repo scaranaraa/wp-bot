@@ -1,0 +1,149 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="generator" content="JSDoc 4.0.2">
+  <meta charset="utf-8">
+  <title>wp-bot 4.3.2 &raquo; Source: src/handlers/command_handler.js</title>
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+  <link href="css/baseline.css" rel="stylesheet">
+</head>
+
+<body onload="prettyPrint()">
+  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+      <div id="jsdoc-navbar-content">
+        <a href="index.html" class="jsdoc-navbar-package-name">wp-bot 4.<wbr>3.<wbr>2</a>
+      </div>
+    </div>
+  </nav>
+  <div id="jsdoc-body-container">
+    <div id="jsdoc-content">
+      <div id="jsdoc-content-container">
+        <div id="jsdoc-banner" role="banner">
+        </div>
+        <div id="jsdoc-main" role="main">
+          <header class="page-header">
+            <h1>Source: src/handlers/command_handler.js</h1>
+          </header>
+          <article>
+            <pre class="prettyprint linenums"><code>import { readdirSync } from &#x27;fs&#x27;;
+/**
+ * Loads command files for the WhatsApp bot and registers them with the client.
+ *
+ *  iterates through command files in the &#x27;src/commands&#x27; directory, and loads into the bot
+ *  also checks environment variables before loading commands.
+ */
+export default (client) &#x3D;&gt; {
+    try {
+        let command &#x3D; 0;
+        readdirSync(&#x27;./dist/src/commands&#x27;).forEach(async (cmd) &#x3D;&gt; {
+            if (cmd !&#x3D;&#x3D; &#x27;utils&#x27;) {
+                const commands &#x3D; readdirSync(&#x60;./dist/src/commands/${cmd}/&#x60;).filter(file &#x3D;&gt; file.endsWith(&#x27;.js&#x27;));
+                for (const cmds of commands) {
+                    const pull &#x3D; await import(&#x60;../commands/${cmd}/${cmds}&#x60;);
+                    if (pull.name) {
+                        const add &#x3D; checkENV(pull);
+                        if (!add)
+                            continue;
+                        client.commands.set(pull.name, pull);
+                        command++;
+                    }
+                    else {
+                        console.log(&#x60;${cmds} Command is not Ready&#x60;);
+                        continue;
+                    }
+                    if (pull.aliases &amp;amp;&amp;amp; Array.isArray(pull.aliases)) {
+                        pull.aliases.forEach((alias) &#x3D;&gt; client.aliases.set(alias, pull.name));
+                    }
+                }
+            }
+        });
+        console.log(&#x60;${command} lOADED&#x60;);
+    }
+    catch (e) {
+        console.log(e);
+    }
+};
+function checkENV(command) {
+    if (process.env.PHONE &#x3D;&#x3D; &quot;&quot;) {
+        console.log(&quot;ENV PHONE is empty, cannot load commans&quot;);
+        return false;
+    }
+    if (process.env.OWNER_NUMBER &#x3D;&#x3D; &quot;&quot; &amp;amp;&amp;amp; command.category &#x3D;&#x3D; &#x27;Dev&#x27;) {
+        console.log(&#x60;ENV OWNER_NUMBER is empty, cannot load ${command.name}&#x60;);
+        return false;
+    }
+    if (process.env.MONGODB_URI &#x3D;&#x3D; &quot;&quot;) {
+        console.log(&#x60;MongoDB url not provided, cannot load command&#x60;);
+        return false;
+    }
+    if (process.env.OPENAI_KEY &#x3D;&#x3D; &quot;&quot;) {
+        if (command.name &#x3D;&#x3D; &#x27;gpt&#x27; || command.name &#x3D;&#x3D; &#x27;wolframgpt&#x27;) {
+            console.log(&#x60;OPENAI key not provided, cannot load ${command.name}&#x60;);
+            return false;
+        }
+    }
+    if (process.env.ANTHROPIC_API_KEY &#x3D;&#x3D; &quot;&quot;) {
+        if (command.name &#x3D;&#x3D; &#x27;claude&#x27; || command.name &#x3D;&#x3D; &#x27;wolframgpt&#x27;) {
+            console.log(&#x60;Anthropic api key not provided, cannot load ${command.name}&#x60;);
+            return false;
+        }
+    }
+    if (process.env.RAPIDAPI_KEY &#x3D;&#x3D; &quot;&quot;) {
+        if (command.name &#x3D;&#x3D; &#x27;wolfram&#x27;) {
+            console.log(&#x60;RapidApi key not provided, cannot load ${command.name}&#x60;);
+            return false;
+        }
+    }
+    if (process.env.GOOGLE_API_KEY &#x3D;&#x3D; &quot;&quot;) {
+        if (command.name &#x3D;&#x3D; &#x27;gemini&#x27;) {
+            console.log(&#x60;Google api key not provided, cannot load ${command.name}&#x60;);
+            return false;
+        }
+    }
+    if (process.env.TAVILY_API_KEY &#x3D;&#x3D; &quot;&quot;) {
+        if (command.name &#x3D;&#x3D; &#x27;wolframgpt&#x27;) {
+            console.log(&#x60;tavily api key not provided, cannot load ${command.name}&#x60;);
+            return false;
+        }
+    }
+    if (process.env.LOL_API &#x3D;&#x3D; &quot;&quot;) {
+        if (command.category &#x3D;&#x3D; &#x27;API&#x27;) {
+            console.log(&#x60;Lolhuman api key not provided, cannot load ${command.name}&#x60;);
+            return false;
+        }
+    }
+    if (process.env.USER_TOKEN &#x3D;&#x3D; &quot;&quot;) {
+        if (command.name &#x3D;&#x3D; &#x27;sydney&#x27;) {
+            console.log(&#x60;Bing user token not provided, cannot load ${command.name}&#x60;);
+            return false;
+        }
+    }
+    return true;
+}
+</code></pre>
+          </article>
+        </div>
+      </div>
+      <nav id="jsdoc-toc-nav" role="navigation"></nav>
+    </div>
+  </div>
+  <footer id="jsdoc-footer" class="jsdoc-footer">
+    <div id="jsdoc-footer-container">
+      <p>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 4.0.2 on April 27, 2024.
+      </p>
+    </div>
+  </footer>
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/tree.jquery.js"></script>
+  <script src="scripts/prettify.js"></script>
+  <script src="scripts/jsdoc-toc.js"></script>
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/scrollanchor.js"></script>
+</body>
+
+</html>

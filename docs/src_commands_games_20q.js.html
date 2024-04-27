@@ -1,0 +1,234 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="generator" content="JSDoc 4.0.2">
+  <meta charset="utf-8">
+  <title>wp-bot 4.3.2 &raquo; Source: src/commands/games/20q.js</title>
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+  <link href="css/baseline.css" rel="stylesheet">
+</head>
+
+<body onload="prettyPrint()">
+  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+      <div id="jsdoc-navbar-content">
+        <a href="index.html" class="jsdoc-navbar-package-name">wp-bot 4.<wbr>3.<wbr>2</a>
+      </div>
+    </div>
+  </nav>
+  <div id="jsdoc-body-container">
+    <div id="jsdoc-content">
+      <div id="jsdoc-content-container">
+        <div id="jsdoc-banner" role="banner">
+        </div>
+        <div id="jsdoc-main" role="main">
+          <header class="page-header">
+            <h1>Source: src/commands/games/20q.js</h1>
+          </header>
+          <article>
+            <pre class="prettyprint linenums"><code>import { stringSimilarity as similarity } from &#x27;string-similarity-js&#x27;;
+import pkg from &#x27;whatsapp-web.js&#x27;;
+import words from &#x27;../utils/garticwords.js&#x27;;
+let listofwords &#x3D; words.split(&#x27;,&#x27;);
+listofwords &#x3D; listofwords.map(word &#x3D;&gt; word.trim().toLowerCase());
+function randomWord() {
+    return listofwords[Math.floor(Math.random() * listofwords.length)];
+}
+class charades {
+    constructor(client, id) {
+        this.chatid &#x3D; id;
+        this.client &#x3D; client;
+        this.currword &#x3D; &#x27;&#x27;;
+        this.players &#x3D; [];
+        this.hints &#x3D; 5;
+        this.lives &#x3D; 3;
+        this.usedwords &#x3D; [];
+    }
+    usedwords;
+    chatid;
+    client;
+    currword;
+    players;
+    hints;
+    lives;
+    async next_turn() {
+        if (this.lives &#x3D;&#x3D; 0) {
+            await this.client.sendMessage(this.chatid, &#x27;Game over!&#x27;);
+            this.client.gartic &#x3D; false;
+            return;
+        }
+        this.players.push(this.players.shift());
+        const current_player &#x3D; this.players[0];
+        this.currword &#x3D; randomWord();
+        while (this.usedwords.includes(this.currword)) {
+            this.currword &#x3D; randomWord();
+        }
+        this.usedwords.push(this.currword);
+        const game &#x3D; this;
+        await this.client.sendMessage(current_player.id._serialized, &#x60;Your word is - \&#x60;${this.currword}\&#x60;\nYou have 150 seconds. You can only answer yes/no&#x60;);
+        await this.client.sendMessage(this.chatid, &#x60;${current_player.name || current_player.number}&#x27;s turn!\nYou have 150 seconds and ${game.hints} hints left\nYou have ${game.lives} lives left&#x60;);
+        const hint &#x3D; game.currword
+            .split(&#x27;&#x27;)
+            .map(l &#x3D;&gt; (l &#x3D;&#x3D; &#x27; &#x27; ? &#x27; &#x27; : &#x27;_&#x27;));
+        hint.shift();
+        hint.unshift(game.currword[0]);
+        hint.pop();
+        hint.push(game.currword[game.currword.length - 1]);
+        await this.client.sendMessage(this.chatid, hint.join(&#x27; &#x27;));
+        await game.guess_word();
+    }
+    async guess_word() {
+        const game &#x3D; this;
+        let canguess &#x3D; true;
+        let settimeout &#x3D; true;
+        this.client.on(&#x27;message_create&#x27;, async function wait(msg) {
+            if (settimeout) {
+                setTimeout(async function () {
+                    if (canguess) {
+                        canguess &#x3D; false;
+                        game.client.removeListener(&#x27;message_create&#x27;, wait);
+                        await game.client.sendMessage(game.chatid, &#x27;Times up!&#x27;);
+                        game.lives--;
+                        await game.next_turn();
+                    }
+                }, 150000);
+            }
+            settimeout &#x3D; false;
+            if (!msg.body || msg.body.length &amp;lt; 3 || msg.hasMedia) {
+                return;
+            }
+            if (!canguess) {
+                return;
+            }
+            const chat &#x3D; await msg.getChat();
+            if (chat.id._serialized !&#x3D; game.chatid) {
+                return;
+            }
+            const user &#x3D; await msg.getContact();
+            const words &#x3D; game.currword.split(&#x27; &#x27;);
+            const checkword &#x3D; msg.body.toLowerCase().replace(&#x27; &#x27;, &#x27;&#x27;);
+            if (user.number &#x3D;&#x3D; game.players[0].number) {
+                for (const word of words) {
+                    if (checkword.includes(word) ||
+                        word.includes(checkword) ||
+                        similarity(msg.body.toLowerCase(), game.currword, game.currword.length &gt;&#x3D; 4 ? 1 : 2, false) &gt; 0.9) {
+                        await game.client.sendMessage(game.chatid, &#x27;You cannot say the word&#x27;);
+                        canguess &#x3D; false;
+                        game.lives--;
+                        game.client.removeListener(&#x27;message_create&#x27;, wait);
+                        await game.next_turn();
+                        return;
+                    }
+                }
+            }
+            if (!game.players.find(a &#x3D;&gt; a.number &#x3D;&#x3D; user.number)) {
+                return;
+            }
+            /* if(msg.body.toLowerCase() &#x3D;&#x3D; &#x27;ghint&#x27; &amp;amp;&amp;amp; game.hints &gt; 0){
+                let hint: string[] &#x3D; game.currword.split(&quot;&quot;).map(l &#x3D;&gt; l &#x3D;&#x3D; &#x27; &#x27; ? &#x27; &#x27; : &quot;_&quot;)
+                hint.shift()
+                hint.unshift(game.currword[0])
+                await msg.reply(hint.join(&#x27; &#x27;))
+                game.hints--
+            } */
+            if (msg.body.toLowerCase() &#x3D;&#x3D; &#x27;gquit&#x27;) {
+                canguess &#x3D; false;
+                game.client.removeListener(&#x27;message_create&#x27;, wait);
+                game.client.gartic &#x3D; false;
+                await game.client.sendMessage(game.chatid, &#x27;Game stopped!&#x27;);
+                return;
+            }
+            if (msg.body.trim().toLowerCase() &#x3D;&#x3D; game.currword &amp;amp;&amp;amp; canguess) {
+                canguess &#x3D; false;
+                game.client.removeListener(&#x27;message_create&#x27;, wait);
+                await msg.reply(&#x27;Your guess was correct!&#x27;);
+                await game.next_turn();
+            }
+        });
+    }
+}
+export const name &#x3D; &#x27;20Questions&#x27;;
+export const args &#x3D; true;
+export const aliases &#x3D; [&#x27;tq&#x27;, &#x27;2q&#x27;, &#x27;20q&#x27;];
+export const description &#x3D; &#x27;Play 20 questions with someone&#x27;;
+export const category &#x3D; &#x27;Games&#x27;;
+const { MessageMedia } &#x3D; pkg;
+/**
+ * Implements a 20 Questions-style guessing game within WhatsApp.
+ *
+ * **Usage (within the bot):**
+ * - Call &#x60;next_turn&#x60; to start the game and assign the first player to think of a word.
+ * - The class will prompt other players to ask yes/no questions and guess the word.
+ *
+ * **User Commands:**
+ * - &#x60;!20questions&#x60; or &#x60;!20q&#x60; - Starts a new 20 Questions game.
+ * - &#x60;join&#x60; - Joins the ongoing game.
+ * - (Guessers) Ask yes/no questions to try to guess the word.
+ * - (Guessers) &#x60;{word}&#x60; - Submits a guess for the word.
+ * - &#x60;gquit&#x60; - Stops the game.
+ */
+export async function run(client, msg) {
+    if (client.gartic) {
+        msg.reply(&#x27;A game is currently active!&#x27;);
+        return;
+    }
+    client.gartic &#x3D; true;
+    const chat &#x3D; await msg.getChat();
+    const game &#x3D; new charades(client, chat.id._serialized);
+    let started &#x3D; false;
+    client.on(&#x27;message_create&#x27;, async function wait(msg) {
+        const chat &#x3D; await msg.getChat();
+        if (chat.id._serialized !&#x3D; game.chatid) {
+            return;
+        }
+        if (msg.body.toLowerCase() !&#x3D; &#x27;join&#x27;) {
+            return;
+        }
+        const user &#x3D; await msg.getContact();
+        if (game.players.find(a &#x3D;&gt; a.number &#x3D;&#x3D; user.number)) {
+            return;
+        }
+        game.players.push(user);
+        await msg.react(&#x27;✅&#x27;);
+        setTimeout(async () &#x3D;&gt; {
+            if (started) {
+                return;
+            }
+            started &#x3D; true;
+            client.removeListener(&#x27;message_create&#x27;, wait);
+            if (game.players.length &amp;lt; 2) {
+                await client.sendMessage(game.chatid, &#x27;You need atleast 2 players to start&#x27;);
+                client.gartic &#x3D; false;
+                return;
+            }
+            await game.next_turn();
+        }, 10000);
+    });
+    await msg.reply(&#x27;A new game has started!\nType &#x60;join&#x60; to join the game&#x27;);
+}
+</code></pre>
+          </article>
+        </div>
+      </div>
+      <nav id="jsdoc-toc-nav" role="navigation"></nav>
+    </div>
+  </div>
+  <footer id="jsdoc-footer" class="jsdoc-footer">
+    <div id="jsdoc-footer-container">
+      <p>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 4.0.2 on April 27, 2024.
+      </p>
+    </div>
+  </footer>
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/tree.jquery.js"></script>
+  <script src="scripts/prettify.js"></script>
+  <script src="scripts/jsdoc-toc.js"></script>
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/scrollanchor.js"></script>
+</body>
+
+</html>

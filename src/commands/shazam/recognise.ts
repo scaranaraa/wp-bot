@@ -6,6 +6,13 @@ export const args = true;
 export const aliases = ['identify', 'id', 'sh', 'recognise'];
 export const description = 'Identify any song in a video/audio';
 export const category = 'Shazam';
+/**
+ * Identifies a song from an audio or video message using Shazam.
+ *
+ * **Usage:**
+ * - Send `!shazam` as a reply to an audio or video message, or include the audio/video with the command.
+ * - The bot will attempt to identify the song and provide details. 
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

@@ -12,6 +12,12 @@ export const args = true;
 export const aliases: string[] = ['cnow', 'carbon'];
 export const description = 'Create images of code provided';
 export const category = 'Dev';
+/**
+ * Generates an image of the provided code snippet using Carbon.
+ * 
+ * **Usage:**
+ * - `!code console.log('Hello World')` - Creates a Carbon image of the provided code and sends it as a reply. 
+ */ 
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

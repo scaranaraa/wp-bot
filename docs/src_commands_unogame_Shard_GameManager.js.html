@@ -1,0 +1,153 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="generator" content="JSDoc 4.0.2">
+  <meta charset="utf-8">
+  <title>wp-bot 4.3.2 &raquo; Source: src/commands/unogame/Shard/GameManager.js</title>
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+  <link href="css/baseline.css" rel="stylesheet">
+</head>
+
+<body onload="prettyPrint()">
+  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+      <div id="jsdoc-navbar-content">
+        <a href="index.html" class="jsdoc-navbar-package-name">wp-bot 4.<wbr>3.<wbr>2</a>
+      </div>
+    </div>
+  </nav>
+  <div id="jsdoc-body-container">
+    <div id="jsdoc-content">
+      <div id="jsdoc-content-container">
+        <div id="jsdoc-banner" role="banner">
+        </div>
+        <div id="jsdoc-main" role="main">
+          <header class="page-header">
+            <h1>Source: src/commands/unogame/Shard/GameManager.js</h1>
+          </header>
+          <article>
+            <pre class="prettyprint linenums"><code>/**
+ * Manages UNO games within the WhatsApp bot.
+ *
+ * handles game creation, deletion, player management, timeouts, and
+ * interaction with game-specific command classes.
+ *
+ * **Notes:**
+ * - This class assumes the existence of &#x60;Game&#x60; objects and various command classes
+ *   for specific actions within the UNO game.
+ */
+export default class GameManager {
+    constructor(client) {
+        this.client &#x3D; client;
+        this.games &#x3D; {};
+        this.timeoutInterval &#x3D; setInterval(this.timeout.bind(this), 1000 * 30);
+    }
+    client;
+    games;
+    saveGameInterval;
+    timeoutInterval;
+    async timeout() {
+        for (const id of Object.keys(this.games)) {
+            try {
+                const game &#x3D; this.games[id];
+                if (!game) {
+                    console.info(&#x27;Deleting non-existent game with id&#x27;, id);
+                    await this.deleteGame(id);
+                    continue;
+                }
+                if (!game.started &amp;amp;&amp;amp; Date.now() - game.lastChange &gt;&#x3D; 3 * 60 * 1000) {
+                    await game.send(&#x27;The game has been cancelled due to inactivity.&#x27;);
+                    await this.deleteGame(id);
+                }
+                else if (game.started &amp;amp;&amp;amp;
+                    Date.now() - game.lastChange &gt;&#x3D; 5 * 60 * 1000) {
+                    const user &#x3D; game.queue[0].member;
+                    const msg &#x3D; { author: user, channel: { id } };
+                    let out &#x3D; await this.client.getCommand(&#x27;quit&#x27;).execute(msg, []);
+                    if (typeof out &#x3D;&#x3D;&#x3D; &#x27;string&#x27;) {
+                        out &#x3D; out.split(&#x27;\n&#x27;);
+                        // @ts-ignore
+                        out[0] &#x3D; &#x60;**${user.username}#${user.discriminator}** has been kicked from the game due to inactivity.&#x60;;
+                        out &#x3D; out.join(&#x27;\n&#x27;);
+                    }
+                    else {
+                        let desc &#x3D; out.embed.description;
+                        desc &#x3D; desc.split(&#x27;\n&#x27;);
+                        // @ts-ignore
+                        desc[0] &#x3D; &#x60;**${user.username}#${user.discriminator}** has been kicked from the game due to inactivity.&#x60;;
+                        desc &#x3D; desc.join(&#x27;\n&#x27;);
+                        out.embed.description &#x3D; desc;
+                    }
+                    if (game.queue.length &#x3D;&#x3D;&#x3D; 0) {
+                        if (typeof out &#x3D;&#x3D;&#x3D; &#x27;string&#x27;) {
+                            out +&#x3D;
+                                &#x27;\nThe game has been cancelled due to no remaining players.&#x27;;
+                        }
+                        else {
+                            out.embed.description +&#x3D;
+                                &#x27;\nThe game has been cancelled due to no remaining players.&#x27;;
+                        }
+                        await this.deleteGame(id);
+                    }
+                    await game.send(out);
+                }
+            }
+            catch (err) {
+                console.error(err);
+                await this.deleteGame(id);
+            }
+        }
+    }
+    async deleteGame(id) {
+        delete this.client.games[id];
+        delete this.games[id];
+    }
+    async removePlayerFromGame(game, user) {
+        let out &#x3D; &#x27;&#x27;;
+        game.dropped.push(game.players[user.number]);
+        if (game.started &amp;amp;&amp;amp; game.queue.length &amp;lt;&#x3D; 2) {
+            game.queue &#x3D; game.queue.filter(p &#x3D;&gt; p.member.number !&#x3D;&#x3D; user.number);
+            game.finished.push(game.queue[0]);
+            out +&#x3D; game.scoreboard();
+            await this.deleteGame(game.channel.id.user);
+            return out;
+        }
+        if (game.started &amp;amp;&amp;amp; game.player.member.number &#x3D;&#x3D;&#x3D; user.number) {
+            game.next();
+            out &#x3D; &#x60;${out}A **${game.flipped}** was played last. \n\nIt is now ${game.player.member.username}&#x27;s turn!&#x60;;
+        }
+        delete game.players[user.number];
+        game.queue &#x3D; game.queue.filter(p &#x3D;&gt; p.member.number !&#x3D;&#x3D; user.number);
+        if (!game.started &amp;amp;&amp;amp; game.queue.length &#x3D;&#x3D;&#x3D; 0) {
+            out &#x3D; &#x27;The game has been cancelled.&#x27;;
+            await this.deleteGame(game.channel.id.user);
+        }
+        return out;
+    }
+}
+</code></pre>
+          </article>
+        </div>
+      </div>
+      <nav id="jsdoc-toc-nav" role="navigation"></nav>
+    </div>
+  </div>
+  <footer id="jsdoc-footer" class="jsdoc-footer">
+    <div id="jsdoc-footer-container">
+      <p>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 4.0.2 on April 27, 2024.
+      </p>
+    </div>
+  </footer>
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/tree.jquery.js"></script>
+  <script src="scripts/prettify.js"></script>
+  <script src="scripts/jsdoc-toc.js"></script>
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/scrollanchor.js"></script>
+</body>
+
+</html>

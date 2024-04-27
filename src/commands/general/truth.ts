@@ -26,6 +26,14 @@ export const description = 'Get a truth';
 export const category = 'General';
 
 const { Client, LocalAuth, MessageMedia } = pkg;
+/**
+ * Provides "Truth" questions from a JSON database. 
+ *
+ * This command retrieves questions from 'truth.json' and sends a random one to the chat. 
+ *
+ * **Usage:**
+ * - `!truth` or `!t` - Sends a "Truth" question to the chat. 
+ */ 
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

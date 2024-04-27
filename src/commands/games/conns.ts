@@ -148,6 +148,19 @@ export const args = true;
 export const aliases = ['con', 'conns'];
 export const description = 'Play connections from NYT games';
 export const category = 'Games';
+/**
+ * Implements the Connections word game from NYT Games within WhatsApp
+ *
+ * **Usage (within the bot):**
+ * - Call `drawimg` to generate the initial image of the word grid. 
+ * - Use `guess` to process user guesses and update the game state. 
+ * - Call `drawimg` again to generate an updated image after each guess. 
+ *
+ * **User Commands:**
+ * - `!connections` or `!conns` - Starts a new Connections game.
+ * - `guess {word1}, {word2}, {word3}, {word4}` - Guesses four words that form a group. 
+ * - `quit` - Ends the current game.
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

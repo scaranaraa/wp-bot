@@ -22,6 +22,15 @@ export const args = true;
 export const aliases = ['audio', 'yt'];
 export const description = 'Download audio from youtube';
 export const category = 'General';
+/**
+ * Downloads audio from YouTube videos and sends them as audio messages within WhatsApp. 
+ *
+ * **Usage:**
+ * - `!youtube {song name or keywords}` or `!audio {song name or keywords}` - Searches for the song on YouTube and downloads the audio if found. 
+ *
+ * **Notes:**
+ * - Only videos shorter than 15 minutes can be downloaded due to limitations.
+ */
 export async function run(client: Client, msg: Message, args: string[]) {
 	if (client.downloading) {
 		return msg.reply('a video is currently downloading');

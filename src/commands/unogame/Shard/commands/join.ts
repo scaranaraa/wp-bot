@@ -6,7 +6,14 @@ export default class JoinCommand extends BaseCommand {
 	constructor(client: Client) {
 		super(client, 'join');
 	}
-
+	/**
+	 * Allows players to join a UNO game in a WhatsApp chat. 
+	 *
+	 * This command adds a player to the game queue or creates a new game if one doesn't exist. 
+	 *
+	 * **Usage:**
+	 * - `uno join` - Joins the current game or creates a new game if none exists.
+	 */
 	async execute(msg: Message) {
 		const chat = await msg.getChat();
 		const member = await msg.getContact();

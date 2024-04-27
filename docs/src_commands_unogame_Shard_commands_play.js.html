@@ -1,0 +1,240 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="generator" content="JSDoc 4.0.2">
+  <meta charset="utf-8">
+  <title>wp-bot 4.3.2 &raquo; Source: src/commands/unogame/Shard/commands/play.js</title>
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+  <link href="css/baseline.css" rel="stylesheet">
+</head>
+
+<body onload="prettyPrint()">
+  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+      <div id="jsdoc-navbar-content">
+        <a href="index.html" class="jsdoc-navbar-package-name">wp-bot 4.<wbr>3.<wbr>2</a>
+      </div>
+    </div>
+  </nav>
+  <div id="jsdoc-body-container">
+    <div id="jsdoc-content">
+      <div id="jsdoc-content-container">
+        <div id="jsdoc-banner" role="banner">
+        </div>
+        <div id="jsdoc-main" role="main">
+          <header class="page-header">
+            <h1>Source: src/commands/unogame/Shard/commands/play.js</h1>
+          </header>
+          <article>
+            <pre class="prettyprint linenums"><code>import pkg from &#x27;whatsapp-web.js&#x27;;
+import BaseCommand from &#x27;../BaseCommand.js&#x27;;
+const { Client, LocalAuth, MessageMedia } &#x3D; pkg;
+export default class PlayCommand extends BaseCommand {
+    constructor(client) {
+        super(client, &#x27;play&#x27;, {
+            aliases: [&#x27;p&#x27;, &#x27;pl&#x27;, &#x27;ply&#x27;, &#x27;pla&#x27;],
+        });
+    }
+    /**
+     * Plays a card in the UNO game within a WhatsApp chat.
+     *
+     * This command allows players to play a card from their hand if it matches the color, number, or symbol of the previously played card.
+     *
+     * **Usage:**
+     * - &#x60;uno play {color} {value}&#x60; - Plays the specified card (e.g., &#x60;!uno play red 5&#x60;).
+     *
+     * **Notes:**
+     * - can also use aliases like &#x60;p&#x60;, &#x60;pl&#x60;, &#x60;ply&#x60;, or &#x60;pla&#x60; instead of &#x60;play&#x60;.
+     */
+    async execute(msg, words, text, drawn &#x3D; false) {
+        const chat &#x3D; await msg.getChat();
+        const member &#x3D; await msg.getContact();
+        const game &#x3D; this.games[chat.id.user];
+        if (game) {
+            if (!game.started) {
+                return &quot;Sorry, but the game hasn&#x27;t been started yet!&quot;;
+            }
+            if (game.player.member.number !&#x3D;&#x3D; member.number) {
+                return &#x60;It&#x27;s not your turn yet! It&#x27;s currently @${game.player.member.number}&#x27;s turn.&#x60;;
+            }
+            const card &#x3D; await game.player.getCard(words);
+            if (card &#x3D;&#x3D;&#x3D; null) {
+                return;
+            }
+            if (!card) {
+                return &quot;It doesn&#x27;t seem like you have that card! Try again.&quot;;
+            }
+            game.player.cardsPlayed++;
+            if (!game.flipped.color ||
+                card.wild ||
+                card.id &#x3D;&#x3D;&#x3D; game.flipped.id ||
+                card.color &#x3D;&#x3D;&#x3D; game.flipped.color) {
+                game.discard.push(card);
+                game.player.hand.splice(game.player.hand.indexOf(card), 1);
+                game.player.cardsChanged();
+                if (game.calledout) {
+                    game.calledout &#x3D; false;
+                }
+                let pref &#x3D; &#x27;&#x27;;
+                if (game.player.hand.length &#x3D;&#x3D;&#x3D; 0) {
+                    game.finished.push(game.player);
+                    game.player.finished &#x3D; true;
+                    pref &#x3D; &#x60;@${game.player.member.number} has no more cards! They finished in **Rank #${game.finished.length}**! \n\n&#x60;;
+                    if (game.queue.length &#x3D;&#x3D;&#x3D; 2) {
+                        game.finished.push(game.queue[1]);
+                        pref &#x3D; game.scoreboard();
+                        game.queue &#x3D; [];
+                        delete this.games[chat.id.user];
+                        await this.client.gameManager.deleteGame(game.channel.id.user);
+                        return pref;
+                    }
+                }
+                let extra &#x3D; &#x27;&#x27;;
+                switch (card.id) {
+                    case &#x27;REVERSE&#x27;:
+                        if (game.queue.length &gt; 2) {
+                            const player &#x3D; game.queue.shift();
+                            game.queue.reverse();
+                            game.queue.unshift(player);
+                            extra &#x3D; &#x27;Turns are now in reverse order! &#x27;;
+                            break;
+                        }
+                        else if (game.rules.REVERSE_SKIP &#x3D;&#x3D;&#x3D; true) {
+                            const skipped &#x3D; game.queue.shift();
+                            game.queue.push(skipped);
+                            extra &#x3D; &#x60;Sorry, @${game.player.member.number}! Skip a turn! &#x60;;
+                            break;
+                        }
+                    case &#x27;SKIP&#x27;:
+                        const skipped &#x3D; game.queue.shift();
+                        game.queue.push(skipped);
+                        extra &#x3D; &#x60;Sorry, @${game.player.member.number}! Skip a turn! &#x60;;
+                        break;
+                    case &#x27;+2&#x27;:
+                        let amount &#x3D; 0;
+                        for (let i &#x3D; game.discard.length - 1; i &gt;&#x3D; 0; i--) {
+                            if (game.discard[i].id &#x3D;&#x3D;&#x3D; &#x27;+2&#x27;) {
+                                amount +&#x3D; 2;
+                            }
+                            else {
+                                break;
+                            }
+                        }
+                        game.deal(game.queue[1], amount);
+                        extra &#x3D; &#x60;@${game.queue[1].member.number} picks up ${amount} cards! Tough break. &#x60;;
+                        if (game.rules.DRAW_SKIP &#x3D;&#x3D;&#x3D; true) {
+                            extra +&#x3D; &#x27; Also, skip a turn!&#x27;;
+                            game.queue.push(game.queue.shift());
+                        }
+                        break;
+                    case &#x27;WILD&#x27;:
+                        extra &#x3D; &#x60;In case you missed it, the current color is now **${card.colorName}**! &#x60;;
+                        break;
+                    case &#x27;WILD+4&#x27;: {
+                        await game.deal(game.queue[1], 4);
+                        extra &#x3D; &#x60;@${game.queue[1].member.number} picks up 4! The current color is now **${card.colorName}**! &#x60;;
+                        if (game.rules.DRAW_SKIP &#x3D;&#x3D;&#x3D; true) {
+                            extra +&#x3D; &#x27; Also, skip a turn!&#x27;;
+                            const skipped &#x3D; game.queue.shift();
+                            game.queue.push(skipped);
+                        }
+                        break;
+                    }
+                    /* case &#x27;WILDSWAPHANDS&#x27; : {
+
+          let user&#x3D; await msg.getMentions();
+          if(!user) return &#x27;Please mention a user to swap hands with&#x27;
+          if(user[0].number &#x3D;&#x3D;&#x3D; member.number) return &#x27;You cannot swap hands with yourself&#x27;
+          game.swapHand(member.number, user[0].number)
+          break;
+        } */
+                }
+                await game.next();
+                /* try{
+          console.log(&#x27;h&#x27;)
+          await this.client.sendMessage(chat.id._serialize, media , { caption: &#x60;${pref}${drawn
+          ? &#x60;@${member.number} has drawn and auto-played a **${game.flipped}**.&#x60;
+          : &#x60;A **${game.flipped}** has been played.&#x60;} ${extra}\n\nIt is now @${game.player.member.number}&#x27;s turn!&#x60;})}
+          catch (e) {
+            console.log(&#x27;a&#x27;)
+            console.log(e)
+            await this.client.sendMessage(chat.id._serialize, &#x60;${pref}${drawn
+              ? &#x60;@${member.number} has drawn and auto-played a **${game.flipped}**.&#x60;
+              : &#x60;A **${game.flipped}** has been played.&#x60;} ${extra}\n\nIt is now @${game.player.member.number}&#x27;s turn!&#x60;)
+          } */
+                // try{
+                // await this.client.sendMessage(chat.id._serialize, media)
+                // }
+                // catch (e) { console.log(e)  }kl
+                if (game.rules.IMAGE &#x3D;&#x3D; true) {
+                    try {
+                        const media &#x3D; MessageMedia.fromFilePath(&#x60;./src/commands/unogame/cards/${game.flipped.color || &#x27;&#x27;}${game.flipped.id}.png&#x60;);
+                        await this.client.sendMessage(chat.id._serialized, media, {
+                            caption: &#x60;${pref}${extra}\nIt is now ${game.player.member.username}&#x27;s turn!&#x60;,
+                        });
+                    }
+                    catch (e) {
+                        console.log(e);
+                        return &#x60;${pref}${drawn
+                            ? &#x60;${member.name ?? member.number} has drawn and auto-played a **${game.flipped}**.&#x60;
+                            : &#x60;A **${game.flipped}** has been played.&#x60;} ${extra}\n\nIt is now ${game.player.member.username}&#x27;s turn!&#x60;;
+                    }
+                }
+                else {
+                    return &#x60;${pref}${drawn
+                        ? &#x60;${member.name ?? member.number} has drawn and auto-played a **${game.flipped}**.&#x60;
+                        : &#x60;A **${game.flipped}** has been played.&#x60;} ${extra}\n\nIt is now ${game.player.member.username}&#x27;s turn!&#x60;;
+                }
+            }
+            else {
+                return &quot;Sorry, you can&#x27;t play that card here!&quot;;
+            }
+        }
+        else {
+            return &quot;Sorry, but a game hasn&#x27;t been created yet! Do &#x60;uno join&#x60; to create one.&quot;;
+        }
+    }
+}
+function getUrl(card) {
+    if (card.color &#x3D;&#x3D; &#x27;R&#x27;) {
+        return &#x27;&amp;lt;:redcard:965866476944916541&gt;&#x27;;
+    }
+    if (card.color &#x3D;&#x3D; &#x27;B&#x27;) {
+        return &#x27;&amp;lt;:bluecard:965864534915022848&gt;&#x27;;
+    }
+    if (card.color &#x3D;&#x3D; &#x27;G&#x27;) {
+        return &#x27;&amp;lt;:greencard:965866405109051412&gt;&#x27;;
+    }
+    if (card.color &#x3D;&#x3D; &#x27;Y&#x27;) {
+        return &#x27;&amp;lt;:yellowcard:965863457675182101&gt;&#x27;;
+    }
+    if (!card.color) {
+        return &#x27;&amp;lt;:wildcard:965866442874568745&gt;&#x27;;
+    }
+}
+</code></pre>
+          </article>
+        </div>
+      </div>
+      <nav id="jsdoc-toc-nav" role="navigation"></nav>
+    </div>
+  </div>
+  <footer id="jsdoc-footer" class="jsdoc-footer">
+    <div id="jsdoc-footer-container">
+      <p>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 4.0.2 on April 27, 2024.
+      </p>
+    </div>
+  </footer>
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/tree.jquery.js"></script>
+  <script src="scripts/prettify.js"></script>
+  <script src="scripts/jsdoc-toc.js"></script>
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/scrollanchor.js"></script>
+</body>
+
+</html>

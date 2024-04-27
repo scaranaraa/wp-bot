@@ -93,6 +93,18 @@ export const aliases = ['chain', 'wc', 'wch'];
 export const description =
 	'Play a game of word chain, type words that start with the previous words end';
 export const category = 'Games';
+/**
+ * Implements the Word Chain game within a WhatsApp chat.
+ *
+ * **Usage (within the bot):**
+ * - Call `StartGame` to initiate the game and send instructions.
+ * - Use `start` to begin the word chain and handle player responses. 
+ * 
+ * **User Commands:**
+ * - `!wordchain` or `!wc` - Starts a new Word Chain game.
+ * - `join` - Joins the ongoing game. 
+ * - `{word}` - Submits a word starting with the previous word's ending letter.
+ */
 export async function run(client: pkg.Client, msg: Message, args: string[]) {
 	return msg.reply('WIP');
 	if (client.ingame) {

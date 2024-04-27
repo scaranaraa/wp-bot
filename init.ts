@@ -10,7 +10,17 @@ import DataManager from './src/pokedex/init.js';
 import curr from './src/models/baseuser.js';
 
 import('./src/commands/monopoly/monopoly.js');
-
+/**
+ * Initializes the WhatsApp bot, including commands, handlers, events, and configuration.
+ *
+ * sets up the bot's core functionality, loads commands and events, configures 
+ * prefixes, initializes external libraries, and sets up various 
+ * properties and methods on the `client` object.  
+ * 
+ * **Other things:** 
+ * - Setting up game-related properties and queues. 
+ * - `checkpokemon` function for handling Pokemon level-ups and evolutions
+ */
 client.commands = new Map();
 client.handlers = new Map();
 client.events = new Map();

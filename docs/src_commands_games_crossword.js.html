@@ -1,0 +1,297 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="generator" content="JSDoc 4.0.2">
+  <meta charset="utf-8">
+  <title>wp-bot 4.3.2 &raquo; Source: src/commands/games/crossword.js</title>
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+  <link href="css/baseline.css" rel="stylesheet">
+</head>
+
+<body onload="prettyPrint()">
+  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+      <div id="jsdoc-navbar-content">
+        <a href="index.html" class="jsdoc-navbar-package-name">wp-bot 4.<wbr>3.<wbr>2</a>
+      </div>
+    </div>
+  </nav>
+  <div id="jsdoc-body-container">
+    <div id="jsdoc-content">
+      <div id="jsdoc-content-container">
+        <div id="jsdoc-banner" role="banner">
+        </div>
+        <div id="jsdoc-main" role="main">
+          <header class="page-header">
+            <h1>Source: src/commands/games/crossword.js</h1>
+          </header>
+          <article>
+            <pre class="prettyprint linenums"><code>import pkg from &#x27;whatsapp-web.js&#x27;;
+import Jimp from &#x27;jimp&#x27;;
+const chats &#x3D; [];
+const { Client, LocalAuth, MessageMedia } &#x3D; pkg;
+class crossword {
+    constructor(client, id) {
+        this.chatid &#x3D; id;
+        this.client &#x3D; client;
+        this.gridnums &#x3D; [];
+        this.grid &#x3D; [];
+        this.answers &#x3D; { across: [], down: [] };
+        this.hints &#x3D; 3;
+        this.clues &#x3D; { across: [], down: [] };
+        this.usergrid &#x3D; [];
+    }
+    chatid;
+    client;
+    gridnums;
+    grid;
+    answers;
+    hints;
+    clues;
+    usergrid;
+    async init() {
+        let board;
+        const year &#x3D; Math.floor(Math.random() * (2017 - 1976 + 1)) + 1976;
+        let month &#x3D; String(Math.floor(Math.random() * (12 - 1 + 1)) + 1);
+        if (parseInt(month) &amp;lt; 10)
+            month &#x3D; &#x60;0${month}&#x60;;
+        let day &#x3D; String(Math.floor(Math.random() * (31 - 1 + 1)) + 1);
+        if (parseInt(day) &amp;lt; 10)
+            day &#x3D; &#x60;0${day}&#x60;;
+        const req &#x3D; await fetch(&#x60;https://raw.githubusercontent.com/doshea/nyt_crosswords/master/${year}/${month}/${day}.json&#x60;);
+        console.log(&#x60;https://raw.githubusercontent.com/doshea/nyt_crosswords/master/${year}/${month}/${day}.json&#x60;);
+        try {
+            board &#x3D; await req.json();
+        }
+        catch {
+            await this.init();
+            return;
+        }
+        this.answers &#x3D; board.answers;
+        this.clues &#x3D; board.clues;
+        this.grid &#x3D; board.grid;
+        this.gridnums &#x3D; board.gridnums;
+        for (let i &#x3D; 0; i &amp;lt; this.grid.length; i++) {
+            this.usergrid.push(this.grid[i] &#x3D;&#x3D;&#x3D; &#x27;.&#x27; ? &#x27;.&#x27; : &#x27;&#x27;);
+        }
+        await this.genimage();
+        const media &#x3D; await MessageMedia.fromFilePath(&#x27;im.png&#x27;);
+        await this.client.sendMessage(this.chatid, media);
+        let across &#x3D; &#x60;Across -\n&#x60;;
+        for (let i &#x3D; 0; i &amp;lt; this.clues.across.length; i++) {
+            across +&#x3D; &#x60;${this.clues.across[i]}\n&#x60;;
+        }
+        await this.client.sendMessage(this.chatid, across);
+        let down &#x3D; &#x60;Down -\n&#x60;;
+        for (let i &#x3D; 0; i &amp;lt; this.clues.down.length; i++) {
+            down +&#x3D; &#x60;${this.clues.down[i]}\n&#x60;;
+        }
+        await this.client.sendMessage(this.chatid, down);
+        await this.gameStarted();
+    }
+    async gameStarted() {
+        const game &#x3D; this;
+        let end &#x3D; false;
+        this.client.on(&#x27;message_create&#x27;, async function wait(msg) {
+            const chat &#x3D; await msg.getChat();
+            if (chat.id._serialized !&#x3D; game.chatid)
+                return;
+            if (msg.body.startsWith(&#x27;CLUE &#x27;)) {
+                let word &#x3D; msg.body.slice(5).toLowerCase();
+                if (word.endsWith(&#x27;a&#x27;)) {
+                    word &#x3D; word.replace(&#x27;a&#x27;, &#x27;&#x27;);
+                    if (isNaN(parseInt(word)))
+                        return;
+                    for (let i &#x3D; 0; i &amp;lt; game.clues.across.length; i++) {
+                        if (game.clues.across[i].startsWith(word)) {
+                            await msg.reply(game.clues.across[i]);
+                            return;
+                        }
+                    }
+                }
+                if (word.endsWith(&#x27;d&#x27;)) {
+                    word &#x3D; word.replace(&#x27;d&#x27;, &#x27;&#x27;);
+                    if (isNaN(parseInt(word)))
+                        return;
+                    for (let i &#x3D; 0; i &amp;lt; game.clues.down.length; i++) {
+                        if (game.clues.down[i].startsWith(word)) {
+                            await msg.reply(game.clues.down[i]);
+                            return;
+                        }
+                    }
+                }
+            }
+            if (!isNaN(parseInt(msg.body[0]))) {
+                const words &#x3D; msg.body.toLowerCase().split(&#x27; &#x27;);
+                let rc &#x3D; words.shift();
+                if (rc.endsWith(&#x27;a&#x27;)) {
+                    rc &#x3D; rc.replace(&#x27;a&#x27;, &#x27;&#x27;);
+                    if (isNaN(parseInt(rc)))
+                        return;
+                    const startindex &#x3D; game.gridnums.indexOf(parseInt(rc));
+                    if (startindex &amp;lt; 0)
+                        return;
+                    for (let i &#x3D; 0; i &amp;lt; words[0].length; i++) {
+                        if (game.usergrid[startindex + i] &#x3D;&#x3D; &#x27;.&#x27;)
+                            break;
+                        game.usergrid[startindex + i] &#x3D; words[0][i];
+                        if ((startindex + i + 1) % 15 &#x3D;&#x3D; 0)
+                            break;
+                    }
+                    end &#x3D; await game.sendimg();
+                }
+                if (rc.endsWith(&#x27;d&#x27;)) {
+                    rc &#x3D; rc.replace(&#x27;d&#x27;, &#x27;&#x27;);
+                    if (isNaN(parseInt(rc)))
+                        return;
+                    let startindex &#x3D; game.gridnums.indexOf(parseInt(rc));
+                    if (startindex &amp;lt; 0)
+                        return;
+                    for (let i &#x3D; 0; i &amp;lt; words[0].length; i++) {
+                        if (game.usergrid[startindex] &#x3D;&#x3D; &#x27;.&#x27;)
+                            break;
+                        game.usergrid[startindex] &#x3D; words[0][i];
+                        startindex +&#x3D; 15;
+                        if (startindex &gt;&#x3D; game.grid.length)
+                            break;
+                    }
+                    end &#x3D; await game.sendimg();
+                }
+            }
+            if (msg.body &#x3D;&#x3D; &#x27;QUIT&#x27; || end) {
+                game.client.removeListener(&#x27;message_create&#x27;, wait);
+                game.usergrid &#x3D; game.grid;
+                if (!end)
+                    await game.sendimg();
+                chats.splice(chats.indexOf(game.chatid), 1);
+            }
+        });
+    }
+    async sendimg() {
+        await this.genimage();
+        const media &#x3D; await MessageMedia.fromFilePath(&#x27;im.png&#x27;);
+        await this.client.sendMessage(this.chatid, media);
+        for (let i &#x3D; 0; i &amp;lt; this.usergrid.length; i++) {
+            if (this.usergrid[i].toUpperCase() !&#x3D; this.grid[i].toUpperCase()) {
+                return false;
+            }
+        }
+        return true;
+    }
+    async genimage() {
+        const game &#x3D; this;
+        const gridSize &#x3D; 15;
+        const gridRows &#x3D; 15;
+        const gridWidth &#x3D; 40;
+        const gridHeight &#x3D; 40;
+        const borderWidth &#x3D; 1;
+        const separation &#x3D; 0;
+        const imageWidth &#x3D; gridSize * gridWidth + (gridSize - 1) * separation;
+        const imageHeight &#x3D; gridRows * gridHeight + (gridRows - 1) * separation;
+        const image &#x3D; new Jimp(imageWidth, imageHeight, 0xffffffff);
+        async function drawGridCell(x, y, bgColor, letter &#x3D; null, index &#x3D; 0) {
+            image.scan(x, y, gridWidth, gridHeight, function (x, y, idx) {
+                this.bitmap.data[idx + 0] &#x3D; (bgColor &gt;&gt; 24) &amp;amp; 0xff;
+                this.bitmap.data[idx + 1] &#x3D; (bgColor &gt;&gt; 16) &amp;amp; 0xff;
+                this.bitmap.data[idx + 2] &#x3D; (bgColor &gt;&gt; 8) &amp;amp; 0xff;
+                this.bitmap.data[idx + 3] &#x3D; bgColor &amp;amp; 0xff;
+            });
+            for (let i &#x3D; 0; i &amp;lt; borderWidth; i++) {
+                for (let j &#x3D; 0; j &amp;lt; gridWidth; j++) {
+                    image.setPixelColor(0x3a3a3cff, x + j, y + i);
+                    image.setPixelColor(0x3a3a3cff, x + j, y + gridHeight - 1 - i);
+                }
+                for (let j &#x3D; 0; j &amp;lt; gridHeight; j++) {
+                    image.setPixelColor(0x3a3a3cff, x + i, y + j);
+                    image.setPixelColor(0x3a3a3cff, x + gridWidth - 1 - i, y + j);
+                }
+            }
+            if (letter) {
+                letter &#x3D; letter.toUpperCase();
+                const font &#x3D; await Jimp.loadFont(Jimp.FONT_SANS_16_BLACK);
+                const textWidth &#x3D; Jimp.measureText(font, letter);
+                // @ts-ignore
+                const textHeight &#x3D; Jimp.measureTextHeight(font, letter);
+                const textX &#x3D; x + (gridWidth - textWidth) / 2;
+                const textY &#x3D; y + 11 + (gridHeight - textHeight) / 2;
+                await image.print(font, textX, textY, letter);
+            }
+            const font2 &#x3D; await Jimp.loadFont(Jimp.FONT_SANS_12_BLACK);
+            if (index)
+                await image.print(font2, x + 5, y + 2, index);
+        }
+        async function drawGrid() {
+            let a &#x3D; 0;
+            for (let i &#x3D; 0; i &amp;lt; gridRows; i++) {
+                for (let j &#x3D; 0; j &amp;lt; gridSize; j++) {
+                    const x &#x3D; j * gridWidth + j * separation;
+                    const y &#x3D; i * gridHeight + i * separation;
+                    if (game.grid[a] &#x3D;&#x3D; &#x27;.&#x27;) {
+                        await drawGridCell(x, y, 0x000000ff, game.usergrid[a], game.gridnums[a]);
+                    }
+                    else if (game.usergrid[a].toUpperCase() &#x3D;&#x3D; game.grid[a]) {
+                        await drawGridCell(x, y, 0x538d4eff, game.usergrid[a], game.gridnums[a]);
+                    }
+                    else
+                        await drawGridCell(x, y, 0xffffffff, game.usergrid[a], game.gridnums[a]);
+                    a++;
+                }
+            }
+        }
+        await drawGrid();
+        await image.writeAsync(&#x27;im.png&#x27;);
+        return &#x27;done&#x27;;
+    }
+}
+export const name &#x3D; &#x27;crossword&#x27;;
+export const args &#x3D; true;
+export const aliases &#x3D; [&#x27;cw&#x27;];
+export const description &#x3D; &#x27;Play crossword from NYT games&#x27;;
+export const category &#x3D; &#x27;Games&#x27;;
+/**
+ * Implements a crossword puzzle game using NYT crosswords within WhatsApp, including image generation.
+ *
+ * **Usage (within the bot):**
+ * - Call &#x60;init&#x60; to retrieve a random crossword puzzle from the NYT archive and send the initial board image and clues.
+ * - The class will handle user input for filling in answers and requesting clues.
+ *
+ * **User Commands:**
+ * - &#x60;!crossword&#x60; or &#x60;!cw&#x60; - Starts a new crossword puzzle game.
+ * - &#x60;{number}{direction} {word}&#x60; - Fills in a word on the crossword board (e.g., &#x60;1a HELLO&#x60; for across, &#x60;2d WORLD&#x60; for down).
+ * - &#x60;CLUE {number}{direction}&#x60; - Requests the clue for a specific word (e.g., &#x60;CLUE 1a&#x60;).
+ * - &#x60;QUIT&#x60; - Ends the current crossword game and reveals the solution.
+ */
+export async function run(client, msg, args) {
+    const chat &#x3D; await msg.getChat();
+    if (chats.includes(chat.id._serialized))
+        return msg.reply(&#x27;A game is active in this chat!&#x27;);
+    chats.push(chat.id._serialized);
+    const game &#x3D; new crossword(client, chat.id._serialized);
+    await game.init();
+}
+</code></pre>
+          </article>
+        </div>
+      </div>
+      <nav id="jsdoc-toc-nav" role="navigation"></nav>
+    </div>
+  </div>
+  <footer id="jsdoc-footer" class="jsdoc-footer">
+    <div id="jsdoc-footer-container">
+      <p>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 4.0.2 on April 27, 2024.
+      </p>
+    </div>
+  </footer>
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/tree.jquery.js"></script>
+  <script src="scripts/prettify.js"></script>
+  <script src="scripts/jsdoc-toc.js"></script>
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/scrollanchor.js"></script>
+</body>
+
+</html>

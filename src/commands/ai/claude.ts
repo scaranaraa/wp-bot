@@ -12,6 +12,16 @@ export const args = true;
 export const aliases: string[] = ['laude', 'cld'];
 export const description = 'Chat with Claude 3.0 sonnet';
 export const category = 'AI';
+/**
+ * Enables chatting with Anthropic's Claude 3.0 Sonnet model within WhatsApp.
+ * 
+ * **Usage:**
+ * - `!claude {message}` - Sends the message to Claude and replies with its response. 
+ *
+ * **Notes:** 
+ * - This command requires an API key for Anthropic. 
+ * - The maximum message length is limited to 2000 characters to avoid excessive API usage. 
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

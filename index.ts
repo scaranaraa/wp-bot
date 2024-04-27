@@ -5,7 +5,16 @@ import 'dotenv/config';
 
 const { Client, LocalAuth } = pkg;
 
-// "start": "(pm2 stop all && pm2 start pm2.config.js || pm2 start pm2.config.js)",
+/**
+ * Entry point for the WhatsApp bot.
+ *
+ * Initializes the WhatsApp client, connects to the MongoDB database, 
+ * handles QR code generation for authentication, and loads command and event handlers when the bot is ready. 
+ *
+ * **Other things:**
+ * - Loading command and event handlers when the bot is ready. 
+ * - Handling uncaught exceptions and signals for graceful shutdown. 
+ */
 
 const client = new Client({
 	authStrategy: new LocalAuth(),

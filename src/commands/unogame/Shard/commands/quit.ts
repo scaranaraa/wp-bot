@@ -5,7 +5,12 @@ export default class QuitCommand extends BaseCommand {
 	constructor(client: Client) {
 		super(client, 'quit');
 	}
-
+	/**
+	 * Allows a player to quit an ongoing UNO game in a WhatsApp chat.
+	 *
+	 * **Usage:**
+	 * - `uno quit` - Removes the player from the game. 
+	*/
 	async execute(msg: Message) {
 		const chat = await msg.getChat();
 		const member = await msg.getContact();

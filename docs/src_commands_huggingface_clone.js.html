@@ -1,0 +1,129 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="generator" content="JSDoc 4.0.2">
+  <meta charset="utf-8">
+  <title>wp-bot 4.3.2 &raquo; Source: src/commands/huggingface/clone.js</title>
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+  <link href="css/baseline.css" rel="stylesheet">
+</head>
+
+<body onload="prettyPrint()">
+  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+      <div id="jsdoc-navbar-content">
+        <a href="index.html" class="jsdoc-navbar-package-name">wp-bot 4.<wbr>3.<wbr>2</a>
+      </div>
+    </div>
+  </nav>
+  <div id="jsdoc-body-container">
+    <div id="jsdoc-content">
+      <div id="jsdoc-content-container">
+        <div id="jsdoc-banner" role="banner">
+        </div>
+        <div id="jsdoc-main" role="main">
+          <header class="page-header">
+            <h1>Source: src/commands/huggingface/clone.js</h1>
+          </header>
+          <article>
+            <pre class="prettyprint linenums"><code>import { spawn } from &#x27;child_process&#x27;;
+import pkg from &#x27;whatsapp-web.js&#x27;;
+import { randomUUID } from &#x27;crypto&#x27;;
+import fs from &#x27;fs&#x27;;
+import os from &#x27;os&#x27;;
+import path from &#x27;path&#x27;;
+import { convertOggToWav, convertwavtomp3 } from &#x27;../utils/audio-helper.js&#x27;;
+const { Client, LocalAuth, MessageMedia } &#x3D; pkg;
+export const name &#x3D; &#x27;clone&#x27;;
+export const args &#x3D; true;
+export const aliases &#x3D; [&#x27;say&#x27;, &#x27;talk&#x27;];
+export const description &#x3D; &#x27;Clone someones voice/make the bot say anything&#x27;;
+export const category &#x3D; &#x27;HuggingFace&#x27;;
+/**
+ * Clones a voice from a provided audio message or generates speech from text.
+ *
+ * **Usage:**
+ * - &#x60;!clone {text}&#x60; - Generates speech using the default voice.
+ * - &#x60;!clone {text}&#x60; (as a reply to an audio message) - Attempts to clone the voice in the audio message and speak the provided text.
+ */
+export async function run(client, msg, args) {
+    if (!args.length) {
+        return;
+    }
+    const chat &#x3D; await msg.getChat();
+    if (!msg.hasQuotedMsg) {
+        const pythonProcess &#x3D; spawn(&#x27;python&#x27;, [&#x27;./src/commands/utils/say.py&#x27;], {
+            stdio: [&#x27;pipe&#x27;, &#x27;pipe&#x27;, &#x27;pipe&#x27;],
+        });
+        pythonProcess.stdin.write(&#x60;${args.join(&#x27; &#x27;)}\n&#x60;);
+        pythonProcess.stderr.on(&#x27;data&#x27;, data &#x3D;&gt; {
+            console.error(&#x60;Python stderr: ${data}&#x60;);
+        });
+        pythonProcess.stdout.on(&#x27;data&#x27;, async (data) &#x3D;&gt; {
+            data &#x3D; String(data);
+            data &#x3D; data.replace(&#x27;Loaded as API: https://coqui-xtts.hf.space/--replicas/u03n6/&#x27;, &#x27;&#x27;);
+            data.replace(&#x27;\n&#x27;, &#x27;&#x27;);
+            data &#x3D; data.trim();
+            await convertwavtomp3(data, &#x27;./src/commands/utils/converted.mp3&#x27;);
+            const media2 &#x3D; MessageMedia.fromFilePath(&#x27;./src/commands/utils/converted.mp3&#x27;);
+            await client.sendMessage(chat.id._serialized, media2);
+        });
+    }
+    else {
+        const msg2 &#x3D; await msg.getQuotedMessage();
+        if (!msg2.hasMedia) {
+            return;
+        }
+        const media &#x3D; await msg2.downloadMedia();
+        if (media.mimetype?.includes(&#x27;audio&#x27;)) {
+            const { data } &#x3D; media;
+            const tempdir &#x3D; os.tmpdir();
+            const filename &#x3D; randomUUID();
+            const oggPath &#x3D; path.join(tempdir, &#x60;${filename}.ogg&#x60;);
+            fs.writeFileSync(oggPath, Buffer.from(data, &#x27;base64&#x27;));
+            await convertOggToWav(oggPath, &#x27;./src/commands/utils/abcd.wav&#x27;);
+        }
+        const pythonProcess &#x3D; spawn(&#x27;python&#x27;, [&#x27;./src/commands/utils/clone.py&#x27;], {
+            stdio: [&#x27;pipe&#x27;, &#x27;pipe&#x27;, &#x27;pipe&#x27;],
+        });
+        pythonProcess.stdin.write(&#x60;${args.join(&#x27; &#x27;)}\n&#x60;);
+        pythonProcess.stderr.on(&#x27;data&#x27;, data &#x3D;&gt; {
+            console.error(&#x60;Python stderr: ${data}&#x60;);
+        });
+        pythonProcess.stdout.on(&#x27;data&#x27;, async (data) &#x3D;&gt; {
+            data &#x3D; String(data);
+            data &#x3D; data.replace(&#x27;Loaded as API: https://coqui-xtts.hf.space/--replicas/u03n6/&#x27;, &#x27;&#x27;);
+            data.replace(&#x27;\n&#x27;, &#x27;&#x27;);
+            data &#x3D; data.trim();
+            await convertwavtomp3(data, &#x27;./src/commands/utils/converted.mp3&#x27;);
+            const media2 &#x3D; MessageMedia.fromFilePath(&#x27;./src/commands/utils/converted.mp3&#x27;);
+            await client.sendMessage(chat.id._serialized, media2);
+        });
+    }
+}
+</code></pre>
+          </article>
+        </div>
+      </div>
+      <nav id="jsdoc-toc-nav" role="navigation"></nav>
+    </div>
+  </div>
+  <footer id="jsdoc-footer" class="jsdoc-footer">
+    <div id="jsdoc-footer-container">
+      <p>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 4.0.2 on April 27, 2024.
+      </p>
+    </div>
+  </footer>
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/tree.jquery.js"></script>
+  <script src="scripts/prettify.js"></script>
+  <script src="scripts/jsdoc-toc.js"></script>
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/scrollanchor.js"></script>
+</body>
+
+</html>

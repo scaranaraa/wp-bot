@@ -11,6 +11,12 @@ export const args = true;
 export const aliases: string[] = [];
 export const description = 'Kiss someone';
 export const category = 'Image';
+/**
+ * Generate modified image of a members pfp
+ * 
+ * **Usage:**
+ * - `!kiss {user}` - Generates kissing image of users pfp
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

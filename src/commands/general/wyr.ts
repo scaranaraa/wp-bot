@@ -23,8 +23,15 @@ export const args = true;
 export const aliases = ['rather', 'wyr'];
 export const description = 'Get a Would You Rather question';
 export const category = 'General';
-
 const { Client, LocalAuth, MessageMedia } = pkg;
+/**
+ * Provides "Would You Rather" questions from a JSON database. 
+ *
+ * This command retrieves questions from 'wyr.json' and sends a random one to the chat.
+ *
+ * **Usage:**
+ * - `!wyr` or `!rather` - Sends a "Would You Rather" question to the chat. 
+ */ 
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

@@ -6,6 +6,12 @@ export const args = true;
 export const aliases = ['song'];
 export const description = 'Search for a song';
 export const category = 'Shazam';
+/**
+ * Searches for a song using the Shazam API. 
+ *
+ * **Usage:**
+ * - `!search {song name or Shazam ID}` - Searches for the specified song and returns information including title, artist, and album.
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

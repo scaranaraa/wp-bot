@@ -1,0 +1,217 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="generator" content="JSDoc 4.0.2">
+  <meta charset="utf-8">
+  <title>wp-bot 4.3.2 &raquo; Source: src/commands/games/wordchain.js</title>
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+  <link href="css/baseline.css" rel="stylesheet">
+</head>
+
+<body onload="prettyPrint()">
+  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+      <div id="jsdoc-navbar-content">
+        <a href="index.html" class="jsdoc-navbar-package-name">wp-bot 4.<wbr>3.<wbr>2</a>
+      </div>
+    </div>
+  </nav>
+  <div id="jsdoc-body-container">
+    <div id="jsdoc-content">
+      <div id="jsdoc-content-container">
+        <div id="jsdoc-banner" role="banner">
+        </div>
+        <div id="jsdoc-main" role="main">
+          <header class="page-header">
+            <h1>Source: src/commands/games/wordchain.js</h1>
+          </header>
+          <article>
+            <pre class="prettyprint linenums"><code>import pkg from &#x27;whatsapp-web.js&#x27;;
+import baseuser from &#x27;../../models/baseuser.js&#x27;;
+import words from &#x27;../utils/words.js&#x27;;
+const { Client, LocalAuth, MessageMedia } &#x3D; pkg;
+let listofwords &#x3D; words.WORDS.split(&#x27;\n&#x27;);
+listofwords &#x3D; listofwords.map(word &#x3D;&gt; word.trim().toLowerCase());
+class wchain {
+    chatid;
+    client;
+    currletter;
+    players;
+    lives;
+    usedwords;
+    score;
+    constructor(client, chatid) {
+        this.client &#x3D; client;
+        this.currletter &#x3D; randomletter();
+        this.chatid &#x3D; chatid;
+        this.players &#x3D; [];
+        this.usedwords &#x3D; [];
+        this.lives &#x3D; 3;
+        this.score &#x3D; 0;
+    }
+    async StartGame() {
+        let res &#x3D; &#x60;The order is -\n&#x60;;
+        let idx &#x3D; 1;
+        for (const player of this.players) {
+            res +&#x3D; &#x60;${idx}. \&#x60;${player.name || player.number}\&#x60;\n&#x60;;
+            idx++;
+        }
+        await this.client.sendMessage(this.chatid, res);
+        await this.start();
+    }
+    async start() {
+        if (this.lives &amp;lt;&#x3D; 0) {
+            await this.client.sendMessage(this.chatid, &#x60;Game over!\nYour score - \&#x60;${this.score}\&#x60;&#x60;);
+            this.client.ingame &#x3D; false;
+            return;
+        }
+        const game &#x3D; this;
+        let canguess &#x3D; true;
+        let settimeout &#x3D; true;
+        this.client.on(&#x27;message_create&#x27;, async function wait(msg) {
+            if (settimeout) {
+                setTimeout(async function () {
+                    if (canguess) {
+                        canguess &#x3D; false;
+                        game.client.removeListener(&#x27;message_create&#x27;, wait);
+                        await game.client.sendMessage(game.chatid, &#x27;Times up!&#x27;);
+                        game.lives--;
+                        await game.start();
+                    }
+                }, 5000);
+            }
+            settimeout &#x3D; false;
+            const user &#x3D; await msg.getContact();
+            if (user.number !&#x3D;&#x3D; game.players[0].number)
+                return;
+            if (msg.body.toLowerCase().startsWith(game.currletter) &amp;amp;&amp;amp;
+                listofwords.includes(msg.body.toLowerCase())) {
+                canguess &#x3D; false;
+                game.client.removeListener(&#x27;message_create&#x27;, wait);
+                game.score++;
+                game.players.push(game.players.shift());
+                game.currletter &#x3D; msg.body[msg.body.toLowerCase().length - 1];
+                await game.start();
+            }
+        });
+        await this.client.sendMessage(this.chatid, this.currletter.toUpperCase());
+    }
+}
+export const name &#x3D; &#x27;Word chain&#x27;;
+export const args &#x3D; true;
+export const aliases &#x3D; [&#x27;chain&#x27;, &#x27;wc&#x27;, &#x27;wch&#x27;];
+export const description &#x3D; &#x27;Play a game of word chain, type words that start with the previous words end&#x27;;
+export const category &#x3D; &#x27;Games&#x27;;
+/**
+ * Implements the Word Chain game within a WhatsApp chat.
+ *
+ * **Usage (within the bot):**
+ * - Call &#x60;StartGame&#x60; to initiate the game and send instructions.
+ * - Use &#x60;start&#x60; to begin the word chain and handle player responses.
+ *
+ * **User Commands:**
+ * - &#x60;!wordchain&#x60; or &#x60;!wc&#x60; - Starts a new Word Chain game.
+ * - &#x60;join&#x60; - Joins the ongoing game.
+ * - &#x60;{word}&#x60; - Submits a word starting with the previous word&#x27;s ending letter.
+ */
+export async function run(client, msg, args) {
+    return msg.reply(&#x27;WIP&#x27;);
+    if (client.ingame) {
+        msg.reply(&#x27;A game is currently active!&#x27;);
+        return;
+    }
+    client.ingame &#x3D; true;
+    const chat &#x3D; await msg.getChat();
+    const game &#x3D; new wchain(client, chat.id._serialized);
+    let started &#x3D; false;
+    client.on(&#x27;message_create&#x27;, async function wait(msg) {
+        const chat &#x3D; await msg.getChat();
+        if (chat.id._serialized !&#x3D; game.chatid) {
+            return;
+        }
+        if (msg.body.toLowerCase() !&#x3D; &#x27;join&#x27;) {
+            return;
+        }
+        const user &#x3D; await msg.getContact();
+        if (game.players.find(a &#x3D;&gt; a.number &#x3D;&#x3D; user.number)) {
+            return;
+        }
+        const base &#x3D; new baseuser({
+            userId: user.number,
+            users: game.client.cachedUsers,
+        });
+        game.players.push(user);
+        await msg.react(&#x27;✅&#x27;);
+        setTimeout(async () &#x3D;&gt; {
+            if (started) {
+                return;
+            }
+            started &#x3D; true;
+            client.removeListener(&#x27;message_create&#x27;, wait);
+            if (game.players.length &amp;lt; 1) {
+                await client.sendMessage(game.chatid, &#x27;You need atleast 2 players to start&#x27;);
+                client.ingame &#x3D; false;
+                return;
+            }
+            await game.StartGame();
+        }, 10000);
+    });
+    await msg.reply(&#x27;A new game has started!\nType &#x60;join&#x60; to join the game&#x27;);
+}
+const lowercaseletters &#x3D; [
+    &#x27;a&#x27;,
+    &#x27;b&#x27;,
+    &#x27;c&#x27;,
+    &#x27;d&#x27;,
+    &#x27;e&#x27;,
+    &#x27;f&#x27;,
+    &#x27;g&#x27;,
+    &#x27;h&#x27;,
+    &#x27;i&#x27;,
+    &#x27;j&#x27;,
+    &#x27;k&#x27;,
+    &#x27;l&#x27;,
+    &#x27;m&#x27;,
+    &#x27;n&#x27;,
+    &#x27;o&#x27;,
+    &#x27;p&#x27;,
+    &#x27;q&#x27;,
+    &#x27;r&#x27;,
+    &#x27;s&#x27;,
+    &#x27;t&#x27;,
+    &#x27;u&#x27;,
+    &#x27;v&#x27;,
+    &#x27;w&#x27;,
+    &#x27;x&#x27;,
+    &#x27;y&#x27;,
+    &#x27;z&#x27;,
+];
+function randomletter() {
+    return lowercaseletters[Math.floor(Math.random() * lowercaseletters.length)];
+}
+</code></pre>
+          </article>
+        </div>
+      </div>
+      <nav id="jsdoc-toc-nav" role="navigation"></nav>
+    </div>
+  </div>
+  <footer id="jsdoc-footer" class="jsdoc-footer">
+    <div id="jsdoc-footer-container">
+      <p>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 4.0.2 on April 27, 2024.
+      </p>
+    </div>
+  </footer>
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/tree.jquery.js"></script>
+  <script src="scripts/prettify.js"></script>
+  <script src="scripts/jsdoc-toc.js"></script>
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/scrollanchor.js"></script>
+</body>
+
+</html>

@@ -8,6 +8,15 @@ export const args = true;
 export const aliases = ['x', 'tw', 'twd'];
 export const description = 'Download any form of content from a public tweet';
 export const category = 'API';
+/**
+ * Downloads content (images, videos) from a public tweet and sends them or provides links within WhatsApp.
+ * 
+ * **Usage:**
+ * - `!twitter {tweet URL}` or `!tw {tweet URL}` - Downloads media content from the provided tweet URL and attempts to send it or provides links. 
+ *
+ * **Notes:**
+ * - This command requires an API key for 'lolhuman.xyz'. 
+ */ 
 export async function run(client: Client, msg: Message, args: string[]) {
 	if (!args.length) {
 		return msg.reply('Provide twitter url');

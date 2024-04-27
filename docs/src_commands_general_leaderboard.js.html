@@ -1,0 +1,170 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="generator" content="JSDoc 4.0.2">
+  <meta charset="utf-8">
+  <title>wp-bot 4.3.2 &raquo; Source: src/commands/general/leaderboard.js</title>
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+  <link href="css/baseline.css" rel="stylesheet">
+</head>
+
+<body onload="prettyPrint()">
+  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+      <div id="jsdoc-navbar-content">
+        <a href="index.html" class="jsdoc-navbar-package-name">wp-bot 4.<wbr>3.<wbr>2</a>
+      </div>
+    </div>
+  </nav>
+  <div id="jsdoc-body-container">
+    <div id="jsdoc-content">
+      <div id="jsdoc-content-container">
+        <div id="jsdoc-banner" role="banner">
+        </div>
+        <div id="jsdoc-main" role="main">
+          <header class="page-header">
+            <h1>Source: src/commands/general/leaderboard.js</h1>
+          </header>
+          <article>
+            <pre class="prettyprint linenums"><code>import baseuser from &#x27;../../models/baseuser.js&#x27;;
+export const name &#x3D; &#x27;leaderboard&#x27;;
+export const args &#x3D; true;
+export const aliases &#x3D; [&#x27;lb&#x27;];
+export const description &#x3D; &#x27;Check the leaderboard for most commands ran&#x27;;
+export const category &#x3D; &#x27;General&#x27;;
+/**
+ * Displays leaderboards for message counts, command usage, and game wins within the WhatsApp chat.
+ *
+ * **Usage:**
+ * - &#x60;!leaderboard msg&#x60; - Shows the leaderboard for message counts (total, daily, weekly, monthly).
+ * - &#x60;!leaderboard wins {game name}&#x60; - Shows the leaderboard for wins in the specified game (e.g., &#x60;!leaderboard wins wordle&#x60;).
+ * - &#x60;!leaderboard {command name}&#x60; - Shows the leaderboard for usage of the specified command (e.g., &#x60;!leaderboard ping&#x60;).
+ */
+export async function run(client, msg, args) {
+    if (!args.length) {
+        return msg.reply(&#x60;Syntax -\nlb &amp;lt;msg/cmd/wins&gt; [name]&#x60;);
+    }
+    if (args[0].toLowerCase() &#x3D;&#x3D;&#x3D; &#x27;msg&#x27; ||
+        args[0].toLowerCase() &#x3D;&#x3D;&#x3D; &#x27;msgs&#x27; ||
+        args[0].toLowerCase() &#x3D;&#x3D;&#x3D; &#x27;message&#x27;) {
+        let res &#x3D; &#x60;Total messages -\n&#x60;;
+        const usage &#x3D; await new baseuser({
+            userId: &#x60;${process.env.PHONE}&#x60;,
+            users: client.cachedUsers,
+        }).getLb(&#x27;msg&#x27;);
+        usage.sort((a, b) &#x3D;&gt; b.total - a.total);
+        for (let i &#x3D; 0; i &amp;lt; 3; i++) {
+            const user &#x3D; await client.getContactById(&#x60;${usage[i].name}@c.us&#x60;);
+            res +&#x3D; &#x60;${i + 1}. ${user.name || user.number} - \&#x60;${usage[i].total}\&#x60;\n&#x60;;
+        }
+        res +&#x3D; &#x60;\nDaily messages-\n&#x60;;
+        usage.sort((a, b) &#x3D;&gt; b.daily - a.daily);
+        for (let i &#x3D; 0; i &amp;lt; 3; i++) {
+            const user &#x3D; await client.getContactById(&#x60;${usage[i].name}@c.us&#x60;);
+            res +&#x3D; &#x60;${i + 1}. ${user.name || user.number} - \&#x60;${usage[i].daily}\&#x60;\n&#x60;;
+        }
+        res +&#x3D; &#x60;\nWeekly messages-\n&#x60;;
+        usage.sort((a, b) &#x3D;&gt; b.weekly - a.weekly);
+        for (let i &#x3D; 0; i &amp;lt; 3; i++) {
+            const user &#x3D; await client.getContactById(&#x60;${usage[i].name}@c.us&#x60;);
+            res +&#x3D; &#x60;${i + 1}. ${user.name || user.number} - \&#x60;${usage[i].weekly}\&#x60;\n&#x60;;
+        }
+        res +&#x3D; &#x60;\nMonthly messages-\n&#x60;;
+        usage.sort((a, b) &#x3D;&gt; b.monthly - a.monthly);
+        for (let i &#x3D; 0; i &amp;lt; 3; i++) {
+            const user &#x3D; await client.getContactById(&#x60;${usage[i].name}@c.us&#x60;);
+            res +&#x3D; &#x60;${i + 1}. ${user.name || user.number} - \&#x60;${usage[i].monthly}\&#x60;\n&#x60;;
+        }
+        await msg.reply(res);
+    }
+    else if (args[0].toLowerCase() &#x3D;&#x3D; &#x27;wins&#x27; ||
+        args[0].toLowerCase() &#x3D;&#x3D; &#x27;win&#x27;) {
+        if (!args[1])
+            return msg.reply(&#x27;Provide name of the game&#x27;);
+        const game &#x3D; args[1].toLowerCase();
+        const usage &#x3D; await new baseuser({
+            userId: &#x60;${process.env.PHONE}&#x60;,
+            users: client.cachedUsers,
+        }).getLb(&#x27;wins&#x27;);
+        const games &#x3D; [
+            &#x27;wordle&#x27;,
+            &#x27;greentea&#x27;,
+            &#x27;blacktea&#x27;,
+            &#x27;trivia&#x27;,
+            &#x27;typerace&#x27;,
+            &#x27;redtea&#x27;,
+            &#x27;yellowtea&#x27;,
+            &#x27;pinktea&#x27;,
+            &#x27;chesspuzzle&#x27;,
+            &#x27;hangman&#x27;,
+            &#x27;crossword&#x27;,
+        ];
+        let foundCommand &#x3D; client.commands.get(game);
+        if (!foundCommand) {
+            const foundalias &#x3D; client.aliases.get(game);
+            if (!foundalias)
+                return msg.reply(&#x27;Command not found&#x27;);
+            foundCommand &#x3D; client.commands.get(foundalias);
+        }
+        if (!foundCommand || !games.includes(foundCommand.name.toLowerCase()))
+            return msg.reply(&#x27;Game not found&#x27;);
+        let res &#x3D; &#x60;Most ${foundCommand.name} wins-\n\n&#x60;;
+        usage.sort((a, b) &#x3D;&gt; b[foundCommand.name.toLowerCase()] - a[foundCommand.name.toLowerCase()]);
+        const count &#x3D; usage.length &amp;lt; 5 ? usage.length : 5;
+        for (let i &#x3D; 0; i &amp;lt; count; i++) {
+            const user &#x3D; await client.getContactById(&#x60;${usage[i].name}@c.us&#x60;);
+            res +&#x3D; &#x60;${i + 1}. ${user.name || user.number} - \&#x60;${usage[i][foundCommand.name.toLowerCase()]}\&#x60;\n&#x60;;
+        }
+        return msg.reply(res);
+    }
+    else {
+        const cmd &#x3D; args[0].toLowerCase();
+        let foundCommand &#x3D; client.commands.get(cmd);
+        if (!foundCommand) {
+            const foundalias &#x3D; client.aliases.get(cmd);
+            if (!foundalias)
+                return msg.reply(&#x27;Command not found&#x27;);
+            foundCommand &#x3D; client.commands.get(foundalias);
+        }
+        if (!foundCommand)
+            return msg.reply(&#x27;Command not found&#x27;);
+        const usage &#x3D; await new baseuser({
+            userId: &#x60;${process.env.PHONE}&#x60;,
+            users: client.cachedUsers,
+        }).getLb(&#x27;cmd&#x27;, foundCommand.name);
+        usage.sort((a, b) &#x3D;&gt; b.cmd - a.cmd);
+        let res &#x3D; &#x60;Most ${foundCommand.name} uses-\n\n&#x60;;
+        const count &#x3D; usage.length &amp;lt; 5 ? usage.length : 5;
+        for (let i &#x3D; 0; i &amp;lt; count; i++) {
+            const user &#x3D; await client.getContactById(&#x60;${usage[i].name}@c.us&#x60;);
+            res +&#x3D; &#x60;${i + 1}. ${user.name || user.number} - \&#x60;${usage[i].cmd}\&#x60;\n&#x60;;
+        }
+        return msg.reply(res);
+    }
+}
+</code></pre>
+          </article>
+        </div>
+      </div>
+      <nav id="jsdoc-toc-nav" role="navigation"></nav>
+    </div>
+  </div>
+  <footer id="jsdoc-footer" class="jsdoc-footer">
+    <div id="jsdoc-footer-container">
+      <p>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 4.0.2 on April 27, 2024.
+      </p>
+    </div>
+  </footer>
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/tree.jquery.js"></script>
+  <script src="scripts/prettify.js"></script>
+  <script src="scripts/jsdoc-toc.js"></script>
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/scrollanchor.js"></script>
+</body>
+
+</html>

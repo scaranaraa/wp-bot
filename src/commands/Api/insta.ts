@@ -9,6 +9,15 @@ export const aliases = ['insta', 'ig'];
 export const description =
 	'Download any form of content available on instagram on a public account';
 export const category = 'API';
+/**
+ * Downloads content (images, videos) from a public Instagram post and sends them or provides links within WhatsApp.
+ * 
+ * **Usage:**
+ * - `!instagram {Instagram post URL}` or `!insta {Instagram post URL}` - Downloads media content from the provided Instagram post URL and attempts to send it or provides links. 
+ * 
+ * **Notes:**
+ * - This command requires an API key for 'lolhuman.xyz'.
+ */
 export async function run(client: Client, msg: Message, args: string[]) {
 	if (!args.length) {
 		return msg.reply('Provide instagram url');

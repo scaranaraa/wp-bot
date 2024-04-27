@@ -23,8 +23,15 @@ export const args = true;
 export const aliases = ['pa', 'para'];
 export const description = 'Get a paranoia question';
 export const category = 'General';
-
 const { Client, LocalAuth, MessageMedia } = pkg;
+/** 
+ * Provides "Paranoia" questions from a JSON database. 
+ *
+ * This command retrieves questions from 'paranoia.json' and sends a random one to the chat.
+ *
+ * **Usage:**
+ * - `!paranoia` or `!para` - Sends a "Paranoia" question to the chat. 
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

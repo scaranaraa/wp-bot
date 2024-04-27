@@ -15,6 +15,12 @@ export const args = true;
 export const aliases = ['draw', 'create'];
 export const description = 'Create an image using stable diffusion';
 export const category = 'HuggingFace';
+/**
+ * Generates images using Stable Diffusion via the Hugging Face API.
+ * 
+ * **Usage:**
+ * - `!img {prompt}` - Creates an image based on the provided text prompt.
+ */ 
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

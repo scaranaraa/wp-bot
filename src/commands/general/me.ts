@@ -6,6 +6,14 @@ export const args = true;
 export const aliases = ['me'];
 export const description = 'Check your wins and commands ran';
 export const category = 'General';
+/**
+ * Displays user statistics, including game wins and command usage, within the WhatsApp chat.
+ *
+ * **Usage:**
+ * - `!stats` or `!me` - Shows the stats for the user who sent the command. 
+ * - `!stats @user` - Shows the stats for the mentioned user. 
+ * - `!stats global` - Shows the global command usage statistics for the entire chat. 
+ */ 
 export async function run(client: Client, msg: Message, args: string[]) {
 	if (args.length && args[0] == 'global') {
 		let res = `Global command usage\n\n`;

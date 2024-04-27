@@ -11,6 +11,12 @@ export const args = true;
 export const aliases: string[] = [];
 export const description = 'Make a shit image of someone';
 export const category = 'Image';
+/**
+ * Generate modified image of a members pfp
+ * 
+ * **Usage:**
+ * - `!shit {user}` - Generates shit meme image of users pfp
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

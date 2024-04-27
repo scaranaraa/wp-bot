@@ -165,6 +165,20 @@ export const description = 'Play 20 questions with someone';
 export const category = 'Games';
 
 const { MessageMedia } = pkg;
+/**
+ * Implements a 20 Questions-style guessing game within WhatsApp.
+ *
+ * **Usage (within the bot):**
+ * - Call `next_turn` to start the game and assign the first player to think of a word. 
+ * - The class will prompt other players to ask yes/no questions and guess the word.
+ * 
+ * **User Commands:**
+ * - `!20questions` or `!20q` - Starts a new 20 Questions game. 
+ * - `join` - Joins the ongoing game. 
+ * - (Guessers) Ask yes/no questions to try to guess the word. 
+ * - (Guessers) `{word}` - Submits a guess for the word.
+ * - `gquit` - Stops the game.
+ */ 
 export async function run(client: pkg.Client, msg: pkg.Message) {
 	if (client.gartic) {
 		msg.reply('A game is currently active!');

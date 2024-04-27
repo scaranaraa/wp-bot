@@ -1,0 +1,257 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="generator" content="JSDoc 4.0.2">
+  <meta charset="utf-8">
+  <title>wp-bot 4.3.2 &raquo; Source: src/commands/games/conns.js</title>
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+  <link href="css/baseline.css" rel="stylesheet">
+</head>
+
+<body onload="prettyPrint()">
+  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+      <div id="jsdoc-navbar-content">
+        <a href="index.html" class="jsdoc-navbar-package-name">wp-bot 4.<wbr>3.<wbr>2</a>
+      </div>
+    </div>
+  </nav>
+  <div id="jsdoc-body-container">
+    <div id="jsdoc-content">
+      <div id="jsdoc-content-container">
+        <div id="jsdoc-banner" role="banner">
+        </div>
+        <div id="jsdoc-main" role="main">
+          <header class="page-header">
+            <h1>Source: src/commands/games/conns.js</h1>
+          </header>
+          <article>
+            <pre class="prettyprint linenums"><code>import pkg from &#x27;whatsapp-web.js&#x27;;
+import Jimp from &#x27;jimp&#x27;;
+// @ts-ignore
+import shuffleList from &#x27;shuffle-list&#x27;;
+import connsd from &#x27;../utils/connections.js&#x27;;
+const { Client, LocalAuth, MessageMedia } &#x3D; pkg;
+function random() {
+    return connsd[Math.floor(Math.random() * connsd.length)].answers;
+}
+class conns {
+    chatid;
+    client;
+    wordlist;
+    showwords;
+    res;
+    ans;
+    guesses;
+    done;
+    constructor(client, id) {
+        this.chatid &#x3D; id;
+        this.client &#x3D; client;
+        this.wordlist &#x3D; random();
+        this.res &#x3D; &#x27;&#x27;;
+        this.ans &#x3D; [];
+        this.guesses &#x3D; 0;
+        this.done &#x3D; 0;
+        this.init();
+    }
+    init() {
+        const arr &#x3D; [];
+        for (let i &#x3D; 0; i &amp;lt; this.wordlist.length; i++) {
+            for (let j &#x3D; 0; j &amp;lt; this.wordlist[i].members.length; j++) {
+                arr.push(this.wordlist[i].members[j]);
+            }
+            this.ans.push(this.wordlist[i].members);
+        }
+        const res &#x3D; shuffleList(arr);
+        this.showwords &#x3D; res;
+    }
+    async guess(words) {
+        for (let i &#x3D; 0; i &amp;lt; this.ans.length; i++) {
+            let count &#x3D; 0;
+            for (let j &#x3D; 0; j &amp;lt; words.length; j++) {
+                if (!this.ans[i].includes(words[j])) {
+                    break;
+                }
+                count++;
+            }
+            if (count &#x3D;&#x3D; 4) {
+                await this.client.sendMessage(this.chatid, &#x60;GROUP - ${this.wordlist[i].group}&#x60;);
+                for (let i &#x3D; 0; i &amp;lt; words.length; i++) {
+                    this.showwords[this.showwords.indexOf(words[i])] &#x3D; &#x27;&#x27;;
+                }
+                this.done++;
+                return i;
+            }
+        }
+        this.guesses++;
+        return 69;
+    }
+    async drawimg() {
+        const game &#x3D; this;
+        const gridSize &#x3D; 4;
+        const gridRows &#x3D; 4;
+        const gridWidth &#x3D; 230;
+        const gridHeight &#x3D; 120;
+        const borderWidth &#x3D; 2;
+        const separation &#x3D; 5;
+        const imageWidth &#x3D; gridSize * gridWidth + (gridSize - 1) * separation;
+        const imageHeight &#x3D; gridRows * gridHeight + (gridRows - 1) * separation;
+        const image &#x3D; new Jimp(imageWidth, imageHeight, 0xffffffff);
+        async function drawGridCell(x, y, bgColor, letter &#x3D; null) {
+            image.scan(x, y, gridWidth, gridHeight, function (x, y, idx) {
+                this.bitmap.data[idx + 0] &#x3D; (bgColor &gt;&gt; 24) &amp;amp; 0xff;
+                this.bitmap.data[idx + 1] &#x3D; (bgColor &gt;&gt; 16) &amp;amp; 0xff;
+                this.bitmap.data[idx + 2] &#x3D; (bgColor &gt;&gt; 8) &amp;amp; 0xff;
+                this.bitmap.data[idx + 3] &#x3D; bgColor &amp;amp; 0xff;
+            });
+            if (letter) {
+                letter &#x3D; letter.toUpperCase();
+                const font &#x3D; await Jimp.loadFont(Jimp.FONT_SANS_32_BLACK);
+                const textWidth &#x3D; Jimp.measureText(font, letter);
+                // @ts-ignore
+                const textHeight &#x3D; Jimp.measureTextHeight(font, letter);
+                const textX &#x3D; x + (gridWidth - textWidth) / 2;
+                const textY &#x3D; y + 20 + (gridHeight - textHeight) / 2;
+                await image.print(font, textX, textY, letter);
+            }
+        }
+        async function drawGrid() {
+            let a &#x3D; 0;
+            for (let i &#x3D; 0; i &amp;lt; gridRows; i++) {
+                for (let j &#x3D; 0; j &amp;lt; gridSize; j++) {
+                    const x &#x3D; j * gridWidth + j * separation;
+                    const y &#x3D; i * gridHeight + i * separation;
+                    const letter &#x3D; game.showwords[a] || &#x27;&#x27;;
+                    if (!letter) {
+                        await drawGridCell(x, y, 0xa0c35aff, letter);
+                    }
+                    else {
+                        await drawGridCell(x, y, 0xefefe6ff, letter);
+                    }
+                    a++;
+                }
+            }
+        }
+        await drawGrid();
+        await image.writeAsync(&#x27;im.png&#x27;);
+    }
+}
+export const name &#x3D; &#x27;connections&#x27;;
+export const args &#x3D; true;
+export const aliases &#x3D; [&#x27;con&#x27;, &#x27;conns&#x27;];
+export const description &#x3D; &#x27;Play connections from NYT games&#x27;;
+export const category &#x3D; &#x27;Games&#x27;;
+/**
+ * Implements the Connections word game from NYT Games within WhatsApp
+ *
+ * **Usage (within the bot):**
+ * - Call &#x60;drawimg&#x60; to generate the initial image of the word grid.
+ * - Use &#x60;guess&#x60; to process user guesses and update the game state.
+ * - Call &#x60;drawimg&#x60; again to generate an updated image after each guess.
+ *
+ * **User Commands:**
+ * - &#x60;!connections&#x60; or &#x60;!conns&#x60; - Starts a new Connections game.
+ * - &#x60;guess {word1}, {word2}, {word3}, {word4}&#x60; - Guesses four words that form a group.
+ * - &#x60;quit&#x60; - Ends the current game.
+ */
+export async function run(client, msg, args) {
+    if (client.ingame) {
+        msg.reply(&#x27;A game is currently active!&#x27;);
+        return;
+    }
+    client.ingame &#x3D; true;
+    const chat &#x3D; await msg.getChat();
+    const game &#x3D; new conns(client, chat.id._serialized);
+    let done &#x3D; true;
+    await game.drawimg();
+    const media2 &#x3D; MessageMedia.fromFilePath(&#x27;im.png&#x27;);
+    await msg.reply(media2);
+    client.on(&#x27;message_create&#x27;, async function trial(msg) {
+        const chatid &#x3D; await msg.getChat();
+        if (chatid.id._serialized !&#x3D; game.chatid) {
+            return;
+        }
+        if (!done) {
+            return;
+        }
+        done &#x3D; false;
+        if (msg.body.toLowerCase() &#x3D;&#x3D; &#x27;quit&#x27;) {
+            client.removeListener(&#x27;message_create&#x27;, trial);
+            client.ingame &#x3D; false;
+            return msg.reply(&#x27;Game ended&#x27;);
+        }
+        if (msg.body.toLowerCase().startsWith(&#x27;guess &#x27;)) {
+            let guessed &#x3D; msg.body.slice(6);
+            guessed &#x3D; guessed.toUpperCase().trim();
+            guessed &#x3D; guessed.split(&#x27;,&#x27;);
+            if (guessed.length !&#x3D; 4) {
+                done &#x3D; true;
+                return msg.reply(&#x27;You need to guess 4 words seperated by a comma&#x27;);
+            }
+            const donewords &#x3D; [];
+            for (let i &#x3D; 0; i &amp;lt; guessed.length; i++) {
+                guessed[i] &#x3D; guessed[i].trim();
+                if (!game.showwords.includes(guessed[i]) ||
+                    donewords.includes(guessed[i])) {
+                    done &#x3D; true;
+                    return msg.reply(&#x27;Invalid words&#x27;);
+                }
+                donewords.push(guessed[i]);
+            }
+            const res &#x3D; await game.guess(guessed);
+            if (res &#x3D;&#x3D;&#x3D; 69 &amp;amp;&amp;amp; game.guesses !&#x3D; 4) {
+                await msg.reply(&#x60;Words do not form a group\n ${4 - game.guesses} chances left&#x60;);
+            }
+            await game.drawimg();
+            const media &#x3D; MessageMedia.fromFilePath(&#x27;im.png&#x27;);
+            await msg.reply(media);
+            done &#x3D; true;
+            if (game.done &#x3D;&#x3D; 4) {
+                client.removeListener(&#x27;message_create&#x27;, trial);
+                client.ingame &#x3D; false;
+                return msg.reply(&#x27;Your guess was correct!&#x27;);
+            }
+            if (game.guesses &#x3D;&#x3D; 4) {
+                client.removeListener(&#x27;message_create&#x27;, trial);
+                client.ingame &#x3D; false;
+                let res &#x3D; &#x27;lmao u lost\n\n&#x27;;
+                for (let i &#x3D; 0; i &amp;lt; game.wordlist.length; i++) {
+                    res +&#x3D; &#x60;\&#x60;${game.wordlist[i].group}\&#x60;\n&#x60;;
+                    for (let j &#x3D; 0; j &amp;lt; game.wordlist[i].members.length; j++) {
+                        res +&#x3D; &#x60;${game.wordlist[i].members[j]} , &#x60;;
+                    }
+                    res +&#x3D; &#x27;\n\n&#x27;;
+                }
+                await msg.reply(res);
+                return;
+            }
+        }
+        done &#x3D; true;
+    });
+}
+</code></pre>
+          </article>
+        </div>
+      </div>
+      <nav id="jsdoc-toc-nav" role="navigation"></nav>
+    </div>
+  </div>
+  <footer id="jsdoc-footer" class="jsdoc-footer">
+    <div id="jsdoc-footer-container">
+      <p>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 4.0.2 on April 27, 2024.
+      </p>
+    </div>
+  </footer>
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/tree.jquery.js"></script>
+  <script src="scripts/prettify.js"></script>
+  <script src="scripts/jsdoc-toc.js"></script>
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/scrollanchor.js"></script>
+</body>
+
+</html>

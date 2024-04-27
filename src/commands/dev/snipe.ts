@@ -7,6 +7,13 @@ export const args = true;
 export const aliases = ['sn', 'snp'];
 export const category = 'Dev';
 export const description = 'Check previously deleted/edited messages or media';
+/**
+ * Retrieves and displays previously deleted or edited messages.
+ * 
+ * **Usage:**
+ * - `!snipe` - Shows the most recently sniped message.
+ * - `!snipe 2` - Shows the third most recently sniped message (index starts at 0).
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

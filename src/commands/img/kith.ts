@@ -12,6 +12,12 @@ export const args = true;
 export const aliases: string[] = [];
 export const description = 'kith someone';
 export const category = 'Image';
+/**
+ * Get a random anime gif for kissing someone
+ * 
+ * **Usage:**
+ * - `!kith {user}` - Gets a random kissing GIF
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

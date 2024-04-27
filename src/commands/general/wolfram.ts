@@ -9,6 +9,15 @@ export const args = true;
 export const aliases = ['wf', 'wm'];
 export const description = 'Query WolframAlpha';
 export const category = 'General';
+/**
+ * Queries WolframAlpha for information and returns results (text and images) within WhatsApp.
+ * 
+ * **Usage:**
+ * - `!wolfram {query}` or `!wf {query}` - Sends the query to WolframAlpha and displays results. 
+ * 
+ * **Notes:**
+ * - This command requires API keys for WolframAlpha and a CORS proxy (e.g., RapidAPI).
+ */ 
 export async function run(client: pkg.Client, msg: Message, args: any) {
 	args = args.join(' ');
 	await wolfram(args, msg);

@@ -5,7 +5,14 @@ export default class HelpCommand extends BaseCommand {
 	constructor(client: Client) {
 		super(client, 'help');
 	}
-
+	/**
+	 * Provides a help message for the UNO game commands. 
+	 *
+	 * This command displays a list of available commands and their usage. 
+	 *
+	 * **Usage:** 
+	 * - `uno help` - Shows the help message for UNO commands. 
+	 */
 	execute() {
 		const prefix = 'uno';
 

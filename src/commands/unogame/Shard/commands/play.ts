@@ -9,7 +9,17 @@ export default class PlayCommand extends BaseCommand {
 			aliases: ['p', 'pl', 'ply', 'pla'],
 		});
 	}
-
+	/**
+	 * Plays a card in the UNO game within a WhatsApp chat. 
+	 *
+	 * This command allows players to play a card from their hand if it matches the color, number, or symbol of the previously played card. 
+	 *
+	 * **Usage:**
+	 * - `uno play {color} {value}` - Plays the specified card (e.g., `!uno play red 5`). 
+	 *
+	 * **Notes:**
+	 * - can also use aliases like `p`, `pl`, `ply`, or `pla` instead of `play`. 
+	 */
 	async execute(msg: Message, words: string[], text: any, drawn = false) {
 		const chat = await msg.getChat();
 		const member = await msg.getContact();

@@ -5,6 +5,14 @@ export const args = true;
 export const aliases = ['commands'];
 export const description = 'Check all the commands';
 export const category = 'General';
+/**
+ * Provides a help message with a list of available commands and their descriptions.
+ *
+ * **Usage:**
+ * - `!help` - Shows a list of command categories and the number of pages. 
+ * - `!help {page number}` - Shows the commands within the specified category page. 
+ * - `!help {command name}` - Shows details about the specified command, including aliases, category, and description.
+ */
 export async function run(client: Client, msg: Message, args: string[]) {
 	const categories = [
 		'AI',

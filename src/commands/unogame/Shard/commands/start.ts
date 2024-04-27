@@ -5,7 +5,14 @@ export default class StartCommand extends BaseCommand {
 	constructor(client: Client) {
 		super(client, 'start');
 	}
-
+	/**
+	 * Starts a UNO game in a WhatsApp chat. 
+	 *
+	 * This command initiates the game if there are enough players and deals cards to each player. 
+	 *
+	 * **Usage:**
+	 * - `uno start` - Starts the UNO game if the player who initiated the game uses the command.
+	 */
 	async execute(msg: Message) {
 		const chat = await msg.getChat();
 		const member = await msg.getContact();

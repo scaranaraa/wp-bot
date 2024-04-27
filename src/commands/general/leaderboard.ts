@@ -6,6 +6,14 @@ export const args = true;
 export const aliases = ['lb'];
 export const description = 'Check the leaderboard for most commands ran';
 export const category = 'General';
+/**
+ * Displays leaderboards for message counts, command usage, and game wins within the WhatsApp chat.
+ *
+ * **Usage:**
+ * - `!leaderboard msg` - Shows the leaderboard for message counts (total, daily, weekly, monthly). 
+ * - `!leaderboard wins {game name}` - Shows the leaderboard for wins in the specified game (e.g., `!leaderboard wins wordle`).
+ * - `!leaderboard {command name}` - Shows the leaderboard for usage of the specified command (e.g., `!leaderboard ping`).
+ */
 export async function run(client: Client, msg: Message, args: string[]) {
 	if (!args.length) {
 		return msg.reply(`Syntax -\nlb <msg/cmd/wins> [name]`);

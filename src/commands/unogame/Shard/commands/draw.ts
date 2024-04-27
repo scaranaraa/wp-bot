@@ -7,7 +7,12 @@ export default class DrawCommand extends BaseCommand {
 			aliases: ['pickup', 'd'],
 		});
 	}
-
+	/**
+	 * Allows the current player to draw a card from the deck in a UNO game. 
+	 *
+	 * **Usage:**
+	 * - `uno d` or `uno pickup` - Draws a card from the deck. 
+	 */
 	async execute(msg: Message) {
 		const chat = await msg.getChat();
 		const member = await msg.getContact();

@@ -10,6 +10,14 @@ export const args = true;
 export const aliases = ['evaluate', 'ev', 'eval'];
 export const description = 'Evaluate javascript code';
 export const category = 'Dev';
+/**
+ * Evaluates JavaScript code and returns the result. 
+ * 
+ * **Usage:**
+ * - `!eval 2+2` - Evaluates the expression and returns `4`.
+ * - `!eval console.log('Hello')` - Executes the code and displays `Hello` in the console. 
+ * - `!eval (async () => { ... })()` - Evaluates asynchronous code.
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

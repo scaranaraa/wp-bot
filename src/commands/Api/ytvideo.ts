@@ -8,6 +8,16 @@ export const args = true;
 export const aliases = ['video', 'vid', 'ytv'];
 export const description = 'Download any youtube video upto 30 minutes';
 export const category = 'API';
+/**
+ * Downloads YouTube videos and sends them or provides a link within WhatsApp. 
+ * 
+ * **Usage:**
+ * - `!ytvideo {YouTube URL}` - Downloads the video from the provided URL and attempts to send it or provides a link. 
+ *
+ * **Notes:** 
+ * - This command requires an API key for 'lolhuman.xyz'.
+ * - Videos longer than 30 minutes may not be downloaded due to API limitations.
+ */
 export async function run(client: Client, msg: Message, args: string[]) {
 	if (!args.length) {
 		return msg.reply('Provide youtube url');

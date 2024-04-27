@@ -25,6 +25,15 @@ export const args = true;
 export const aliases: string[] = ['chatgpt', 'openai'];
 export const description = 'Chat with ChatGPT 3.5 turbo';
 export const category = 'AI';
+/**
+ * Enables chatting with ChatGPT 3.5 Turbo within WhatsApp.
+ *
+ * **Usage:** 
+ * - `!gpt {message}` - Sends the message to ChatGPT and replies with its response. 
+ * 
+ * **Notes:** 
+ * - This command requires an API key for OpenAI.
+ */
 export async function run(
 	client: pkg2.Client,
 	msg: pkg2.Message,

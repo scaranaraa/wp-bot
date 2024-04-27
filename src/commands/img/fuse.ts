@@ -11,6 +11,12 @@ export const args = true;
 export const aliases: string[] = [];
 export const description = 'Fuse two pfp together';
 export const category = 'Image';
+/**
+ * Generate modified image of a members pfp
+ * 
+ * **Usage:**
+ * - `!fuse {user}` - Generates fused image of users pfp
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

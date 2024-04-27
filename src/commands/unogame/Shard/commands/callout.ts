@@ -5,7 +5,12 @@ export default class CalloutCommand extends BaseCommand {
 	constructor(client: Client) {
 		super(client, 'callout');
 	}
-
+	/**
+	 * Allows players to call out other players who fail to say "UNO!" when they have one card left.
+	 * 
+	 * **Usage:**
+	 * - `uno callout` - Calls out any player who has one card remaining but hasn't said "UNO!".
+	 */
 	async execute(msg: Message) {
 		const chat = await msg.getChat();
 		const member = await msg.getContact();

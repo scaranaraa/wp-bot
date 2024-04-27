@@ -1,0 +1,277 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="generator" content="JSDoc 4.0.2">
+  <meta charset="utf-8">
+  <title>wp-bot 4.3.2 &raquo; Source: src/commands/games/hangman.js</title>
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+  <link href="css/baseline.css" rel="stylesheet">
+</head>
+
+<body onload="prettyPrint()">
+  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+      <div id="jsdoc-navbar-content">
+        <a href="index.html" class="jsdoc-navbar-package-name">wp-bot 4.<wbr>3.<wbr>2</a>
+      </div>
+    </div>
+  </nav>
+  <div id="jsdoc-body-container">
+    <div id="jsdoc-content">
+      <div id="jsdoc-content-container">
+        <div id="jsdoc-banner" role="banner">
+        </div>
+        <div id="jsdoc-main" role="main">
+          <header class="page-header">
+            <h1>Source: src/commands/games/hangman.js</h1>
+          </header>
+          <article>
+            <pre class="prettyprint linenums"><code>// @ts-ignore
+import { init as _init, lookup } from &#x27;wordnet&#x27;;
+import baseuser from &#x27;../../models/baseuser.js&#x27;;
+import word from &#x27;../utils/newwrods.js&#x27;;
+let listofwords &#x3D; word.split(&#x27;\n&#x27;);
+async function init() {
+    await _init();
+}
+init();
+listofwords &#x3D; listofwords.map(word1 &#x3D;&gt; word1.trim().toLowerCase());
+function randomWord() {
+    return listofwords[Math.floor(Math.random() * listofwords.length)];
+}
+class HangmanGame {
+    constructor(client, id) {
+        this.chatid &#x3D; id;
+        this.client &#x3D; client;
+        this.inGame &#x3D; false;
+        this.word &#x3D; &#x27;&#x27;;
+        this.guesssed &#x3D; [];
+        this.wrongs &#x3D; 0;
+        this.type &#x3D; &#x27;&#x27;;
+        this.definition &#x3D; &#x27;&#x27;;
+    }
+    chatid;
+    client;
+    inGame;
+    word;
+    guesssed;
+    wrongs;
+    type;
+    definition;
+    async newGame() {
+        if (this.inGame) {
+            return;
+        }
+        let send &#x3D; true;
+        this.inGame &#x3D; true;
+        let gotone &#x3D; false;
+        this.word &#x3D; randomWord();
+        while (this.word.length &amp;lt; 3) {
+            this.word &#x3D; randomWord();
+        }
+        this.word &#x3D; this.word.toUpperCase();
+        this.word &#x3D; this.word.replace(/[&amp;amp;\/\\#,+()$~%.&#x27;&quot;:*?&amp;lt;&gt;{}]/g, &#x27;&#x27;);
+        await lookup(this.word.toLowerCase())
+            .then((definitions) &#x3D;&gt; {
+            definitions.forEach(def &#x3D;&gt; {
+                if (gotone) {
+                    return;
+                }
+                gotone &#x3D; true;
+                this.type &#x3D; &#x60;${def.meta.synsetType}&#x60;;
+                this.definition &#x3D; &#x60;${def.glossary}\n&#x60;;
+            });
+        })
+            .catch(() &#x3D;&gt; {
+            send &#x3D; false;
+            this.inGame &#x3D; false;
+            this.newGame();
+        });
+        const res &#x3D; this.getDescription();
+        if (send) {
+            this.definition &#x3D; this.definition.split(&#x27;&quot;&#x27;)[0];
+            if (!this.definition) {
+                this.inGame &#x3D; false;
+                this.newGame();
+            }
+            await this.client.sendMessage(this.chatid, res);
+            await this.client.sendMessage(this.chatid, &#x27;Type - &#x27; + &#x60;*${this.type}*&#x60; + &#x27;\n\nDefintion - &#x27; + &#x60;${this.definition}&#x60;);
+        }
+    }
+    async makeGuess(letter, user) {
+        if (!this.guesssed.includes(letter)) {
+            this.guesssed.push(letter);
+            if (!this.word.includes(letter)) {
+                this.wrongs++;
+                if (this.wrongs &#x3D;&#x3D; 6) {
+                    this.gameOver(false, user);
+                    return true;
+                }
+            }
+            else if (!this.word
+                .split(&#x27;&#x27;)
+                .map(l &#x3D;&gt; (this.guesssed.includes(l) ? l : &#x27;_&#x27;))
+                .includes(&#x27;_&#x27;)) {
+                this.gameOver(true, user);
+                return true;
+            }
+        }
+        if (this.inGame) {
+            const res &#x3D; this.getDescription();
+            this.client.sendMessage(this.chatid, res);
+        }
+    }
+    gameOver(win, user) {
+        this.inGame &#x3D; false;
+        if (win) {
+            user.addHangman();
+        }
+        this.client.sendMessage(this.chatid, win
+            ? &#x27;*Your guess was correct!*&#x27;
+            : &#x27;*lmao u lost*&#x27; + &#x60; The word - was *${this.word}*&#x60;);
+    }
+    getDescription() {
+        return (&#x60;\&#x60;\&#x60;\&#x60;&#x60; +
+            &#x60;|‾‾‾‾‾‾|   \n|     ${this.wrongs &gt; 0 ? &#x27;🎩&#x27; : &#x27; &#x27;}   \n|     ${this.wrongs &gt; 1 ? &#x27;😟&#x27; : &#x27; &#x27;}   \n|     ${this.wrongs &gt; 2 ? &#x27;👕&#x27; : &#x27; &#x27;}   \n|     ${this.wrongs &gt; 3 ? &#x27;🩳&#x27; : &#x27; &#x27;}   \n|    ${this.wrongs &gt; 4 ? &#x27;👞👞&#x27; : &#x27; &#x27;}   \n|     \n|__________\n\n${this.word
+                .split(&#x27;&#x27;)
+                .map(l &#x3D;&gt; (this.guesssed.includes(l) ? l : &#x27;_&#x27;))
+                .join(&#x27; &#x27;)}\&#x60;\&#x60;\&#x60;&#x60;);
+    }
+}
+export const name &#x3D; &#x27;hangman&#x27;;
+export const args &#x3D; true;
+export const aliases &#x3D; [&#x27;h&#x27;];
+export const description &#x3D; &#x27;Play a game of hangman&#x27;;
+export const category &#x3D; &#x27;Games&#x27;;
+/**
+ * Implements the Hangman word game with definitions within WhatsApp.
+ *
+ * **Usage (within the bot):**
+ * - Call &#x60;newGame&#x60; to start a new game and send the initial word representation and definition.
+ * - Use &#x60;makeGuess&#x60; to process user guesses and update the game state.
+ *
+ * **User Commands:**
+ * - &#x60;!hangman&#x60; or &#x60;!h&#x60; - Starts a new Hangman game.
+ * - &#x60;guess {letter}&#x60; - Guesses a letter in the Hangman word.
+ * - &#x60;guess {word}&#x60; - Guesses the entire word.
+ * - &#x60;NEW&#x60; - Starts a new Hangman game.
+ * - &#x60;QUIT&#x60; - Ends the current game.
+ */
+export async function run(client, msg, args) {
+    if (client.ingame) {
+        msg.reply(&#x27;A game is currently active!&#x27;);
+        return;
+    }
+    client.ingame &#x3D; true;
+    const chat &#x3D; await msg.getChat();
+    const game &#x3D; new HangmanGame(client, chat.id._serialized);
+    await game.newGame();
+    client.on(&#x27;message_create&#x27;, async function trial(msg) {
+        const member &#x3D; await msg.getContact();
+        const user &#x3D; new baseuser({
+            userId: member.number,
+            users: client.cachedUsers,
+        });
+        if (msg.body &#x3D;&#x3D; &#x27;NEW&#x27;) {
+            game.guesssed &#x3D; [];
+            game.wrongs &#x3D; 0;
+            game.inGame &#x3D; false;
+            game.newGame();
+        }
+        if (msg.body &#x3D;&#x3D; &#x27;QUIT&#x27;) {
+            game.inGame &#x3D; false;
+            client.ingame &#x3D; false;
+            client.removeListener(&#x27;message_create&#x27;, trial);
+            game.gameOver(false, user);
+            return;
+        }
+        if (!msg.body.toLowerCase().startsWith(&#x27;guess &#x27;)) {
+            return;
+        }
+        const chan &#x3D; await msg.getChat();
+        if (game.chatid !&#x3D; chan.id._serialized) {
+            return;
+        }
+        if (!game.inGame) {
+            return;
+        }
+        const guessed &#x3D; msg.body.slice(6).toUpperCase().trim();
+        if (guessed.length !&#x3D; 1) {
+            if (game.word &#x3D;&#x3D; guessed) {
+                client.ingame &#x3D; false;
+                game.gameOver(true, user);
+                client.removeListener(&#x27;message_create&#x27;, trial);
+            }
+            else {
+                const make &#x3D; await game.makeGuess(randomletter(), user);
+                if (make) {
+                    client.ingame &#x3D; false;
+                    client.removeListener(&#x27;message_create&#x27;, trial);
+                }
+            }
+            return;
+        }
+        const make &#x3D; await game.makeGuess(guessed, user);
+        if (make) {
+            client.ingame &#x3D; false;
+            client.removeListener(&#x27;message_create&#x27;, trial);
+        }
+    });
+}
+const lowercaseletters &#x3D; [
+    &#x27;a&#x27;,
+    &#x27;b&#x27;,
+    &#x27;c&#x27;,
+    &#x27;d&#x27;,
+    &#x27;e&#x27;,
+    &#x27;f&#x27;,
+    &#x27;g&#x27;,
+    &#x27;h&#x27;,
+    &#x27;i&#x27;,
+    &#x27;j&#x27;,
+    &#x27;k&#x27;,
+    &#x27;l&#x27;,
+    &#x27;m&#x27;,
+    &#x27;n&#x27;,
+    &#x27;o&#x27;,
+    &#x27;p&#x27;,
+    &#x27;q&#x27;,
+    &#x27;r&#x27;,
+    &#x27;s&#x27;,
+    &#x27;t&#x27;,
+    &#x27;u&#x27;,
+    &#x27;v&#x27;,
+    &#x27;w&#x27;,
+    &#x27;x&#x27;,
+    &#x27;y&#x27;,
+    &#x27;z&#x27;,
+];
+function randomletter() {
+    return lowercaseletters[Math.floor(Math.random() * lowercaseletters.length)];
+}
+</code></pre>
+          </article>
+        </div>
+      </div>
+      <nav id="jsdoc-toc-nav" role="navigation"></nav>
+    </div>
+  </div>
+  <footer id="jsdoc-footer" class="jsdoc-footer">
+    <div id="jsdoc-footer-container">
+      <p>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 4.0.2 on April 27, 2024.
+      </p>
+    </div>
+  </footer>
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/tree.jquery.js"></script>
+  <script src="scripts/prettify.js"></script>
+  <script src="scripts/jsdoc-toc.js"></script>
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/scrollanchor.js"></script>
+</body>
+
+</html>

@@ -11,6 +11,12 @@ export const args = true;
 export const aliases: string[] = [];
 export const description = 'Make a wanted poster of someone';
 export const category = 'Image';
+/**
+ * Generate modified image of a members pfp
+ * 
+ * **Usage:**
+ * - `!wanted {user}` - Generates wanted image of users pfp
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

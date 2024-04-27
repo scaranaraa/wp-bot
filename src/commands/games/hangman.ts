@@ -160,6 +160,20 @@ export const args = true;
 export const aliases = ['h'];
 export const description = 'Play a game of hangman';
 export const category = 'Games';
+/**
+ * Implements the Hangman word game with definitions within WhatsApp.
+ *
+ * **Usage (within the bot):**
+ * - Call `newGame` to start a new game and send the initial word representation and definition. 
+ * - Use `makeGuess` to process user guesses and update the game state. 
+ * 
+ * **User Commands:**
+ * - `!hangman` or `!h` - Starts a new Hangman game.
+ * - `guess {letter}` - Guesses a letter in the Hangman word. 
+ * - `guess {word}` - Guesses the entire word. 
+ * - `NEW` - Starts a new Hangman game.
+ * - `QUIT` - Ends the current game. 
+ */
 export async function run(client: Client, msg: Message, args: string[]) {
 	if (client.ingame) {
 		msg.reply('A game is currently active!');

@@ -11,6 +11,12 @@ export const args = true;
 export const aliases: string[] = [];
 export const description = 'Get an Affect image on someone';
 export const category = 'Image';
+/**
+ * Generate modified image of a members pfp
+ * 
+ * **Usage:**
+ * - `!affect {user}` - Generates affected image of users pfp
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

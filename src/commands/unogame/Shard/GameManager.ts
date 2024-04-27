@@ -1,7 +1,16 @@
 import { type Client, type Contact } from 'whatsapp-web.js';
 import { type GameManagerBase } from '../../../types/unotypes.js';
 import type Game from '../Structures/Game.js';
-
+/**
+ * Manages UNO games within the WhatsApp bot. 
+ * 
+ * handles game creation, deletion, player management, timeouts, and 
+ * interaction with game-specific command classes.
+ * 
+ * **Notes:**
+ * - This class assumes the existence of `Game` objects and various command classes 
+ *   for specific actions within the UNO game. 
+ */
 export default class GameManager implements GameManagerBase {
 	constructor(client: Client) {
 		this.client = client;

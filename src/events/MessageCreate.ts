@@ -1,7 +1,12 @@
 import { type Message } from 'whatsapp-web.js';
 import client from '../../index.js';
 import baseuser from '../models/baseuser.js';
-
+/**
+ * Handles incoming messages and executes commands or UNO game actions.
+ *
+ * listens for the 'message' event and processes incoming messages, 
+ * checking for muted users, updating message counts, and runs found commands
+ */ 
 client.on('message', async msg => {
 	const date = Date.now();
 	const user = await msg.getContact();

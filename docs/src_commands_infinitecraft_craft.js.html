@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="generator" content="JSDoc 4.0.2">
+  <meta charset="utf-8">
+  <title>wp-bot 4.3.2 &raquo; Source: src/commands/infinitecraft/craft.js</title>
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+  <link href="css/baseline.css" rel="stylesheet">
+</head>
+
+<body onload="prettyPrint()">
+  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+      <div id="jsdoc-navbar-content">
+        <a href="index.html" class="jsdoc-navbar-package-name">wp-bot 4.<wbr>3.<wbr>2</a>
+      </div>
+    </div>
+  </nav>
+  <div id="jsdoc-body-container">
+    <div id="jsdoc-content">
+      <div id="jsdoc-content-container">
+        <div id="jsdoc-banner" role="banner">
+        </div>
+        <div id="jsdoc-main" role="main">
+          <header class="page-header">
+            <h1>Source: src/commands/infinitecraft/craft.js</h1>
+          </header>
+          <article>
+            <pre class="prettyprint linenums"><code>import { JsonDB, Config } from &#x27;node-json-db&#x27;;
+import pkg from &#x27;whatsapp-web.js&#x27;;
+const db &#x3D; new JsonDB(new Config(&#x27;./src/commands/utils/unlocked.json&#x27;, true, true, &#x27;/&#x27;));
+const foundarr &#x3D; [];
+const alreadycrafted &#x3D; await db.getData(&#x27;/crafts&#x27;);
+alreadycrafted.forEach((craft) &#x3D;&gt; {
+    foundarr.push(craft.result.trim().toLowerCase());
+});
+const { Client, LocalAuth, MessageMedia } &#x3D; pkg;
+export const name &#x3D; &#x27;craft&#x27;;
+export const args &#x3D; true;
+export const aliases &#x3D; [&#x27;make&#x27;, &#x27;join&#x27;];
+export const description &#x3D; &#x27;Craft any two times together&#x27;;
+export const category &#x3D; &#x27;InfiniteCraft&#x27;;
+/**
+ * Combines two items in the Infinite Craft game and returns the resulting item, if any.
+ *
+ * **Usage:**
+ * - &#x60;!craft {item1} + {item2}&#x60; or &#x60;!craft {item1} , {item2}&#x60; - Attempts to craft the two items together.
+ */
+export async function run(client, msg, args) {
+    const chat &#x3D; await msg.getChat();
+    const member &#x3D; await msg.getContact();
+    if (args.length &#x3D;&#x3D; 0) {
+        return;
+    }
+    if (!args.includes(&#x27;+&#x27;) &amp;amp;&amp;amp; !args.includes(&#x27;,&#x27;)) {
+        return;
+    }
+    if (args.includes(&#x27;,&#x27;)) {
+        const kwargs &#x3D; args.join(&#x27; &#x27;);
+        args &#x3D; kwargs.split(&#x27; , &#x27;);
+    }
+    else {
+        const kwargs &#x3D; args.join(&#x27; &#x27;);
+        args &#x3D; kwargs.split(&#x27; + &#x27;);
+    }
+    if (!foundarr.includes(args[0].toLowerCase().trim()) ||
+        !foundarr.includes(args[1].toLowerCase().trim())) {
+        return msg.reply(&#x27;You havent unlocked this&#x27;);
+    }
+    fetch(&#x60;https://neal.fun/api/infinite-craft/pair?first&#x3D;${encodeURIComponent(args[0].trim())}&amp;amp;second&#x3D;${encodeURIComponent(args[1].trim())}&#x60;, {
+        headers: {
+            accept: &#x27;*/*&#x27;,
+            &#x27;accept-language&#x27;: &#x27;en-US,en;q&#x3D;0.9&#x27;,
+            &#x27;cache-control&#x27;: &#x27;no-cache&#x27;,
+            pragma: &#x27;no-cache&#x27;,
+            &#x27;sec-ch-ua&#x27;: &#x27;&quot;Not A(Brand&quot;;v&#x3D;&quot;99&quot;, &quot;Google Chrome&quot;;v&#x3D;&quot;121&quot;, &quot;Chromium&quot;;v&#x3D;&quot;121&quot;&#x27;,
+            &#x27;sec-ch-ua-mobile&#x27;: &#x27;?0&#x27;,
+            &#x27;sec-ch-ua-platform&#x27;: &#x27;&quot;macOS&quot;&#x27;,
+            &#x27;sec-fetch-dest&#x27;: &#x27;empty&#x27;,
+            &#x27;sec-fetch-mode&#x27;: &#x27;cors&#x27;,
+            &#x27;sec-fetch-site&#x27;: &#x27;same-origin&#x27;,
+            Referer: &#x27;https://neal.fun/infinite-craft/&#x27;,
+            &#x27;Referrer-Policy&#x27;: &#x27;strict-origin-when-cross-origin&#x27;,
+        },
+    }).then(async (res) &#x3D;&gt; {
+        res &#x3D; await res.json();
+        if (res.result !&#x3D; &#x27;Nothing&#x27;) {
+            if (foundarr.includes(res.result.trim().toLowerCase())) {
+                return msg.reply(&#x60;${res.result} ${res.emoji}&#x60;);
+            }
+            res.founduser &#x3D; member.number;
+            await db.push(&#x27;/crafts[]&#x27;, res);
+            foundarr.push(res.result.trim().toLowerCase());
+            return msg.reply(&#x60;New discovery!\n${res.result} ${res.emoji}&#x60;);
+        }
+        return msg.reply(&#x27;Not craftable&#x27;);
+    });
+}
+function cp(string) {
+    const str &#x3D; string.split(&#x27; &#x27;);
+    for (let i &#x3D; 0; i &amp;lt; str.length; i++) {
+        str[i] &#x3D; str[i].charAt(0).toUpperCase() + str[i].slice(1);
+    }
+    return str.join(&#x27; &#x27;);
+}
+</code></pre>
+          </article>
+        </div>
+      </div>
+      <nav id="jsdoc-toc-nav" role="navigation"></nav>
+    </div>
+  </div>
+  <footer id="jsdoc-footer" class="jsdoc-footer">
+    <div id="jsdoc-footer-container">
+      <p>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 4.0.2 on April 27, 2024.
+      </p>
+    </div>
+  </footer>
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/tree.jquery.js"></script>
+  <script src="scripts/prettify.js"></script>
+  <script src="scripts/jsdoc-toc.js"></script>
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/scrollanchor.js"></script>
+</body>
+
+</html>

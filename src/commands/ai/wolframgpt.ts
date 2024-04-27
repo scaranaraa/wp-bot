@@ -51,6 +51,15 @@ export const args = true;
 export const aliases: string[] = ['wgpt'];
 export const description = 'Chat with WolframAlpha using GPT 3.5';
 export const category = 'AI';
+/**
+ * Enables interaction with WolframAlpha and other tools using GPT-3.5 within WhatsApp.
+ *
+ * **Usage:**
+ * - `!wolframgpt {query}` - Sends the query to the LangChain agent, which may use WolframAlpha or other tools to generate a response. 
+ * 
+ * **Notes:** 
+ * - This command requires API keys for OpenAI, Tavily, and WolframAlpha. 
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

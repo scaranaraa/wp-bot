@@ -138,6 +138,19 @@ export const args = true;
 export const aliases = ['w'];
 export const description = 'Play a game of wordle from NYT games';
 export const category = 'Games';
+/**
+ * Implements the Wordle word game within WhatsApp, including image generation. 
+ *
+ * **Usage (within the bot):**
+ * - Call `genimage` to create an initial image of the game board.
+ * - Use `guess` to process user guesses and update the game state.
+ * - Call `genimage` again to generate an updated image after each guess.
+ * 
+ * **User Commands:**
+ * - `!wordle` or `!w` - Starts a new Wordle game.
+ * - `guess {word}` - Submits a guess for the Wordle puzzle. 
+ * - `QUIT` - Ends the current game.
+ */
 export async function run(client: pkg.Client, msg: Message, args: string[]) {
 	if (client.ingame) {
 		msg.reply('A game is currently active!');

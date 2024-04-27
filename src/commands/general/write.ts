@@ -53,6 +53,15 @@ export const args = true;
 export const aliases = ['handwrite'];
 export const description = 'Write letters';
 export const category = 'General';
+/**
+ * Generates an image of handwritten text using individual letter images.
+ *
+ * **Usage:**
+ * - `!write {text}` or `!handwrite {text}` - Creates an image of the provided text in a handwritten style. 
+ *
+ * **Notes:**
+ * - Supports letters, numbers, spaces, commas, and periods.
+ */
 export async function run(client: pkg.Client, msg: Message, args: any) {
 	const word = args.join(' ');
 	const res = await makeimage(word);

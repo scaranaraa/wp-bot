@@ -1,0 +1,237 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="generator" content="JSDoc 4.0.2">
+  <meta charset="utf-8">
+  <title>wp-bot 4.3.2 &raquo; Source: init.js</title>
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+  <link href="css/baseline.css" rel="stylesheet">
+</head>
+
+<body onload="prettyPrint()">
+  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+      <div id="jsdoc-navbar-content">
+        <a href="index.html" class="jsdoc-navbar-package-name">wp-bot 4.<wbr>3.<wbr>2</a>
+      </div>
+    </div>
+  </nav>
+  <div id="jsdoc-body-container">
+    <div id="jsdoc-content">
+      <div id="jsdoc-content-container">
+        <div id="jsdoc-banner" role="banner">
+        </div>
+        <div id="jsdoc-main" role="main">
+          <header class="page-header">
+            <h1>Source: init.js</h1>
+          </header>
+          <article>
+            <pre class="prettyprint linenums"><code>import { readdirSync } from &#x27;fs&#x27;;
+import { Shazam } from &#x27;node-shazam&#x27;;
+import GameManager from &#x27;./src/commands/unogame/Shard/GameManager.js&#x27;;
+import { rules, ruleKeys } from &#x27;./src/commands/unogame/rules.js&#x27;;
+import client from &#x27;./index.js&#x27;;
+import { PokemonBase, pokemonschema } from &#x27;./src/models/mongoa.js&#x27;;
+import DataManager from &#x27;./src/pokedex/init.js&#x27;;
+import curr from &#x27;./src/models/baseuser.js&#x27;;
+import(&#x27;./src/commands/monopoly/monopoly.js&#x27;);
+/**
+ * Initializes the WhatsApp bot, including commands, handlers, events, and configuration.
+ *
+ * sets up the bot&#x27;s core functionality, loads commands and events, configures
+ * prefixes, initializes external libraries, and sets up various
+ * properties and methods on the &#x60;client&#x60; object.
+ *
+ * **Other things:**
+ * - Setting up game-related properties and queues.
+ * - &#x60;checkpokemon&#x60; function for handling Pokemon level-ups and evolutions
+ */
+client.commands &#x3D; new Map();
+client.handlers &#x3D; new Map();
+client.events &#x3D; new Map();
+client.aliases &#x3D; new Map();
+client.muted &#x3D; [];
+client.mgames &#x3D; new Map();
+client.sydneyqueue &#x3D; [];
+client.prefix &#x3D; &#x60;@${process.env.PHONE} &#x60;;
+client.s_prefix &#x3D; [
+    &#x27;$&#x27;,
+    &#x27;/&#x27;,
+    &#x27;?&#x27;,
+    &#x27;-&#x27;,
+    &#x27;&amp;amp;&#x27;,
+    &#x27;*&#x27;,
+    &#x27;&gt;&#x27;,
+    &#x27;,&#x27;,
+    &#x27;.&#x27;,
+    &#x27;£&#x27;,
+    &#x27;₹&#x27;,
+    &#x27;¢&#x27;,
+    &#x27;√&#x27;,
+    &#x27;π&#x27;,
+    &#x27;%&#x27;,
+    &#x27;©&#x27;,
+    &#x27;®&#x27;,
+    &#x27;™&#x27;,
+    &#x27;✓&#x27;,
+    &#x27;§&#x27;,
+    &#x27;∆&#x27;,
+];
+client.prefix2 &#x3D; &#x27;uno&#x27;;
+client.gartic &#x3D; false;
+client.gameManager &#x3D; new GameManager(client);
+client.commands2 &#x3D; {};
+client.commandMap &#x3D; {};
+client.getCommand &#x3D; function (name) {
+    const commandName &#x3D; this.commandMap[name];
+    return this.commands2[commandName];
+};
+client.shazam &#x3D; new Shazam();
+client.loadCommands &#x3D; async function () {
+    const files &#x3D; readdirSync(&#x27;./dist/src/commands/unogame/Shard/commands/&#x27;);
+    for (const file of files) {
+        if (file.endsWith(&#x27;.js&#x27;)) {
+            const CommandModule &#x3D; await import(&#x60;./src/commands/unogame/Shard/commands/${file}&#x60;);
+            const Command &#x3D; CommandModule.default;
+            const command &#x3D; new Command(this);
+            this.commands2[command.name] &#x3D; command;
+            this.commandMap[command.name] &#x3D; command.name;
+            for (const alias of command.aliases) {
+                this.commandMap[alias] &#x3D; command.name;
+            }
+        }
+    }
+};
+client.loadCommands();
+client.games &#x3D; {};
+client.getrules &#x3D; function () {
+    return rules;
+};
+client.getruleKeys &#x3D; function () {
+    return ruleKeys;
+};
+client.getruleset &#x3D; function () {
+    const obj &#x3D; {};
+    for (const key of Object.keys(rules)) {
+        obj[key] &#x3D; rules[key].value;
+    }
+    return obj;
+};
+client.snipe &#x3D; [];
+client.downloading &#x3D; false;
+// very badly optimized not worth it
+// client.character &#x3D; &#x27;Leon Kennedy&#x27;
+client.ingame &#x3D; false;
+client.ind &#x3D; false;
+client.cachedUsers &#x3D; new Map();
+client.battling &#x3D; false;
+client.data &#x3D; new DataManager();
+client.checkpokemon &#x3D; async function (msg, member, pokemons, selected) {
+    const pokemon &#x3D; new PokemonBase({
+        id: pokemons.id,
+        timestamp: pokemons.timestamp,
+        owner_id: pokemons.owner_id,
+        idx: pokemons.idx,
+        species_id: pokemons.species_id,
+        level: pokemons.level,
+        xp: pokemons.xp,
+        nature: pokemons.nature,
+        shiny: pokemons.shiny,
+        iv_hp: pokemons.iv_hp,
+        iv_atk: pokemons.iv_atk,
+        iv_defn: pokemons.iv_defn,
+        iv_satk: pokemons.iv_satk,
+        iv_sdef: pokemons.iv_sdef,
+        iv_spd: pokemons.iv_spd,
+        iv_total: pokemons.iv_total,
+        nickname: pokemons.nickname,
+        favorite: pokemons.favorite,
+        held_item: pokemons.held_item,
+        moves: pokemons.moves,
+        has_color: pokemons.has_color,
+        color: pokemons.color,
+    });
+    if (pokemon.xp &gt;&#x3D; pokemon.max_xp &amp;amp;&amp;amp; pokemon.level &amp;lt; 100) {
+        pokemon.level +&#x3D; 1;
+        pokemon.xp &#x3D; 0;
+        await pokemonschema.updateOne({ owner_id: member.number, id: selected }, {
+            $set: {
+                level: pokemon.level,
+            },
+        });
+        await pokemonschema.updateOne({ owner_id: member.number, id: selected }, {
+            $set: {
+                xp: pokemon.xp,
+            },
+        });
+        await msg.reply(&#x60;Your ${cp(client.data.findSpeciesByNumber(pokemon.species_id).slug)} levelled up!\n Its now level ${pokemon.level}&#x60;);
+        if (pokemon.getNextEvolution()) {
+            const evo &#x3D; pokemon.getNextEvolution();
+            if (!evo) {
+                return;
+            }
+            const oldname &#x3D; cp(client.data.findSpeciesByNumber(pokemon.species_id).slug);
+            pokemon.species_id &#x3D; evo.id;
+            await msg.reply(&#x60;Your ${oldname} evolved into ${cp(client.data.findSpeciesByNumber(pokemon.species_id).slug)}!&#x60;);
+            await pokemonschema.updateOne({ owner_id: member.number, id: selected }, {
+                $set: {
+                    species_id: pokemon.species_id,
+                },
+            });
+        }
+        else {
+            let res &#x3D; &#x60;Your ${cp(client.data.findSpeciesByNumber(pokemon.species_id).slug)} learnt these moves :-\n&#x60;;
+            let flag &#x3D; false;
+            for (const move of pokemon.species.moves) {
+                if (move?.method?.level &#x3D;&#x3D; pokemon.level) {
+                    pokemon.moves.push(move.move_id);
+                    flag &#x3D; true;
+                    res +&#x3D; &#x60;*${cp(client.data.moveByNumber(move.move_id)?.slug || &#x27;broke here&#x27;)}*\n&#x60;;
+                    await pokemonschema.updateOne({ owner_id: member.number, id: selected }, {
+                        $set: {
+                            moves: pokemon.moves,
+                        },
+                    });
+                }
+            }
+            if (flag) {
+                await msg.reply(res);
+            }
+        }
+    }
+};
+if (process.env.CHROME_PATH &#x3D;&#x3D; &quot;&quot;) {
+    console.log(&quot;CHROME_PATH not given, chromium will be used. Trying to send videos/gifs will throw an error&quot;);
+}
+client.curr &#x3D; function (userId) {
+    return new curr({ userId, users: client.cachedUsers });
+};
+function cp(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+</code></pre>
+          </article>
+        </div>
+      </div>
+      <nav id="jsdoc-toc-nav" role="navigation"></nav>
+    </div>
+  </div>
+  <footer id="jsdoc-footer" class="jsdoc-footer">
+    <div id="jsdoc-footer-container">
+      <p>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 4.0.2 on April 27, 2024.
+      </p>
+    </div>
+  </footer>
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/tree.jquery.js"></script>
+  <script src="scripts/prettify.js"></script>
+  <script src="scripts/jsdoc-toc.js"></script>
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/scrollanchor.js"></script>
+</body>
+
+</html>

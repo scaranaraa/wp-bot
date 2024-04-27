@@ -1,0 +1,307 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="generator" content="JSDoc 4.0.2">
+  <meta charset="utf-8">
+  <title>wp-bot 4.3.2 &raquo; Source: src/commands/games/ttt.js</title>
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+  <link href="css/baseline.css" rel="stylesheet">
+</head>
+
+<body onload="prettyPrint()">
+  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+      <div id="jsdoc-navbar-content">
+        <a href="index.html" class="jsdoc-navbar-package-name">wp-bot 4.<wbr>3.<wbr>2</a>
+      </div>
+    </div>
+  </nav>
+  <div id="jsdoc-body-container">
+    <div id="jsdoc-content">
+      <div id="jsdoc-content-container">
+        <div id="jsdoc-banner" role="banner">
+        </div>
+        <div id="jsdoc-main" role="main">
+          <header class="page-header">
+            <h1>Source: src/commands/games/ttt.js</h1>
+          </header>
+          <article>
+            <pre class="prettyprint linenums"><code>import pkg from &#x27;whatsapp-web.js&#x27;;
+import Jimp from &#x27;jimp&#x27;;
+// @ts-ignore
+import Minimax from &#x27;tic-tac-toe-minimax&#x27;;
+const { Client, LocalAuth, MessageMedia } &#x3D; pkg;
+class ttt {
+    chatid;
+    client;
+    players;
+    currletter;
+    letters;
+    res;
+    guesses;
+    constructor(client, id, pl1, pl2) {
+        this.chatid &#x3D; id;
+        this.client &#x3D; client;
+        this.players &#x3D; [pl1, pl2];
+        this.currletter &#x3D; &#x27;X&#x27;;
+        this.letters &#x3D; [null, null, null, null, null, null, null, null, null];
+        this.res &#x3D; &#x27;&#x27;;
+        this.guesses &#x3D; 0;
+    }
+    async start() {
+        await this.genimage();
+        const media &#x3D; MessageMedia.fromFilePath(&#x27;im.png&#x27;);
+        await this.client.sendMessage(this.chatid, media);
+        let done &#x3D; false;
+        const game &#x3D; this;
+        this.client.on(&#x27;message_create&#x27;, async function wait(msg) {
+            if (done) {
+                return;
+            }
+            const chat &#x3D; await msg.getChat();
+            const user &#x3D; await msg.getContact();
+            if (user.number &#x3D;&#x3D; &#x60;${process.env.OWNER_NUMBER}&#x60;) {
+                if (msg.body.toLowerCase() &#x3D;&#x3D; &#x27;bestmove&#x27;) {
+                    const huPlayer &#x3D; game.currletter;
+                    const aiPlayer &#x3D; game.currletter &#x3D;&#x3D; &#x27;X&#x27; ? &#x27;O&#x27; : &#x27;X&#x27;;
+                    const symbols &#x3D; {
+                        huPlayer: aiPlayer,
+                        aiPlayer: huPlayer,
+                    };
+                    const difficulty &#x3D; &#x27;Hard&#x27;;
+                    const board &#x3D; [0, 1, 2, 3, 4, 5, 6, 7, 8];
+                    for (let i &#x3D; 0; i &amp;lt; 9; i++) {
+                        if (game.letters[i] !&#x3D; null) {
+                            board[i] &#x3D; game.letters[i];
+                        }
+                    }
+                    const nextMove &#x3D; Minimax.default.ComputerMove(board, symbols, difficulty);
+                    const resmove &#x3D; Number(nextMove) + 1;
+                    await msg.reply(&#x60;best move - ${resmove}&#x60;);
+                }
+            }
+            if (user.number !&#x3D; game.players[0].number &amp;amp;&amp;amp;
+                user.number !&#x3D; game.players[1].number) {
+                return;
+            }
+            if (chat.id._serialized !&#x3D; game.chatid) {
+                return;
+            }
+            let res &#x3D; msg.body;
+            if (res &#x3D;&#x3D; &#x27;QUIT&#x27;) {
+                await game.client.sendMessage(game.chatid, &#x27;Game stopped!&#x27;);
+                game.client.ingame &#x3D; false;
+                game.client.removeListener(&#x27;message_create&#x27;, wait);
+                return;
+            }
+            if (user.number !&#x3D; game.players[0].number) {
+                return;
+            }
+            if (res &#x3D;&#x3D; &#x27;QUIT&#x27;) {
+                await game.client.sendMessage(game.chatid, &#x27;Game stopped!&#x27;);
+                game.client.ingame &#x3D; false;
+                game.client.removeListener(&#x27;message_create&#x27;, wait);
+                return;
+            }
+            if (!res) {
+                return;
+            }
+            if (isNaN(res)) {
+                return;
+            }
+            res &#x3D; parseInt(res);
+            if (res &amp;lt; 1 || res &gt; 9) {
+                return;
+            }
+            if (game.letters[res - 1] !&#x3D; null) {
+                return msg.reply(&#x27;you cannot play here&#x27;);
+            }
+            if (done) {
+                return;
+            }
+            done &#x3D; true;
+            game.letters[res - 1] &#x3D; game.currletter;
+            game.currletter &#x3D; game.currletter &#x3D;&#x3D; &#x27;X&#x27; ? &#x27;O&#x27; : &#x27;X&#x27;;
+            game.guesses++;
+            const won &#x3D; await game.checkwin();
+            if (won) {
+                await game.genimage();
+                const media2 &#x3D; MessageMedia.fromFilePath(&#x27;im.png&#x27;);
+                await game.client.sendMessage(game.chatid, media2);
+                if (won &#x3D;&#x3D; &#x27;draw&#x27;) {
+                    await game.client.sendMessage(game.chatid, &quot;Game over! It&#x27;s a draw!&quot;);
+                }
+                else {
+                    await game.client.sendMessage(game.chatid, &#x60;Game over! @${game.players[0].number} wins!&#x60;);
+                }
+                done &#x3D; true;
+                game.client.ingame &#x3D; false;
+                await game.client.removeListener(&#x27;message_create&#x27;, wait);
+                return;
+            }
+            game.client.removeListener(&#x27;message_create&#x27;, wait);
+            game.players.push(game.players.shift());
+            await game.start();
+        });
+    }
+    async checkwin() {
+        let curr &#x3D; 0;
+        for (let i &#x3D; 0; i &amp;lt; 3; i++) {
+            if (this.letters
+                .slice(curr, curr + 3)
+                .join(&#x27;&#x27;)
+                .includes(&#x27;XXX&#x27;) ||
+                this.letters
+                    .slice(curr, curr + 3)
+                    .join(&#x27;&#x27;)
+                    .includes(&#x27;OOO&#x27;)) {
+                return true;
+            }
+            curr +&#x3D; 3;
+        }
+        for (let i &#x3D; 0; i &amp;lt; 3; i++) {
+            if (this.letters[i] &#x3D;&#x3D; this.letters[i + 3] &amp;amp;&amp;amp;
+                this.letters[i] &#x3D;&#x3D; this.letters[i + 6]) {
+                if (this.letters[i] !&#x3D; null) {
+                    return true;
+                }
+            }
+        }
+        if (this.letters[0] &#x3D;&#x3D; this.letters[4] &amp;amp;&amp;amp;
+            this.letters[0] &#x3D;&#x3D; this.letters[8]) {
+            if (this.letters[0] !&#x3D; null) {
+                return true;
+            }
+        }
+        if (this.letters[2] &#x3D;&#x3D; this.letters[4] &amp;amp;&amp;amp;
+            this.letters[2] &#x3D;&#x3D; this.letters[6]) {
+            if (this.letters[2] !&#x3D; null) {
+                return true;
+            }
+        }
+        if (this.guesses &#x3D;&#x3D; 9) {
+            return &#x27;draw&#x27;;
+        }
+    }
+    async genimage() {
+        const game &#x3D; this;
+        const gridSize &#x3D; 3;
+        const gridRows &#x3D; 3;
+        const gridWidth &#x3D; 100;
+        const gridHeight &#x3D; 100;
+        const borderWidth &#x3D; 2;
+        const separation &#x3D; 5;
+        const imageWidth &#x3D; gridSize * gridWidth + (gridSize - 1) * separation;
+        const imageHeight &#x3D; gridRows * gridHeight + (gridRows - 1) * separation;
+        const image &#x3D; new Jimp(imageWidth, imageHeight, 0x348c84ff);
+        async function drawGridCell(x, y, bgColor, letter &#x3D; null, index) {
+            image.scan(x, y, gridWidth, gridHeight, function (x, y, idx) {
+                this.bitmap.data[idx + 0] &#x3D; (bgColor &gt;&gt; 24) &amp;amp; 0xff;
+                this.bitmap.data[idx + 1] &#x3D; (bgColor &gt;&gt; 16) &amp;amp; 0xff;
+                this.bitmap.data[idx + 2] &#x3D; (bgColor &gt;&gt; 8) &amp;amp; 0xff;
+                this.bitmap.data[idx + 3] &#x3D; bgColor &amp;amp; 0xff;
+            });
+            if (letter) {
+                letter &#x3D; letter.toUpperCase();
+                const font &#x3D; await Jimp.loadFont(Jimp.FONT_SANS_64_WHITE);
+                const textWidth &#x3D; Jimp.measureText(font, letter);
+                // @ts-ignore
+                const textHeight &#x3D; Jimp.measureTextHeight(font, letter);
+                const textX &#x3D; x + (gridWidth - textWidth) / 2;
+                const textY &#x3D; y + 37 + (gridHeight - textHeight) / 2;
+                await image.print(font, textX, textY, letter);
+            }
+            const font2 &#x3D; await Jimp.loadFont(Jimp.FONT_SANS_16_BLACK);
+            await image.print(font2, x + 4, y + 2, index);
+        }
+        async function drawGrid() {
+            let a &#x3D; 1;
+            for (let i &#x3D; 0; i &amp;lt; gridRows; i++) {
+                for (let j &#x3D; 0; j &amp;lt; gridSize; j++) {
+                    const x &#x3D; j * gridWidth + j * separation;
+                    const y &#x3D; i * gridHeight + i * separation;
+                    const letter &#x3D; game.letters[a - 1] || null;
+                    await drawGridCell(x, y, 0x14bdacff, letter, String(a));
+                    a++;
+                }
+            }
+        }
+        await drawGrid();
+        await image.writeAsync(&#x27;im.png&#x27;);
+        return &#x27;done&#x27;;
+    }
+}
+export const name &#x3D; &#x27;Tic Tac Toe&#x27;;
+export const args &#x3D; true;
+export const aliases &#x3D; [&#x27;tic&#x27;, &#x27;tac&#x27;, &#x27;toe&#x27;, &#x27;ttt&#x27;];
+export const description &#x3D; &#x27;Play Tic Tac Toe with someone&#x27;;
+export const category &#x3D; &#x27;Games&#x27;;
+/**
+ * Implements the Tic Tac Toe game within WhatsApp, including image generation.
+ *
+ * **Usage (within the bot):**
+ * - Call &#x60;genimage&#x60; to create an initial image of the game board.
+ * - Use &#x60;start&#x60; to begin the game and handle player moves.
+ * - Call &#x60;genimage&#x60; again to generate an updated image after each move.
+ *
+ * **User Commands:**
+ * - &#x60;!tictactoe&#x60; or &#x60;!ttt&#x60; - Starts a new Tic Tac Toe game.
+ * - &#x60;{number}&#x60; - Places a mark on the specified square (1-9).
+ * - &#x60;QUIT&#x60; - Ends the current game.
+ */
+export async function run(client, msg, args) {
+    if (client.ingame) {
+        msg.reply(&#x27;A game is currently active!&#x27;);
+        return;
+    }
+    client.ingame &#x3D; true;
+    const member &#x3D; await msg.getContact();
+    const chat &#x3D; await msg.getChat();
+    const mentions &#x3D; await msg.getMentions();
+    if (mentions.length &#x3D;&#x3D; 0) {
+        client.ingame &#x3D; false;
+        return msg.reply(&#x27;please do not play with yourself :(&#x27;);
+    }
+    let mentioneduser &#x3D; mentions.pop();
+    if (mentioneduser.number &#x3D;&#x3D; &#x60;${process.env.PHONE}&#x60;) {
+        mentioneduser &#x3D; mentions.pop();
+    }
+    if (!mentioneduser) {
+        client.ingame &#x3D; false;
+        return msg.reply(&#x27;please do not play with yourself :(&#x27;);
+    }
+    if (mentioneduser?.number &#x3D;&#x3D; member.number) {
+        client.ingame &#x3D; false;
+        return msg.reply(&#x27;please do not play with yourself :(&#x27;);
+    }
+    const chance &#x3D; Math.random() &gt; 0.5 ? member : mentioneduser;
+    const game &#x3D; new ttt(client, chat.id._serialized, chance, chance.number &#x3D;&#x3D; member.number ? mentioneduser : member);
+    await client.sendMessage(game.chatid, &#x60;@${chance.number} you start!&#x60;);
+    await game.start();
+}
+</code></pre>
+          </article>
+        </div>
+      </div>
+      <nav id="jsdoc-toc-nav" role="navigation"></nav>
+    </div>
+  </div>
+  <footer id="jsdoc-footer" class="jsdoc-footer">
+    <div id="jsdoc-footer-container">
+      <p>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 4.0.2 on April 27, 2024.
+      </p>
+    </div>
+  </footer>
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/tree.jquery.js"></script>
+  <script src="scripts/prettify.js"></script>
+  <script src="scripts/jsdoc-toc.js"></script>
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/scrollanchor.js"></script>
+</body>
+
+</html>

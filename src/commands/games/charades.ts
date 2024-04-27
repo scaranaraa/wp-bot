@@ -157,8 +157,22 @@ export const args = true;
 export const aliases = ['ch'];
 export const description = 'Play charades with someone';
 export const category = 'Games';
-
 const { MessageMedia } = pkg;
+/**
+ * Implements a word-guessing charades game within WhatsApp.
+ *
+ * **Usage (within the bot):**
+ * - Call `next_turn` to start the game and assign the first player to describe a word. 
+ * - The class will handle sending the word to the describer and prompting other players to guess.
+ * 
+ * **User Commands:** 
+ * - `!charades` or `!ch` - Starts a new charades game. 
+ * - `join` - Joins the ongoing game.
+ * - (Describer) Describe the word using text messages. 
+ * - (Guessers) `{word}` - Submits a guess for the word being described. 
+ * - `ghint` - Asks for a hint about the word (reveals the first letter). 
+ * - `gquit` - Stops the game. 
+ */
 export async function run(client: pkg.Client, msg: pkg.Message) {
 	if (client.gartic) {
 		msg.reply('A game is currently active!');

@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="generator" content="JSDoc 4.0.2">
+  <meta charset="utf-8">
+  <title>wp-bot 4.3.2 &raquo; Source: src/commands/shazam/recognise.js</title>
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+  <link href="css/baseline.css" rel="stylesheet">
+</head>
+
+<body onload="prettyPrint()">
+  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+      <div id="jsdoc-navbar-content">
+        <a href="index.html" class="jsdoc-navbar-package-name">wp-bot 4.<wbr>3.<wbr>2</a>
+      </div>
+    </div>
+  </nav>
+  <div id="jsdoc-body-container">
+    <div id="jsdoc-content">
+      <div id="jsdoc-content-container">
+        <div id="jsdoc-banner" role="banner">
+        </div>
+        <div id="jsdoc-main" role="main">
+          <header class="page-header">
+            <h1>Source: src/commands/shazam/recognise.js</h1>
+          </header>
+          <article>
+            <pre class="prettyprint linenums"><code>import pkg from &#x27;whatsapp-web.js&#x27;;
+const { Client, LocalAuth, MessageMedia } &#x3D; pkg;
+export const name &#x3D; &#x27;shazam&#x27;;
+export const args &#x3D; true;
+export const aliases &#x3D; [&#x27;identify&#x27;, &#x27;id&#x27;, &#x27;sh&#x27;, &#x27;recognise&#x27;];
+export const description &#x3D; &#x27;Identify any song in a video/audio&#x27;;
+export const category &#x3D; &#x27;Shazam&#x27;;
+/**
+ * Identifies a song from an audio or video message using Shazam.
+ *
+ * **Usage:**
+ * - Send &#x60;!shazam&#x60; as a reply to an audio or video message, or include the audio/video with the command.
+ * - The bot will attempt to identify the song and provide details.
+ */
+export async function run(client, msg, args) {
+    if (!msg.hasQuotedMsg &amp;amp;&amp;amp; !msg.hasMedia) {
+        return msg.reply(&#x27;No media found&#x27;);
+    }
+    let media;
+    if (msg.hasMedia) {
+        media &#x3D; await msg.downloadMedia();
+    }
+    else {
+        const quoted &#x3D; await msg.getQuotedMessage();
+        if (!quoted.hasMedia) {
+            return msg.reply(&#x27;No media found&#x27;);
+        }
+        media &#x3D; await quoted.downloadMedia();
+    }
+    if (!media.mimetype.includes(&#x27;audio&#x27;) &amp;amp;&amp;amp; !media.mimetype.includes(&#x27;video&#x27;)) {
+        return msg.reply(&#x27;Invalid media&#x27;);
+    }
+    const { shazam } &#x3D; client;
+    if (media.mimetype.includes(&#x27;audio&#x27;)) {
+        // @ts-ignore
+        await media.toFilePath(&#x27;./src/commands/utils/node_shazam_temp.mp3&#x27;);
+    }
+    else {
+        // @ts-ignore
+        await media.toFilePath(&#x27;./src/commands/utils/node_shazam_temp.mp4&#x27;);
+    }
+    let recognise;
+    if (media.mimetype.includes(&#x27;audio&#x27;)) {
+        recognise &#x3D; await shazam.recognise(&#x27;./src/commands/utils/node_shazam_temp.mp3&#x27;);
+    }
+    else {
+        recognise &#x3D; await shazam.recognise(&#x27;./src/commands/utils/node_shazam_temp.mp4&#x27;);
+    }
+    let _a;
+    let _b;
+    if (!recognise) {
+        return msg.reply(&#x27;Not found&#x27;);
+    }
+    const image &#x3D; await MessageMedia.fromUrl(recognise.track.images.background);
+    const trackData &#x3D; recognise.track;
+    const mainSection &#x3D; trackData.sections.find((e) &#x3D;&gt; e.type &#x3D;&#x3D;&#x3D; &#x27;SONG&#x27;);
+    const { title } &#x3D; trackData;
+    const artist &#x3D; trackData.subtitle;
+    const album &#x3D; (_a &#x3D; mainSection.metadata.find((e) &#x3D;&gt; e.title &#x3D;&#x3D;&#x3D; &#x27;Album&#x27;)) &#x3D;&#x3D;&#x3D;
+        null || _a &#x3D;&#x3D;&#x3D; void 0
+        ? void 0
+        : _a.text;
+    const year &#x3D; (_b &#x3D; mainSection.metadata.find((e) &#x3D;&gt; e.title &#x3D;&#x3D;&#x3D; &#x27;Released&#x27;)) &#x3D;&#x3D;&#x3D;
+        null || _b &#x3D;&#x3D;&#x3D; void 0
+        ? void 0
+        : _b.text;
+    try {
+        await msg.reply(image, undefined, {
+            caption: &#x60;${title}\n\n*Artist* - ${artist}\n\n*Album* - ${album}&#x60;,
+        });
+    }
+    catch {
+        await msg.reply(&#x60;${title}\n\n*Artist* - ${artist}\n\n*Album* - ${album}&#x60;);
+    }
+    await msg.reply(&#x60;Shazam song ID - ${recognise.matches[0].id}&#x60;);
+    const related &#x3D; await shazam.related_songs(&#x27;en-US&#x27;, &#x27;GB&#x27;, &#x60;${recognise.matches[0].id}&#x60;, &#x27;0&#x27;, &#x27;3&#x27;);
+    let relatedsongs &#x3D; &#x27;Related songs -\n\n&#x27;;
+    // @ts-ignore
+    related.tracks.forEach(song &#x3D;&gt; (relatedsongs +&#x3D; &#x60;${song.title}\n&#x60;));
+    await msg.reply(relatedsongs);
+}
+</code></pre>
+          </article>
+        </div>
+      </div>
+      <nav id="jsdoc-toc-nav" role="navigation"></nav>
+    </div>
+  </div>
+  <footer id="jsdoc-footer" class="jsdoc-footer">
+    <div id="jsdoc-footer-container">
+      <p>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 4.0.2 on April 27, 2024.
+      </p>
+    </div>
+  </footer>
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/tree.jquery.js"></script>
+  <script src="scripts/prettify.js"></script>
+  <script src="scripts/jsdoc-toc.js"></script>
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/scrollanchor.js"></script>
+</body>
+
+</html>

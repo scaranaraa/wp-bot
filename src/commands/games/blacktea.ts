@@ -148,6 +148,18 @@ export const args = true;
 export const aliases = ['bt'];
 export const description = 'Play a game of blacktea';
 export const category = 'Games';
+/**
+* Implements the Black Tea word game within a WhatsApp chat.
+*
+* **Usage (within the bot):**
+* - Call startgame to initiate the game and send instructions.
+* - Use sendword to send a word segment and handle player responses, deducting "lives" for players who fail to answer in time.
+* 
+* **User Commands:**
+* - !blacktea or !bt - Starts a new Black Tea game.
+* - join - Joins the ongoing game.
+* - {word} - Submits a word containing the provided segment.
+*/
 export async function run(client: Client, msg: Message, args: string[]) {
 	let activated = false;
 

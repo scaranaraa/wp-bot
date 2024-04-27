@@ -397,6 +397,17 @@ export const args = true;
 export const aliases: string[] = [];
 export const description = 'Play a game of 2048';
 export const category = 'Games';
+/**
+ * Implements the 2048 game within WhatsApp, including image generation. 
+ *
+ * **Usage (within the bot):**
+ * - Call `start` to begin the game, generate the initial board image, and handle player moves.
+ *
+ * **User Commands:** 
+ * - `!2048` - Starts a new 2048 game.
+ * - `{direction}` (left, right, up, down) - Makes a move in the specified direction.
+ * - `QUIT` - Ends the current game.
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

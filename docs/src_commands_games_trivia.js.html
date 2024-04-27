@@ -1,0 +1,320 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="generator" content="JSDoc 4.0.2">
+  <meta charset="utf-8">
+  <title>wp-bot 4.3.2 &raquo; Source: src/commands/games/trivia.js</title>
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+  <link href="css/baseline.css" rel="stylesheet">
+</head>
+
+<body onload="prettyPrint()">
+  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+      <div id="jsdoc-navbar-content">
+        <a href="index.html" class="jsdoc-navbar-package-name">wp-bot 4.<wbr>3.<wbr>2</a>
+      </div>
+    </div>
+  </nav>
+  <div id="jsdoc-body-container">
+    <div id="jsdoc-content">
+      <div id="jsdoc-content-container">
+        <div id="jsdoc-banner" role="banner">
+        </div>
+        <div id="jsdoc-main" role="main">
+          <header class="page-header">
+            <h1>Source: src/commands/games/trivia.js</h1>
+          </header>
+          <article>
+            <pre class="prettyprint linenums"><code>import pkg from &#x27;whatsapp-web.js&#x27;;
+import baseuser from &#x27;../../models/baseuser.js&#x27;;
+const categories &#x3D; [
+    { id: 9, name: &#x27;General Knowledge&#x27; },
+    { id: 10, name: &#x27;Entertainment: Books&#x27; },
+    { id: 11, name: &#x27;Entertainment: Film&#x27; },
+    { id: 12, name: &#x27;Entertainment: Music&#x27; },
+    { id: 13, name: &#x27;Entertainment: Musicals &amp;amp; Theatres&#x27; },
+    { id: 14, name: &#x27;Entertainment: Television&#x27; },
+    { id: 15, name: &#x27;Entertainment: Video Games&#x27; },
+    { id: 16, name: &#x27;Entertainment: Board Games&#x27; },
+    { id: 17, name: &#x27;Science &amp;amp; Nature&#x27; },
+    { id: 18, name: &#x27;Science: Computers&#x27; },
+    { id: 19, name: &#x27;Science: Mathematics&#x27; },
+    { id: 20, name: &#x27;Mythology&#x27; },
+    { id: 21, name: &#x27;Sports&#x27; },
+    { id: 22, name: &#x27;Geography&#x27; },
+    { id: 23, name: &#x27;History&#x27; },
+    { id: 24, name: &#x27;Politics&#x27; },
+    { id: 25, name: &#x27;Art&#x27; },
+    { id: 26, name: &#x27;Celebrities&#x27; },
+    { id: 27, name: &#x27;Animals&#x27; },
+    { id: 28, name: &#x27;Vehicles&#x27; },
+    { id: 29, name: &#x27;Entertainment: Comics&#x27; },
+    { id: 30, name: &#x27;Science: Gadgets&#x27; },
+    { id: 31, name: &#x27;Entertainment: Japanese Anime &amp;amp; Manga&#x27; },
+    { id: 32, name: &#x27;Entertainment: Cartoon &amp;amp; Animations&#x27; },
+];
+const { Client, LocalAuth, MessageMedia } &#x3D; pkg;
+class trivia {
+    constructor(client, id) {
+        this.chatid &#x3D; id;
+        this.client &#x3D; client;
+        this.timed &#x3D; false;
+        this.difficulty &#x3D; &#x27;&#x27;;
+        this.category &#x3D; &#x27;&#x27;;
+        this.choices &#x3D; false;
+        this.questioncount &#x3D; 0;
+        this.questions &#x3D; [];
+        this.sessiontoken &#x3D; &#x27;&#x27;;
+    }
+    chatid;
+    client;
+    timed;
+    difficulty;
+    category;
+    choices;
+    questioncount;
+    questions;
+    sessiontoken;
+    async getSession() {
+        const data &#x3D; await fetch(&#x27;https://opentdb.com/api_token.php?command&#x3D;request&#x27;);
+        const json &#x3D; await data.json();
+        this.sessiontoken &#x3D; json.token;
+    }
+    async loadQuestions() {
+        let fetchcount &#x3D; 20;
+        if (this.category) {
+            const url &#x3D; &#x60;https://opentdb.com/api_count.php?category&#x3D;${this.category}&#x60;;
+            const response &#x3D; await fetch(url);
+            const data &#x3D; await response.json();
+            if (this.difficulty) {
+                if (this.difficulty &#x3D;&#x3D; &#x27;easy&#x27;) {
+                    this.questioncount &#x3D;
+                        data.category_question_count.total_easy_question_count;
+                }
+                if (this.difficulty &#x3D;&#x3D; &#x27;medium&#x27;) {
+                    this.questioncount &#x3D;
+                        data.category_question_count.total_medium_question_count;
+                }
+                if (this.difficulty &#x3D;&#x3D; &#x27;hard&#x27;) {
+                    this.questioncount &#x3D;
+                        data.category_question_count.total_hard_question_count;
+                }
+            }
+            else {
+                this.questioncount &#x3D; data.category_question_count.total_question_count;
+            }
+            fetchcount &#x3D; this.questioncount &gt; 20 ? 20 : this.questioncount;
+        }
+        let furl &#x3D; &#x60;https://opentdb.com/api.php?amount&#x3D;${fetchcount}&#x60;;
+        if (this.category) {
+            furl +&#x3D; &#x60;&amp;amp;category&#x3D;${this.category}&#x60;;
+        }
+        if (this.difficulty) {
+            furl +&#x3D; &#x60;&amp;amp;difficulty&#x3D;${this.difficulty}&#x60;;
+        }
+        furl +&#x3D; &#x60;&amp;amp;encode&#x3D;url3986&amp;amp;token &#x3D; ${this.sessiontoken}&#x60;;
+        const qfetch &#x3D; await fetch(furl);
+        const qjson &#x3D; await qfetch.json();
+        if (qjson.response_code &#x3D;&#x3D; 4) {
+            this.client.sendMessage(this.chatid, &#x27;There are no more questions left for this category!&#x27;);
+            this.client.ingame &#x3D; false;
+            return;
+        }
+        this.questions &#x3D; qjson.results;
+        this.questions.forEach(question &#x3D;&gt; {
+            question.question &#x3D; decodeURIComponent(question.question);
+            question.correct_answer &#x3D; decodeURIComponent(question.correct_answer);
+            question.incorrect_answers.forEach(answer &#x3D;&gt; {
+                const decodedanswer &#x3D; decodeURIComponent(answer);
+                question.incorrect_answers[question.incorrect_answers.indexOf(answer)] &#x3D;
+                    decodedanswer;
+            });
+        });
+        this.sendQuestion();
+    }
+    async sendQuestion() {
+        if (this.questions.length &#x3D;&#x3D; 0) {
+            this.loadQuestions();
+            return;
+        }
+        const question &#x3D; this.questions.shift();
+        const questiontext &#x3D; question.question;
+        const correctanswer &#x3D; question.correct_answer;
+        const incorrectanswers &#x3D; question.incorrect_answers;
+        const answers &#x3D; [correctanswer, ...incorrectanswers];
+        answers.sort();
+        const answerindex &#x3D; answers.indexOf(correctanswer) + 1;
+        if (this.choices) {
+            let answerlist &#x3D; &#x27;&#x27;;
+            let n &#x3D; 1;
+            answers.forEach(answer &#x3D;&gt; {
+                answerlist +&#x3D; &#x60;${n}) ${answer}\n&#x60;;
+                n++;
+                // remove \n from last answer
+            });
+            answerlist &#x3D; answerlist.slice(0, -1);
+            this.client.sendMessage(this.chatid, &#x60;${questiontext} \n\n${answerlist}&#x60;);
+        }
+        else {
+            this.client.sendMessage(this.chatid, &#x60;${questiontext}&#x60;);
+        }
+        const triv &#x3D; this;
+        let answ &#x3D; 1;
+        let done &#x3D; false;
+        this.client.on(&#x27;message_create&#x27;, async function wait(msg) {
+            const chat &#x3D; await msg.getChat();
+            if (chat.id._serialized !&#x3D; triv.chatid) {
+                return;
+            }
+            const user &#x3D; await msg.getContact();
+            let res &#x3D; msg.body;
+            if (res &#x3D;&#x3D; &#x27;QUIT&#x27;) {
+                done &#x3D; true;
+                await triv.client.sendMessage(triv.chatid, &#x27;Game stopped!&#x27;);
+                triv.client.ingame &#x3D; false;
+                await triv.client.removeListener(&#x27;message_create&#x27;, wait);
+                return;
+            }
+            if (res &#x3D;&#x3D; &#x27;SKIP&#x27; &amp;amp;&amp;amp; answ &#x3D;&#x3D; 1) {
+                answ++;
+                done &#x3D; true;
+                await msg.reply(&#x60;Correct answer - ${correctanswer}&#x60;);
+                triv.sendQuestion();
+                await triv.client.removeListener(&#x27;message_create&#x27;, wait);
+                return;
+            }
+            res &#x3D; res.toLowerCase();
+            if (res.startsWith(&#x27;ans &#x27;)) {
+                res &#x3D; res.slice(4);
+                if (res.toLowerCase() &#x3D;&#x3D; correctanswer.toLowerCase() ||
+                    parseInt(res) &#x3D;&#x3D; answerindex) {
+                    if (answ !&#x3D; 1) {
+                        return;
+                    }
+                    answ++;
+                    done &#x3D; true;
+                    await msg.react(&#x27;✅&#x27;);
+                    const winner &#x3D; new baseuser({
+                        userId: user.number,
+                        users: triv.client.cachedUsers,
+                    });
+                    winner.addTrivia();
+                    await triv.client.removeListener(&#x27;message_create&#x27;, wait);
+                    triv.sendQuestion();
+                }
+                else if (triv.choices) {
+                    done &#x3D; true;
+                    await msg.react(&#x27;❌&#x27;);
+                    await triv.client.removeListener(&#x27;message_create&#x27;, wait);
+                    await msg.reply(&#x60;Correct answer - ${correctanswer}&#x60;);
+                    triv.sendQuestion();
+                }
+            }
+        });
+        if (!done &amp;amp;&amp;amp; this.timed) {
+            done &#x3D; true;
+            setTimeout(async () &#x3D;&gt; {
+                await triv.client.sendMessage(triv.chatid, &#x60;Time&#x27;s up!\n\nAnswer - ${correctanswer}&#x60;);
+                triv.sendQuestion();
+            }, 15000);
+        }
+    }
+}
+export const name &#x3D; &#x27;trivia&#x27;;
+export const args &#x3D; true;
+export const aliases &#x3D; [&#x27;triv&#x27;, &#x27;tv&#x27;];
+export const description &#x3D; &#x27;Start a game of trivia&#x27;;
+export const category &#x3D; &#x27;Games&#x27;;
+/**
+ * Implements a trivia game using the Open Trivia DB within WhatsApp.
+ *
+ * **Usage (within the bot):**
+ * - Call &#x60;getSession&#x60; to obtain a session token from the Open Trivia DB.
+ * - Use &#x60;loadQuestions&#x60; to retrieve questions based on the configured options.
+ * - Call &#x60;sendQuestion&#x60; to send a question to the chat and handle user responses.
+ *
+ * **User Commands:**
+ * - &#x60;!trivia&#x60; - Starts a new trivia game with random questions.
+ * - &#x60;!trivia {category ID}&#x60; - Starts a game with questions from a specific category.
+ * - &#x60;!trivia --choices&#x60; - Enables multiple choice questions.
+ * - &#x60;!trivia --{easy/medium/hard}&#x60; - Sets the difficulty level of questions.
+ * - &#x60;!trivia --timed&#x60; - Enables timed mode for answering questions.
+ * - &#x60;ans {answer}&#x60; - Submits an answer to the current question.
+ * - &#x60;SKIP&#x60; - Skips the current question and reveals the answer.
+ * - &#x60;QUIT&#x60; - Ends the trivia game.
+ */
+export async function run(client, msg, args) {
+    const chat &#x3D; await msg.getChat();
+    if (client.ingame) {
+        msg.reply(&#x27;A game is currenty active!&#x27;);
+        return;
+    }
+    const game &#x3D; new trivia(client, chat.id._serialized);
+    if (args.length !&#x3D; 0) {
+        if (args[0] &#x3D;&#x3D; &#x27;categories&#x27;) {
+            let categoryList &#x3D; &#x27;&#x27;;
+            categories.forEach(category &#x3D;&gt; {
+                categoryList +&#x3D; &#x60;*${category.id}* &#x3D;&gt; ${category.name}\n&#x60;;
+            });
+            categoryList +&#x3D; &#x60;@${process.env.PHONE} trivia &amp;lt;ID&gt;  for a specific category&#x60;;
+            msg.reply(categoryList);
+            return;
+        }
+        if (args[0] &#x3D;&#x3D; &#x27;help&#x27;) {
+            msg.reply(&#x27;*trivia* for random questions \n*trivia &amp;lt;id&gt;* for specific category* \n*trivia --choices* for multiple choice question \n*trivia --&amp;lt;easy/medium/hard&gt;* for difficulty of questions \n*trivia --timed* for timed mode \n*QUIT* to stop the trivia \n *SKIP* to skip a quesiton&#x27;);
+            return;
+        }
+        if (args[0]) {
+            const category &#x3D; categories.find(category &#x3D;&gt; category.id &#x3D;&#x3D;&#x3D; parseInt(args[0]));
+            if (category) {
+                game.category &#x3D; String(category.id);
+            }
+        }
+        if (args.includes(&#x27;--timed&#x27;)) {
+            game.timed &#x3D; true;
+        }
+        if (args.includes(&#x27;--choices&#x27;)) {
+            game.choices &#x3D; true;
+        }
+        if (args.includes(&#x27;--easy&#x27;)) {
+            game.difficulty &#x3D; &#x27;easy&#x27;;
+        }
+        else if (args.includes(&#x27;--medium&#x27;)) {
+            game.difficulty &#x3D; &#x27;medium&#x27;;
+        }
+        else if (args.includes(&#x27;--hard&#x27;)) {
+            game.difficulty &#x3D; &#x27;hard&#x27;;
+        }
+    }
+    client.ingame &#x3D; true;
+    msg.reply(&#x60;Starting trivia! \n\n Category - ${game.category ? categories.find(category &#x3D;&gt; category.id &#x3D;&#x3D;&#x3D; parseInt(game.category)).name : &#x27;Any&#x27;} \n Difficulty - ${game.difficulty ? game.difficulty : &#x27;Any&#x27;} \n Timed - ${game.timed ? &#x27;Yes&#x27; : &#x27;No&#x27;} \n Multiple Choices - ${game.choices ? &#x27;Yes&#x27; : &#x27;No&#x27;}&#x60;);
+    await game.getSession();
+    game.loadQuestions();
+}
+</code></pre>
+          </article>
+        </div>
+      </div>
+      <nav id="jsdoc-toc-nav" role="navigation"></nav>
+    </div>
+  </div>
+  <footer id="jsdoc-footer" class="jsdoc-footer">
+    <div id="jsdoc-footer-container">
+      <p>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 4.0.2 on April 27, 2024.
+      </p>
+    </div>
+  </footer>
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/tree.jquery.js"></script>
+  <script src="scripts/prettify.js"></script>
+  <script src="scripts/jsdoc-toc.js"></script>
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/scrollanchor.js"></script>
+</body>
+
+</html>

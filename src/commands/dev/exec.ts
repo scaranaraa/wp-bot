@@ -10,6 +10,17 @@ export const args = true;
 export const category = 'Dev';
 export const aliases = ['execute', 'ex'];
 export const description = 'Execute commands in powershell';
+/**
+ * Executes a command in the system's shell and returns the output.
+ * @param {Client} client - The WhatsApp client instance.
+ * @param {Message} msg - The message that triggered the command.
+ * @param {string[]} args - An array containing the command and its arguments.
+ * 
+ * **Usage:**
+ * - `!exec dir` - Executes the `dir` command and displays the directory listing.
+ * - `!exec --file script.ps1` - Executes the PowerShell script in the file `script.ps1`. (Not implemented)
+ * - `!exec --async ping google.com` - Executes the command asynchronously. (Not implemented)
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

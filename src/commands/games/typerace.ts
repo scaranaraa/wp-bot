@@ -20,6 +20,14 @@ export const aliases = ['tp', 'type', 'race'];
 export const description =
 	'Play a game of typerace to measure your typing speed';
 export const category = 'Games';
+/**
+ * Implements a typing race game within WhatsApp. 
+ *
+ * **Usage:**
+ * - `!typerace` or `!tp` - Starts a new typing race. 
+ * - The bot will send an image with a phrase to type. 
+ * - Users compete to type the phrase accurately and as quickly as possible. 
+ */
 export async function run(client: pkg.Client, msg: Message, args: string[]) {
 	if (client.ingame) {
 		msg.reply('A game is currently active!');

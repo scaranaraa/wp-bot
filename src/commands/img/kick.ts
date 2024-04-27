@@ -12,6 +12,12 @@ export const args = true;
 export const aliases: string[] = [];
 export const description = 'Kick someone';
 export const category = 'Image';
+/**
+ * Get a random anime gif for kicking someone
+ * 
+ * **Usage:**
+ * - `!kick {user}` - Gets a random kicking GIF
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

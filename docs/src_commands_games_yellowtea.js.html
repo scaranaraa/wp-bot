@@ -1,0 +1,217 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="generator" content="JSDoc 4.0.2">
+  <meta charset="utf-8">
+  <title>wp-bot 4.3.2 &raquo; Source: src/commands/games/yellowtea.js</title>
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+  <link href="css/baseline.css" rel="stylesheet">
+</head>
+
+<body onload="prettyPrint()">
+  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+      <div id="jsdoc-navbar-content">
+        <a href="index.html" class="jsdoc-navbar-package-name">wp-bot 4.<wbr>3.<wbr>2</a>
+      </div>
+    </div>
+  </nav>
+  <div id="jsdoc-body-container">
+    <div id="jsdoc-content">
+      <div id="jsdoc-content-container">
+        <div id="jsdoc-banner" role="banner">
+        </div>
+        <div id="jsdoc-main" role="main">
+          <header class="page-header">
+            <h1>Source: src/commands/games/yellowtea.js</h1>
+          </header>
+          <article>
+            <pre class="prettyprint linenums"><code>import words from &#x27;../utils/words.js&#x27;;
+import baseuser from &#x27;../../models/baseuser.js&#x27;;
+let listofwords &#x3D; words.WORDS.split(&#x27;\n&#x27;);
+listofwords &#x3D; listofwords.map(word &#x3D;&gt; word.trim().toLowerCase());
+function randomWord() {
+    return listofwords[Math.floor(Math.random() * listofwords.length)];
+}
+class yellowtea {
+    constructor(client, id) {
+        this.chatid &#x3D; id;
+        this.client &#x3D; client;
+        this.segment &#x3D; &#x27;&#x27;;
+        this.players &#x3D; new Map();
+        this.queue &#x3D; new Map();
+        this.scores &#x3D; new Map();
+        this.usedwords &#x3D; [];
+        this.unanswered &#x3D; 0;
+    }
+    currwords;
+    chatid;
+    scores;
+    client;
+    segment;
+    players;
+    queue;
+    usedwords;
+    unanswered;
+    async startgame() {
+        this.client.ingame &#x3D; true;
+        const res &#x3D; &quot;You have a few seconds to write as many words as you can containing the group of *3 letters indicated*.\n\nPoints are awarded on the basis of words guessed. You can&#x27;t reuse a word already played.&quot;;
+        await this.client.sendMessage(this.chatid, res);
+    }
+    async sendword() {
+        if (this.unanswered &gt;&#x3D; 4) {
+            this.client.ingame &#x3D; false;
+            await this.client.sendMessage(this.chatid, &#x27;Game cancelled&#x27;);
+            return;
+        }
+        this.scores &#x3D; new Map();
+        let done &#x3D; false;
+        const regex &#x3D; /^[a-zA-Z]+$/;
+        if (!this.client.ingame) {
+            return;
+        }
+        const game &#x3D; this;
+        let word &#x3D; randomWord();
+        while (word.length &amp;lt;&#x3D; 3 || !regex.test(word)) {
+            word &#x3D; randomWord();
+        }
+        const randomIndex &#x3D; Math.floor(Math.random() * (word.length - 2));
+        const segment &#x3D; word.substring(randomIndex, randomIndex + 3);
+        this.client.on(&#x27;message_create&#x27;, async function wait(msg) {
+            const chat &#x3D; await msg.getChat();
+            if (chat.id._serialized !&#x3D; game.chatid) {
+                return;
+            }
+            const user &#x3D; await msg.getContact();
+            const res &#x3D; msg.body.toLowerCase();
+            if (listofwords.includes(res) &amp;amp;&amp;amp;
+                res.includes(segment.toLowerCase()) &amp;amp;&amp;amp;
+                !res.includes(&#x27;@&#x27;) &amp;amp;&amp;amp;
+                game.players.has(user.number) &amp;amp;&amp;amp;
+                !game.usedwords.includes(res) &amp;amp;&amp;amp;
+                !game.usedwords.includes(res.slice(0, -1)) &amp;amp;&amp;amp;
+                !game.usedwords.includes(&#x60;${res}s&#x60;)) {
+                game.usedwords.push(res);
+                if (game.scores.has(user.number)) {
+                    game.scores.set(user.number, game.scores.get(user.number) + 1);
+                }
+                else {
+                    game.scores.set(user.number, 1);
+                }
+                await msg.react(&#x27;👍&#x27;);
+            }
+            if (!done) {
+                setTimeout(async () &#x3D;&gt; {
+                    if (done) {
+                        return;
+                    }
+                    done &#x3D; true;
+                    game.client.removeListener(&#x27;message_create&#x27;, wait);
+                    let res &#x3D; &#x27;&#x27;;
+                    if (game.scores.size &#x3D;&#x3D; 0) {
+                        game.unanswered++;
+                    }
+                    game.scores.forEach(async (value, key) &#x3D;&gt; {
+                        game.unanswered &#x3D; 0;
+                        game.players.set(key, game.players.get(key) + value);
+                        const playerscore &#x3D; game.players.get(key);
+                        if (playerscore &gt;&#x3D; 30) {
+                            await game.client.sendMessage(game.chatid, &#x60;*@${game.queue.get(key)}* wins the game!&#x60;);
+                            const user &#x3D; new baseuser({
+                                userId: key,
+                                users: game.client.cachedUsers,
+                            });
+                            user.addYellowtea();
+                            game.client.ingame &#x3D; false;
+                            return;
+                        }
+                        res +&#x3D; &#x60;*@${game.queue.get(key)}* has ${playerscore} points.\n&#x60;;
+                    });
+                    if (res) {
+                        await game.client.sendMessage(game.chatid, res);
+                    }
+                    await game.sendword();
+                }, 11000);
+            }
+        });
+        await this.client.sendMessage(this.chatid, &#x60;Type a word containing *${segment.toUpperCase()}* as fast as you can!&#x60;);
+    }
+}
+export const name &#x3D; &#x27;yellowtea&#x27;;
+export const args &#x3D; true;
+export const aliases &#x3D; [&#x27;yet&#x27;, &#x27;ywt&#x27;];
+export const description &#x3D; &#x27;Play a game of yellowtea with someone&#x27;;
+export const category &#x3D; &#x27;Games&#x27;;
+/**
+ * Implements the Yellow Tea word game within a WhatsApp chat.
+ *
+ * **Usage (within the bot):**
+ * - Call &#x60;startgame&#x60; to start the game and send instructions.
+ * - Use &#x60;sendword&#x60; to send a word segment and handle player responses.
+ *
+ * **User Commands:**
+ * - &#x60;!yellowtea&#x60; or &#x60;!yet&#x60; - Starts a new Yellow Tea game.
+ * - &#x60;join&#x60; - Joins the ongoing game.
+ * - &#x60;{word}&#x60; - Submits a word containing the provided segment.
+ */
+export async function run(client, msg, args) {
+    let activated &#x3D; false;
+    if (client.ingame) {
+        msg.reply(&#x27;A game is currently active!&#x27;);
+        return;
+    }
+    client.ingame &#x3D; true;
+    const chat &#x3D; await msg.getChat();
+    const game &#x3D; new yellowtea(client, chat.id._serialized);
+    await game.startgame();
+    client.on(&#x27;message_create&#x27;, async function wait(msg) {
+        const chat &#x3D; await msg.getChat();
+        if (chat.id._serialized !&#x3D; game.chatid) {
+            return;
+        }
+        if (msg.body.toLowerCase() !&#x3D; &#x27;join&#x27;) {
+            return;
+        }
+        const user &#x3D; await msg.getContact();
+        if (game.players.has(user.number)) {
+            return;
+        }
+        game.players.set(user.number, 0);
+        game.queue.set(user.number, user.name || user.number);
+        await msg.react(&#x27;✅&#x27;);
+        setTimeout(async () &#x3D;&gt; {
+            if (activated) {
+                return;
+            }
+            activated &#x3D; true;
+            client.removeListener(&#x27;message_create&#x27;, wait);
+            await game.sendword();
+        }, 10000);
+    });
+}
+</code></pre>
+          </article>
+        </div>
+      </div>
+      <nav id="jsdoc-toc-nav" role="navigation"></nav>
+    </div>
+  </div>
+  <footer id="jsdoc-footer" class="jsdoc-footer">
+    <div id="jsdoc-footer-container">
+      <p>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 4.0.2 on April 27, 2024.
+      </p>
+    </div>
+  </footer>
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/tree.jquery.js"></script>
+  <script src="scripts/prettify.js"></script>
+  <script src="scripts/jsdoc-toc.js"></script>
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/scrollanchor.js"></script>
+</body>
+
+</html>

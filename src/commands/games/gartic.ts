@@ -161,6 +161,21 @@ export const aliases = ['gc', 'ga'];
 export const description = 'Play a game of gartic with someone';
 export const category = 'Games';
 const { MessageMedia } = pkg;
+/**
+ * Implements a drawing and guessing game (similar to Gartic Phone) within WhatsApp.
+ * 
+ * **Usage (within the bot):** 
+ * - Call `next_turn` to start the game and assign the first player to draw. 
+ * - The class will handle sending the word to the drawer, receiving the drawing, and prompting other players to guess. 
+ * 
+ * **User Commands:** 
+ * - `!gartic` or `!gc` - Starts a new Gartic-like game. 
+ * - `join` - Joins the ongoing game. 
+ * - (Drawer) Send an image as a reply to the bot's prompt to submit the drawing. 
+ * - (Guessers) `{word}` - Submits a guess for the word being drawn. 
+ * - `ghint` - Asks for a hint about the word (reveals the first letter).
+ * - `gquit` - Stops the game.
+ */ 
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

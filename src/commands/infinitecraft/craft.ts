@@ -16,6 +16,12 @@ export const args = true;
 export const aliases = ['make', 'join'];
 export const description = 'Craft any two times together';
 export const category = 'InfiniteCraft';
+/**
+ * Combines two items in the Infinite Craft game and returns the resulting item, if any. 
+ * 
+ * **Usage:**
+ * - `!craft {item1} + {item2}` or `!craft {item1} , {item2}` - Attempts to craft the two items together.
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

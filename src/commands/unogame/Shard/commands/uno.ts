@@ -7,7 +7,14 @@ export default class PingCommand extends BaseCommand {
 			aliases: ['!', 'uno!'],
 		});
 	}
-
+	/**
+	 * Handles UNO callouts within a WhatsApp chat.
+	 *
+	 * This command checks if a player has only one card left and allows them to call "UNO!". 
+	 *
+	 * **Usage:**
+	 * - `uno uno` or `uno!` - Calls "UNO!" if the player has only one card remaining.
+	 */
 	async execute(msg: Message) {
 		const chat = await msg.getChat();
 		const member = await msg.getContact();

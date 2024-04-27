@@ -152,6 +152,18 @@ export const args = true;
 export const aliases = ['yet', 'ywt'];
 export const description = 'Play a game of yellowtea with someone';
 export const category = 'Games';
+/**
+ * Implements the Yellow Tea word game within a WhatsApp chat.
+ * 
+ * **Usage (within the bot):**
+ * - Call `startgame` to start the game and send instructions. 
+ * - Use `sendword` to send a word segment and handle player responses. 
+ * 
+ * **User Commands:**
+ * - `!yellowtea` or `!yet` - Starts a new Yellow Tea game.
+ * - `join` - Joins the ongoing game. 
+ * - `{word}` - Submits a word containing the provided segment. 
+ */
 export async function run(client: Client, msg: Message, args: string[]) {
 	let activated = false;
 

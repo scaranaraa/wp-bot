@@ -3,6 +3,15 @@ import { scheduleJob } from 'node-schedule';
 import client from '../../index.js';
 import baseuser from '../models/baseuser.js';
 
+/**
+ * Executes tasks when the WhatsApp bot is ready. 
+ *
+ *  once the bot is connected and ready, it will begin 
+ * - Caching the bot's user profile.
+ * - scheduling pending reminders.
+ * - sheduling daily, weekly, and monthly tasks for resetting message counts
+ */
+
 const db = new JsonDB(
 	new Config('./src/commands/utils/rm.json', true, true, '/')
 );

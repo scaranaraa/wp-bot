@@ -255,6 +255,19 @@ export const args = true;
 export const aliases = ['cw'];
 export const description = 'Play crossword from NYT games';
 export const category = 'Games';
+/**
+ * Implements a crossword puzzle game using NYT crosswords within WhatsApp, including image generation.
+ * 
+ * **Usage (within the bot):**
+ * - Call `init` to retrieve a random crossword puzzle from the NYT archive and send the initial board image and clues. 
+ * - The class will handle user input for filling in answers and requesting clues. 
+ *
+ * **User Commands:**
+ * - `!crossword` or `!cw` - Starts a new crossword puzzle game.
+ * - `{number}{direction} {word}` - Fills in a word on the crossword board (e.g., `1a HELLO` for across, `2d WORLD` for down). 
+ * - `CLUE {number}{direction}` - Requests the clue for a specific word (e.g., `CLUE 1a`). 
+ * - `QUIT` - Ends the current crossword game and reveals the solution. 
+ */ 
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

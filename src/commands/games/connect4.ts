@@ -207,6 +207,17 @@ export const args = true;
 export const aliases = ['connect', 'c4'];
 export const description = 'Play connect4 with someone';
 export const category = 'Games';
+/**
+ * Implements the Connect Four game within WhatsApp. 
+ *
+ * **Usage (within the bot):**
+ * - Call `start` to begin the game, send the initial board representation, and handle player moves. 
+ * 
+ * **User Commands:**
+ * - `!connect4` or `!c4` - Starts a new Connect Four game.
+ * - `{column number}` - Places a piece in the specified column (1-7).
+ * - `QUIT` - Ends the current game.
+ */
 export async function run(client: Client, msg: Message, args: string[]) {
 	if (client.ingame) {
 		return;

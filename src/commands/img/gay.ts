@@ -11,6 +11,12 @@ export const args = true;
 export const aliases: string[] = [];
 export const description = 'Create a gay image of someone';
 export const category = 'Image';
+/**
+ * Generate modified image of a members pfp
+ * 
+ * **Usage:**
+ * - `!gay {user}` - Generates gay-fied image of users pfp
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

@@ -1,0 +1,247 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="generator" content="JSDoc 4.0.2">
+  <meta charset="utf-8">
+  <title>wp-bot 4.3.2 &raquo; Source: src/commands/games/connect4.js</title>
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+  <link href="css/baseline.css" rel="stylesheet">
+</head>
+
+<body onload="prettyPrint()">
+  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+      <div id="jsdoc-navbar-content">
+        <a href="index.html" class="jsdoc-navbar-package-name">wp-bot 4.<wbr>3.<wbr>2</a>
+      </div>
+    </div>
+  </nav>
+  <div id="jsdoc-body-container">
+    <div id="jsdoc-content">
+      <div id="jsdoc-content-container">
+        <div id="jsdoc-banner" role="banner">
+        </div>
+        <div id="jsdoc-main" role="main">
+          <header class="page-header">
+            <h1>Source: src/commands/games/connect4.js</h1>
+          </header>
+          <article>
+            <pre class="prettyprint linenums"><code>class c4 {
+    constructor(client, id, pl1, pl2) {
+        this.chatid &#x3D; id;
+        this.client &#x3D; client;
+        this.players &#x3D; [pl1, pl2];
+        this.place &#x3D; [&#x27;🔵&#x27;, &#x27;🔴&#x27;];
+        this.board &#x3D; [
+            [&#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;],
+            [&#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;],
+            [&#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;],
+            [&#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;],
+            [&#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;],
+            [&#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;],
+            [&#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;, &#x27;⁣⚪&#x27;],
+        ];
+    }
+    chatid;
+    client;
+    players;
+    place;
+    board;
+    async start() {
+        await this.sendBoard();
+        await this.client.sendMessage(this.chatid, &#x60;It&#x27;s @${this.players[0].number}&#x27;s turn!&#x60;);
+        let done &#x3D; false;
+        const game &#x3D; this;
+        this.client.on(&#x27;message_create&#x27;, async function wait(msg) {
+            if (done) {
+                return;
+            }
+            const chat &#x3D; await msg.getChat();
+            const user &#x3D; await msg.getContact();
+            if (user.number !&#x3D; game.players[0].number) {
+                return;
+            }
+            if (chat.id._serialized !&#x3D; game.chatid) {
+                return;
+            }
+            let res &#x3D; msg.body;
+            if (res &#x3D;&#x3D; &#x27;QUIT&#x27;) {
+                await game.client.sendMessage(game.chatid, &#x27;Game stopped!&#x27;);
+                game.client.ingame &#x3D; false;
+                await game.client.removeListener(&#x27;message_create&#x27;, wait);
+                return;
+            }
+            if (!res) {
+                return;
+            }
+            if (isNaN(res)) {
+                return;
+            }
+            res &#x3D; parseInt(res);
+            if (res &amp;lt; 1 || res &gt; 7) {
+                return;
+            }
+            res--;
+            let available &#x3D; 6;
+            while (available &gt;&#x3D; 0) {
+                if (done) {
+                    return;
+                }
+                if (game.board[available][res] &#x3D;&#x3D; &#x27;⁣⚪&#x27;) {
+                    game.board[available][res] &#x3D; game.place[0];
+                    done &#x3D; true;
+                    const over &#x3D; await game.checkgameover();
+                    if (over) {
+                        game.client.ingame &#x3D; false;
+                        await game.client.sendMessage(game.chatid, &#x60;Game over! @${game.players[0].number} wins!&#x60;);
+                        return;
+                    }
+                    const full &#x3D; await game.checkboardfull();
+                    if (full) {
+                        game.client.ingame &#x3D; false;
+                        await game.client.sendMessage(game.chatid, &quot;Game over! It&#x27;s a draw!&quot;);
+                        return;
+                    }
+                    game.place.reverse();
+                    game.players.reverse();
+                    await game.client.removeListener(&#x27;message_create&#x27;, wait);
+                    await game.start();
+                    return;
+                }
+                available--;
+            }
+            await game.client.sendMessage(game.chatid, &#x27;You cannot place a piece here!&#x27;);
+        });
+    }
+    async sendBoard() {
+        let stylisedboard &#x3D; &#x27;&#x27;;
+        for (let i &#x3D; 0; i &amp;lt; this.board.length; i++) {
+            for (let j &#x3D; 0; j &amp;lt; this.board[i].length; j++) {
+                stylisedboard +&#x3D; &#x60;| ${this.board[i][j]} &#x60;;
+            }
+            stylisedboard +&#x3D; &#x27;|\n&#x27;;
+        }
+        await this.client.sendMessage(this.chatid, stylisedboard);
+    }
+    async checkgameover() {
+        // 4 in a row/column/diagonal to win
+        for (let i &#x3D; 0; i &amp;lt; this.board.length; i++) {
+            for (let j &#x3D; 0; j &amp;lt; this.board[i].length; j++) {
+                const rowstr &#x3D; &#x60;${this.board[i][j]}${this.board[i][j + 1] ? this.board[i][j + 1] : &#x27;&#x27;}${this.board[i][j + 2] ? this.board[i][j + 2] : &#x27;&#x27;}${this.board[i][j + 3] ? this.board[i][j + 3] : &#x27;&#x27;}&#x60;;
+                if (rowstr.includes(&#x27;🔴🔴🔴🔴&#x27;) || rowstr.includes(&#x27;🔵🔵🔵🔵&#x27;)) {
+                    this.board[i][j] &#x3D; &#x27;⭐&#x27;;
+                    this.board[i][j + 1] &#x3D; &#x27;⭐&#x27;;
+                    this.board[i][j + 2] &#x3D; &#x27;⭐&#x27;;
+                    this.board[i][j + 3] &#x3D; &#x27;⭐&#x27;;
+                    await this.sendBoard();
+                    return true;
+                }
+                const columnstr &#x3D; &#x60;${this.board[i][j]}${this.board[i + 1] ? this.board[i + 1][j] : &#x27;&#x27;}${this.board[i + 2] ? this.board[i + 2][j] : &#x27;&#x27;}${this.board[i + 3] ? this.board[i + 3][j] : &#x27;&#x27;}&#x60;;
+                if (columnstr.includes(&#x27;🔴🔴🔴🔴&#x27;) || columnstr.includes(&#x27;🔵🔵🔵🔵&#x27;)) {
+                    this.board[i][j] &#x3D; &#x27;⭐&#x27;;
+                    this.board[i + 1][j] &#x3D; &#x27;⭐&#x27;;
+                    this.board[i + 2][j] &#x3D; &#x27;⭐&#x27;;
+                    this.board[i + 3][j] &#x3D; &#x27;⭐&#x27;;
+                    await this.sendBoard();
+                    return true;
+                }
+                // front diagonal
+                let diagonalstr &#x3D; &#x60;${this.board[i][j]}${this.board[i + 1] ? (this.board[i + 1][j + 1] ? this.board[i + 1][j + 1] : &#x27;&#x27;) : &#x27;&#x27;}${this.board[i + 2] ? (this.board[i + 2][j + 2] ? this.board[i + 2][j + 2] : &#x27;&#x27;) : &#x27;&#x27;}${this.board[i + 3] ? (this.board[i + 3][j + 3] ? this.board[i + 3][j + 3] : &#x27;&#x27;) : &#x27;&#x27;}&#x60;;
+                if (diagonalstr.includes(&#x27;🔴🔴🔴🔴&#x27;) ||
+                    diagonalstr.includes(&#x27;🔵🔵🔵🔵&#x27;)) {
+                    this.board[i][j] &#x3D; &#x27;⭐&#x27;;
+                    this.board[i + 1][j + 1] &#x3D; &#x27;⭐&#x27;;
+                    this.board[i + 2][j + 2] &#x3D; &#x27;⭐&#x27;;
+                    this.board[i + 3][j + 3] &#x3D; &#x27;⭐&#x27;;
+                    await this.sendBoard();
+                    return true;
+                }
+                // back diagonal
+                diagonalstr &#x3D; &#x60;${this.board[i][j]}${this.board[i + 1] ? (this.board[i + 1][j - 1] ? this.board[i + 1][j - 1] : &#x27;&#x27;) : &#x27;&#x27;}${this.board[i + 2] ? (this.board[i + 2][j - 2] ? this.board[i + 2][j - 2] : &#x27;&#x27;) : &#x27;&#x27;}${this.board[i + 3] ? (this.board[i + 3][j - 3] ? this.board[i + 3][j - 3] : &#x27;&#x27;) : &#x27;&#x27;}&#x60;;
+                if (diagonalstr.includes(&#x27;🔴🔴🔴🔴&#x27;) ||
+                    diagonalstr.includes(&#x27;🔵🔵🔵🔵&#x27;)) {
+                    this.board[i][j] &#x3D; &#x27;⭐&#x27;;
+                    this.board[i + 1][j - 1] &#x3D; &#x27;⭐&#x27;;
+                    this.board[i + 2][j - 2] &#x3D; &#x27;⭐&#x27;;
+                    this.board[i + 3][j - 3] &#x3D; &#x27;⭐&#x27;;
+                    await this.sendBoard();
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    async checkboardfull() {
+        for (let i &#x3D; 0; i &amp;lt; this.board.length; i++) {
+            for (let j &#x3D; 0; j &amp;lt; this.board[i].length; j++) {
+                if (this.board[i][j] &#x3D;&#x3D; &#x27;⁣⚪&#x27;) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+}
+export const name &#x3D; &#x27;connect4&#x27;;
+export const args &#x3D; true;
+export const aliases &#x3D; [&#x27;connect&#x27;, &#x27;c4&#x27;];
+export const description &#x3D; &#x27;Play connect4 with someone&#x27;;
+export const category &#x3D; &#x27;Games&#x27;;
+/**
+ * Implements the Connect Four game within WhatsApp.
+ *
+ * **Usage (within the bot):**
+ * - Call &#x60;start&#x60; to begin the game, send the initial board representation, and handle player moves.
+ *
+ * **User Commands:**
+ * - &#x60;!connect4&#x60; or &#x60;!c4&#x60; - Starts a new Connect Four game.
+ * - &#x60;{column number}&#x60; - Places a piece in the specified column (1-7).
+ * - &#x60;QUIT&#x60; - Ends the current game.
+ */
+export async function run(client, msg, args) {
+    if (client.ingame) {
+        return;
+    }
+    client.ingame &#x3D; true;
+    const member &#x3D; await msg.getContact();
+    const chat &#x3D; await msg.getChat();
+    const mentions &#x3D; await msg.getMentions();
+    if (mentions.length &#x3D;&#x3D; 0) {
+        client.ingame &#x3D; false;
+        return msg.reply(&#x27;please do not play with yourself :(&#x27;);
+    }
+    const mentioneduser &#x3D; mentions.pop();
+    if (mentioneduser.number &#x3D;&#x3D; member.number) {
+        client.ingame &#x3D; false;
+        return msg.reply(&#x27;please do not play with yourself :(&#x27;);
+    }
+    const chance &#x3D; Math.random() &gt; 0.5 ? member : mentioneduser;
+    const c4game &#x3D; new c4(client, chat.id._serialized, chance, chance.number &#x3D;&#x3D; member.number ? mentioneduser : member);
+    await c4game.start();
+}
+</code></pre>
+          </article>
+        </div>
+      </div>
+      <nav id="jsdoc-toc-nav" role="navigation"></nav>
+    </div>
+  </div>
+  <footer id="jsdoc-footer" class="jsdoc-footer">
+    <div id="jsdoc-footer-container">
+      <p>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 4.0.2 on April 27, 2024.
+      </p>
+    </div>
+  </footer>
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/tree.jquery.js"></script>
+  <script src="scripts/prettify.js"></script>
+  <script src="scripts/jsdoc-toc.js"></script>
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/scrollanchor.js"></script>
+</body>
+
+</html>

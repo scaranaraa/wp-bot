@@ -11,7 +11,12 @@ export const aliases = ['unl'];
 export const description = 'Check all unlocked recipies';
 export const category = 'InfiniteCraft';
 const { Client, LocalAuth, MessageMedia } = pkg;
-
+/**
+ * Displays a list of unlocked recipes in the Infinite Craft game.
+ * 
+ * **Usage:**
+ * - `!unlocked` or `!unl` - Shows the list of unlocked recipes, grouped by the first letter.
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

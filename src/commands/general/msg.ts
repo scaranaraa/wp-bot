@@ -6,6 +6,14 @@ export const args = true;
 export const aliases = ['msg', 'msgs', 'message'];
 export const description = 'Check number of messages by a user';
 export const category = 'General';
+/**
+ * Displays message count statistics for a user or globally within the WhatsApp chat.
+ *
+ * **Usage:**
+ * - `!messages` or `!msg` - Shows the message count for the user who sent the command. 
+ * - `!messages @user` - Shows the message count for the mentioned user. 
+ * - `!messages global` - Shows the global message count for the entire chat. 
+ */
 export async function run(client: Client, msg: Message, args: string[]) {
 	if (args.length && args[0] == 'global') {
 		let res = `Global message count\n\n`;

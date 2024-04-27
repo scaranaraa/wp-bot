@@ -272,6 +272,19 @@ export const args = true;
 export const aliases = ['tic', 'tac', 'toe', 'ttt'];
 export const description = 'Play Tic Tac Toe with someone';
 export const category = 'Games';
+/**
+ * Implements the Tic Tac Toe game within WhatsApp, including image generation.
+ *
+ * **Usage (within the bot):**
+ * - Call `genimage` to create an initial image of the game board.
+ * - Use `start` to begin the game and handle player moves.
+ * - Call `genimage` again to generate an updated image after each move.
+ * 
+ * **User Commands:**
+ * - `!tictactoe` or `!ttt` - Starts a new Tic Tac Toe game.
+ * - `{number}` - Places a mark on the specified square (1-9).
+ * - `QUIT` - Ends the current game. 
+ */
 export async function run(client: pkg.Client, msg: Message, args: string[]) {
 	if (client.ingame) {
 		msg.reply('A game is currently active!');

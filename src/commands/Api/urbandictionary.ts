@@ -8,6 +8,15 @@ export const args = true;
 export const aliases = ['ud', 'urban'];
 export const description = 'Get upto 5 definitions from urban dictionary';
 export const category = 'API';
+/**
+ * Retrieves definitions from Urban Dictionary for a given term.
+ *
+ * **Usage:**
+ * - `!urbandictionary {term}` or `!ud {term}` - Searches Urban Dictionary for the specified term and displays definitions. 
+ *
+ * **Notes:**
+ * - This command requires an API key for 'lolhuman.xyz'.
+ */
 export async function run(client: Client, msg: Message, args: string[]) {
 	if (!args.length) {
 		return msg.reply('Provide queeyyrry');

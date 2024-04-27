@@ -25,6 +25,14 @@ export const description = 'Get a dare';
 export const category = 'General';
 
 const { Client, LocalAuth, MessageMedia } = pkg;
+/**
+ * Provides "Dare" prompts from a JSON database. 
+ * 
+ * This command retrieves dares from 'dare.json' and sends a random one to the chat. 
+ *
+ * **Usage:**
+ * - `!dare` or `!d` - Sends a "Dare" prompt to the chat. 
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

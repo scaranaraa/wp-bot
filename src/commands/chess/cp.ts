@@ -260,6 +260,25 @@ export const args = true;
 export const aliases = ['chess', 'puzzle', 'cp'];
 export const description = 'Get one move chess puzzles';
 export const category = 'Chess';
+/**
+ * Manages chess puzzles within a WhatsApp chat.
+ * 
+ * This class handles puzzle loading, retrieval, user interaction, and scoring.
+ * It utilizes the 'chess.js' library for game logic and interacts with a CSV database of puzzles.
+ *
+ * **Usage (within the bot):**
+ * - Instantiate a `puzzle` object with the client and chat ID.
+ * - Call `preloadpuzzle` to prepare a puzzle in advance.
+ * - Call `getpuzzle` to send a puzzle to the chat and start the solving process.
+ * - The class automatically handles user responses and game flow.
+ *
+ * **User Commands:**
+ * - `!chess` or `!cp` - Starts a one-move chess puzzle.
+ * - `!chess full` - Starts a multi-move chess puzzle. 
+ * - `hint` - Provides a hint (with point deduction).
+ * - `move {move}` - Submits a move (e.g., `move e4`).
+ * - `link` or `solution` - Ends the game and reveals the solution.
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

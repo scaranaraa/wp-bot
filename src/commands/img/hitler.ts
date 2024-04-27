@@ -10,6 +10,12 @@ export const args = true;
 export const aliases: string[] = [];
 export const description = 'Hitler image of someone';
 export const category = 'Image';
+/**
+ * Generate modified image of a members pfp
+ * 
+ * **Usage:**
+ * - `!hitler {user}` - Generates hitler meme image of users pfp
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

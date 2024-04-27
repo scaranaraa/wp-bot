@@ -12,6 +12,12 @@ export const args = true;
 export const aliases: string[] = [];
 export const description = 'Lick someone';
 export const category = 'Image';
+/**
+ * Get a random anime gif for licking someone
+ * 
+ * **Usage:**
+ * - `!lick {user}` - Gets a random licking GIF
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

@@ -183,6 +183,18 @@ export const args = true;
 export const aliases = ['bing', 'syd'];
 export const description = 'Chat with sydney/microsoft copilot';
 export const category = 'Bing';
+/**
+ * Talk with the Bing AI (Sydney) within WhatsApp.
+ *
+ * **Usage (within the bot):**
+ * - Instantiate a `sydney` object with the client and chat ID.
+ * - Call `load` to initialize the Bing AI connection.
+ * - Use `getCompletionWithBing` to send a message to Bing AI and receive a response.
+ *
+ * **User Commands:**
+ * - `!sydney {message}` - Sends the message to Bing AI and replies with its response.
+ * - `!sydney RESET` - Reloads the Bing AI model.
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

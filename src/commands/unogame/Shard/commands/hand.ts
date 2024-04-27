@@ -5,7 +5,12 @@ export default class HandCommand extends BaseCommand {
 	constructor(client: Client) {
 		super(client, 'hand');
 	}
-
+	/** 
+	 * Sends the player's current hand in a private message.
+	 *
+	 * **Usage:**
+	 * - `uno hand` - Sends the player's hand cards in a direct message. 
+	 */
 	async execute(msg: Message) {
 		const chat = await msg.getChat();
 		const member = await msg.getContact();

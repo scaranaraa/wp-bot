@@ -1,6 +1,10 @@
 import { readdirSync } from 'fs';
 import { type Client } from 'whatsapp-web.js';
-
+/**
+ * Loads event handlers for the WhatsApp bot.
+ *
+ * iterates through event files in 'src/events' and loads them with the client.
+ */ 
 export default (client: Client) => {
 	try {
 		readdirSync('./dist/src/events').forEach(async file => {
