@@ -1,3 +1,4 @@
+
 import { OpenAI } from 'openai';
 
 import pkg2 from 'whatsapp-web.js';
@@ -26,6 +27,8 @@ export const aliases: string[] = ['chatgpt', 'openai'];
 export const description = 'Chat with ChatGPT 3.5 turbo';
 export const category = 'AI';
 /**
+ * @memberof AI
+ * @name gpt
  * Enables chatting with ChatGPT 3.5 Turbo within WhatsApp.
  *
  * **Usage:** 

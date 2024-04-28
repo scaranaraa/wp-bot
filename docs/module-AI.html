@@ -4,7 +4,7 @@
 <head>
   <meta name="generator" content="JSDoc 4.0.2">
   <meta charset="utf-8">
-  <title>wp-bot 4.3.2 &raquo; Source: src/commands/unogame/Shard/commands/hand.js</title>
+  <title>wp-bot 4.3.2 &raquo; Module: AI</title>
   <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
   <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
   <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
@@ -22,44 +22,20 @@
   <div id="jsdoc-body-container">
     <div id="jsdoc-content">
       <div id="jsdoc-content-container">
-        <div id="jsdoc-banner" role="banner">
-        </div>
         <div id="jsdoc-main" role="main">
           <header class="page-header">
-            <h1>Source: src/commands/unogame/Shard/commands/hand.js</h1>
+            <div class="symbol-detail-labels"><span class="label label-kind">module</span></div>
+            <h1><small></small><span class="symbol-name">AI</span></h1>
+            <p class="source-link">Source: <a href="src_commands_ai_claude.js.html">src/<wbr>commands/<wbr>ai/<wbr>claude.<wbr>js</a></p>
+            <div class="symbol-description">
+            </div>
+            <dl class="dl-compact">
+            </dl>
           </header>
-          <article>
-            <pre class="prettyprint linenums"><code>import BaseCommand from &#x27;../BaseCommand.js&#x27;;
-export default class HandCommand extends BaseCommand {
-    constructor(client) {
-        super(client, &#x27;hand&#x27;);
-    }
-    /**
-     * Sends the player&#x27;s current hand in a private message.
-     *
-     * **Usage:**
-     * - &#x60;uno hand&#x60; - Sends the player&#x27;s hand cards in a direct message.
-     */
-    async execute(msg) {
-        const chat &#x3D; await msg.getChat();
-        const member &#x3D; await msg.getContact();
-        const game &#x3D; this.games[chat.id.user];
-        if (game) {
-            if (!game.started) {
-                return &quot;Sorry, but the game hasn&#x27;t been started yet!&quot;;
-            }
-            const player &#x3D; game.players[member.number];
-            if (!player) {
-                return &#x27;Sorry, but you are not a part of this game!&#x27;;
-            }
-            await player.sendHand(this.client);
-            return &quot;You got it! I&#x27;ve DMed you your hand.&quot;;
-        }
-        return &quot;Sorry, but a game hasn&#x27;t been created yet! Do &#x60;uno join&#x60; to create one.&quot;;
-    }
-}
-</code></pre>
-          </article>
+          <section id="summary">
+          </section>
+          <section>
+          </section>
         </div>
       </div>
       <nav id="jsdoc-toc-nav" role="navigation"></nav>

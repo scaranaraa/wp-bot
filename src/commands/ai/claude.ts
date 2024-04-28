@@ -13,6 +13,8 @@ export const aliases: string[] = ['laude', 'cld'];
 export const description = 'Chat with Claude 3.0 sonnet';
 export const category = 'AI';
 /**
+ * @memberof AI
+ * @name claude
  * Enables chatting with Anthropic's Claude 3.0 Sonnet model within WhatsApp.
  * 
  * **Usage:**

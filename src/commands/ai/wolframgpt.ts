@@ -1,3 +1,4 @@
+
 import { HumanMessage, AIMessage } from '@langchain/core/messages';
 import { TavilySearchResults } from '@langchain/community/tools/tavily_search';
 import { pull } from 'langchain/hub';
@@ -52,6 +53,8 @@ export const aliases: string[] = ['wgpt'];
 export const description = 'Chat with WolframAlpha using GPT 3.5';
 export const category = 'AI';
 /**
+ * @memberof AI
+ * @name wolframgpt
  * Enables interaction with WolframAlpha and other tools using GPT-3.5 within WhatsApp.
  *
  * **Usage:**
