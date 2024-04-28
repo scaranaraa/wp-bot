@@ -52,74 +52,120 @@ import(&#x27;./src/commands/monopoly/monopoly.js&#x27;);
 /**
  * @memberof Client
  * @name commands
+ * @type {Map&amp;lt;string, any&gt;}
  * @description Map of commands loaded to the client
 */
 client.commands &#x3D; new Map();
 /**
  * @memberof Client
  * @name handlers
+ * @type {Map&amp;lt;string, any&gt;}
  * @description Map of handlers loaded to the client
 */
 client.handlers &#x3D; new Map();
 /**
  * @memberof Client
  * @name events
+ * @type {Map&amp;lt;string, any&gt;}
  * @description Map of events loaded to the client
 */
 client.events &#x3D; new Map();
 /**
  * @memberof Client
  * @name aliases
+ * @type {Map&amp;lt;string, any&gt;}
  * @description Map of command aliases loaded to the client
 */
 client.aliases &#x3D; new Map();
 /**
  * @memberof Client
  * @name muted
+ * @type {string[]}
  * @description List of muted members
 */
 client.muted &#x3D; [];
 /**
  * @memberof Client
  * @name mgames
+ * @type {Map&amp;lt;string, MGame&gt;}
  * @description Map of ongoing monopoly games
 */
 client.mgames &#x3D; new Map();
+/**
+ * @memberof Client
+ * @name sydneyqueue
+ * @description Queue messages to be sent to sydney to avoid crash
+ * @deprecated
+*/
 client.sydneyqueue &#x3D; [];
+/**
+ * @memberof Client
+ * @name prefix
+ * @type {string}
+ * @description Main prefix for the bot
+*/
 client.prefix &#x3D; &#x60;@${process.env.PHONE} &#x60;;
-client.s_prefix &#x3D; [
-    &#x27;$&#x27;,
-    &#x27;/&#x27;,
-    &#x27;?&#x27;,
-    &#x27;-&#x27;,
-    &#x27;&amp;amp;&#x27;,
-    &#x27;*&#x27;,
-    &#x27;&gt;&#x27;,
-    &#x27;,&#x27;,
-    &#x27;.&#x27;,
-    &#x27;£&#x27;,
-    &#x27;₹&#x27;,
-    &#x27;¢&#x27;,
-    &#x27;√&#x27;,
-    &#x27;π&#x27;,
-    &#x27;%&#x27;,
-    &#x27;©&#x27;,
-    &#x27;®&#x27;,
-    &#x27;™&#x27;,
-    &#x27;✓&#x27;,
-    &#x27;§&#x27;,
-    &#x27;∆&#x27;,
-];
+/**
+ * @memberof Client
+ * @name s_prefix
+ * @type {string[]}
+ * @description List of secondary prefixes for the bot
+*/
+client.s_prefix &#x3D; [&#x27;$&#x27;, &#x27;/&#x27;, &#x27;?&#x27;, &#x27;-&#x27;, &#x27;&amp;amp;&#x27;, &#x27;*&#x27;, &#x27;&gt;&#x27;, &#x27;,&#x27;, &#x27;.&#x27;, &#x27;£&#x27;, &#x27;₹&#x27;, &#x27;¢&#x27;, &#x27;√&#x27;, &#x27;π&#x27;, &#x27;%&#x27;, &#x27;©&#x27;, &#x27;®&#x27;, &#x27;™&#x27;, &#x27;✓&#x27;, &#x27;§&#x27;, &#x27;∆&#x27;,];
+/**
+ * @memberof Client
+ * @name prefix2
+ * @type {string}
+ * @description Prefix for uno bot
+*/
 client.prefix2 &#x3D; &#x27;uno&#x27;;
+/**
+ * @memberof Client
+ * @name gartic
+ * @type {boolean}
+ * @description Indicates whether a gartic game is ongoing
+*/
 client.gartic &#x3D; false;
+/**
+ * @memberof Client
+ * @name gameManager
+ * @type {GameManager}
+ * @description Manager for uno games
+*/
 client.gameManager &#x3D; new GameManager(client);
+/**
+ * @memberof Client
+ * @name commands2
+ * @description Loaded uno commands
+*/
 client.commands2 &#x3D; {};
+/**
+ * @memberof Client
+ * @name commandMap
+ * @description Loaded uno commands
+*/
 client.commandMap &#x3D; {};
+/**
+ * @memberof Client
+ * @name getCommand
+ * @description Retrieves UNO commands
+*/
 client.getCommand &#x3D; function (name) {
     const commandName &#x3D; this.commandMap[name];
     return this.commands2[commandName];
 };
+/**
+ * @memberof Client
+ * @name shazam
+ * @type {Shazam}
+ * @description Shazam client for song recognition
+*/
 client.shazam &#x3D; new Shazam();
+/**
+ * @memberof Client
+ * @name loadCommands
+ * @description Loads UNO commands
+*/
 client.loadCommands &#x3D; async function () {
     const files &#x3D; readdirSync(&#x27;./dist/src/commands/unogame/Shard/commands/&#x27;);
     for (const file of files) {
@@ -136,13 +182,33 @@ client.loadCommands &#x3D; async function () {
     }
 };
 client.loadCommands();
+/**
+ * @memberof Client
+ * @name games
+ * @description Map of UNO commands
+*/
 client.games &#x3D; {};
+/**
+ * @memberof Client
+ * @name getrules
+ * @description Get UNO rules
+*/
 client.getrules &#x3D; function () {
     return rules;
 };
+/**
+ * @memberof Client
+ * @name getruleKeys
+ * @description Get UNO rules
+*/
 client.getruleKeys &#x3D; function () {
     return ruleKeys;
 };
+/**
+ * @memberof Client
+ * @name getruleset
+ * @description Get UNO rules
+*/
 client.getruleset &#x3D; function () {
     const obj &#x3D; {};
     for (const key of Object.keys(rules)) {
@@ -150,15 +216,59 @@ client.getruleset &#x3D; function () {
     }
     return obj;
 };
+/**
+ * @memberof Client
+ * @name snipe
+ * @type {string[]}
+ * @description Stores list of deleted/edited messages to be used by snipe command
+*/
 client.snipe &#x3D; [];
+/**
+ * @memberof Client
+ * @name downloading
+ * @type {boolean}
+ * @description Prevent parallel downloads by yt command
+*/
 client.downloading &#x3D; false;
 // very badly optimized not worth it
 // client.character &#x3D; &#x27;Leon Kennedy&#x27;
+/**
+ * @memberof Client
+ * @name ingame
+ * @type {boolean}
+ * @description Prevent parallel games in chats
+ * @todo Unnecesarry, allow games in different channels
+*/
 client.ingame &#x3D; false;
 client.ind &#x3D; false;
+/**
+ * @memberof Client
+ * @name cachedUsers
+ * @type {Map&amp;lt;string,BaseUserType&gt;}
+ * @description Map of users cached by the bot
+*/
 client.cachedUsers &#x3D; new Map();
+/**
+ * @memberof Client
+ * @name battling
+ * @type {boolean}
+ * @description Prevent parallel pokemon battles
+ * @todo Unnecesarry, allow parallel games in seperate chats
+*/
 client.battling &#x3D; false;
+/**
+ * @memberof Client
+ * @name data
+ * @type {DataManager}
+ * @description Base Pokedex for the bot
+*/
 client.data &#x3D; new DataManager();
+/**
+ * @memberof Client
+ * @name checkpokemon
+ * @type {Function}
+ * @description Function to check and level up pokemon basedo n xp
+*/
 client.checkpokemon &#x3D; async function (msg, member, pokemons, selected) {
     const pokemon &#x3D; new PokemonBase({
         id: pokemons.id,
@@ -236,6 +346,12 @@ client.checkpokemon &#x3D; async function (msg, member, pokemons, selected) {
 if (process.env.CHROME_PATH &#x3D;&#x3D; &quot;&quot;) {
     console.log(&quot;CHROME_PATH not given, chromium will be used. Trying to send videos/gifs will throw an error&quot;);
 }
+/**
+ * @memberof Client
+ * @name curr
+ * @type {Function}
+ * @description Function to fetch cached users
+*/
 client.curr &#x3D; function (userId) {
     return new curr({ userId, users: client.cachedUsers });
 };

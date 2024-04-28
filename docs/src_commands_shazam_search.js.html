@@ -37,17 +37,24 @@ export const aliases &#x3D; [&#x27;song&#x27;];
 export const description &#x3D; &#x27;Search for a song&#x27;;
 export const category &#x3D; &#x27;Shazam&#x27;;
 /**
- * Searches for a song using the Shazam API.
+ * Searches for a song using the Shazam API then downloads it from YouTube.
  *
  * **Usage:**
  * - &#x60;!search {song name or Shazam ID}&#x60; - Searches for the specified song and returns information including title, artist, and album.
+ * - &#x60;!search {song name of Shazam ID} --n&#x60; Only searches the song and returns information, skips downloadings.
  */
 export async function run(client, msg, args) {
     if (!args.length) {
         return;
     }
+    let download &#x3D; true;
     const { shazam } &#x3D; client;
+    if (args.includes(&#x27;--n&#x27;)) {
+        download &#x3D; false;
+    }
     const song &#x3D; args.join(&#x27; &#x27;);
+    if (!download)
+        song.replace(&#x27;--n&#x27;, &#x27;&#x27;);
     let response;
     if (!isNaN(parseInt(song))) {
         response &#x3D; await shazam.track_info(&#x27;en-US&#x27;, &#x27;GB&#x27;, &#x60;${song}&#x60;);
@@ -63,7 +70,14 @@ export async function run(client, msg, args) {
         return msg.reply(&#x27;No song found&#x27;);
     }
     const media &#x3D; await MessageMedia.fromUrl(response.images.default || response.images.background);
-    await msg.reply(media, undefined, { caption: response.share.text });
+    try {
+        await msg.reply(media, undefined, { caption: response.share.text });
+    }
+    catch {
+        await msg.reply(response.share.text);
+    }
+    if (download)
+        await client.commands.get(&#x27;youtube&#x27;).run(client, msg, [response.share.text]);
 }
 </code></pre>
           </article>

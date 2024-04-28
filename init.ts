@@ -21,6 +21,7 @@ import { type Ruleset } from './src/types/unotypes.js';
 import DataManager from './src/pokedex/init.js';
 import curr from './src/models/baseuser.js';
 import { MGame } from './src/commands/monopoly/monopoly.js';
+import { BaseUserType } from './src/types/baseuser.js';
 
 import('./src/commands/monopoly/monopoly.js');
 
@@ -236,12 +237,47 @@ client.downloading = false;
 // very badly optimized not worth it
 // client.character = 'Leon Kennedy'
 
+/**
+ * @memberof Client
+ * @name ingame
+ * @type {boolean}
+ * @description Prevent parallel games in chats
+ * @todo Unnecesarry, allow games in different channels
+*/
 client.ingame = false;
 client.ind = false;
+
+/**
+ * @memberof Client
+ * @name cachedUsers
+ * @type {Map<string,BaseUserType>}
+ * @description Map of users cached by the bot
+*/
 client.cachedUsers = new Map();
+
+/**
+ * @memberof Client
+ * @name battling
+ * @type {boolean}
+ * @description Prevent parallel pokemon battles
+ * @todo Unnecesarry, allow parallel games in seperate chats
+*/
 client.battling = false;
+
+/**
+ * @memberof Client
+ * @name data
+ * @type {DataManager}
+ * @description Base Pokedex for the bot
+*/
 client.data = new DataManager();
 
+/**
+ * @memberof Client
+ * @name checkpokemon
+ * @type {Function}
+ * @description Function to check and level up pokemon basedo n xp
+*/
 client.checkpokemon = async function (
 	msg: Message,
 	member: Contact,
@@ -345,6 +381,12 @@ if(process.env.CHROME_PATH == ""){
 	console.log("CHROME_PATH not given, chromium will be used. Trying to send videos/gifs will throw an error")
 }
 
+/**
+ * @memberof Client
+ * @name curr
+ * @type {Function}
+ * @description Function to fetch cached users
+*/
 client.curr = function (userId: string) {
 	return new curr({ userId, users: client.cachedUsers });
 };

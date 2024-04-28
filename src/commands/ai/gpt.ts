@@ -29,7 +29,7 @@ export const category = 'AI';
 /**
  * @memberof AI
  * @name gpt
- * Enables chatting with ChatGPT 3.5 Turbo within WhatsApp.
+ * @description Enables chatting with ChatGPT 3.5 Turbo within WhatsApp.
  *
  * **Usage:** 
  * - `!gpt {message}` - Sends the message to ChatGPT and replies with its response. 

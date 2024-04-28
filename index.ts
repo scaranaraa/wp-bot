@@ -64,12 +64,14 @@ client.on('ready', (_: any) => {
 process.on('unhandledRejection', (err: Error) => {
 	console.log(err.stack ? err.stack : err);
 });
+
 process.on('uncaughtException', (err: Error, origin: string) => {
 	if (origin === 'unhandledRejection') {
 		return;
 	}
 	console.log(err.stack ? err.stack : err);
 });
+
 process.on('SIGINT', async function () {
 	await client.destroy();
 });
