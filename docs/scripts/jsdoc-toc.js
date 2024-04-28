@@ -6,7 +6,7 @@
     treeNode.tree({
         autoEscape: false,
         closedIcon: '&#x21e2;',
-        data: [{"label":"<a href=\"global.html\">Globals</a>","id":"global","children":[]},{"label":"<a href=\"module.html\">module</a>","id":"module","children":[{"label":"<a href=\"module.html#.exports\">exports</a>","id":"module.exports","children":[]}]},{"label":"<a href=\"module-AI.html\">AI</a>","id":"module:AI","children":[]}],
+        data: [{"label":"<a href=\"global.html\">Globals</a>","id":"global","children":[]},{"label":"<a href=\"Client.html\">Client</a>","id":"Client","children":[]},{"label":"<a href=\"module.html\">module</a>","id":"module","children":[{"label":"<a href=\"module.html#.exports\">exports</a>","id":"module.exports","children":[]}]}],
         openedIcon: ' &#x21e3;',
         saveState: false,
         useContextMenu: false

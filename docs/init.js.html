@@ -29,16 +29,7 @@
             <h1>Source: init.js</h1>
           </header>
           <article>
-            <pre class="prettyprint linenums"><code>import { readdirSync } from &#x27;fs&#x27;;
-import { Shazam } from &#x27;node-shazam&#x27;;
-import GameManager from &#x27;./src/commands/unogame/Shard/GameManager.js&#x27;;
-import { rules, ruleKeys } from &#x27;./src/commands/unogame/rules.js&#x27;;
-import client from &#x27;./index.js&#x27;;
-import { PokemonBase, pokemonschema } from &#x27;./src/models/mongoa.js&#x27;;
-import DataManager from &#x27;./src/pokedex/init.js&#x27;;
-import curr from &#x27;./src/models/baseuser.js&#x27;;
-import(&#x27;./src/commands/monopoly/monopoly.js&#x27;);
-/**
+            <pre class="prettyprint linenums"><code>/**
  * Initializes the WhatsApp bot, including commands, handlers, events, and configuration.
  *
  * sets up the bot&#x27;s core functionality, loads commands and events, configures
@@ -49,11 +40,50 @@ import(&#x27;./src/commands/monopoly/monopoly.js&#x27;);
  * - Setting up game-related properties and queues.
  * - &#x60;checkpokemon&#x60; function for handling Pokemon level-ups and evolutions
  */
+import { readdirSync } from &#x27;fs&#x27;;
+import { Shazam } from &#x27;node-shazam&#x27;;
+import GameManager from &#x27;./src/commands/unogame/Shard/GameManager.js&#x27;;
+import { rules, ruleKeys } from &#x27;./src/commands/unogame/rules.js&#x27;;
+import client from &#x27;./index.js&#x27;;
+import { PokemonBase, pokemonschema } from &#x27;./src/models/mongoa.js&#x27;;
+import DataManager from &#x27;./src/pokedex/init.js&#x27;;
+import curr from &#x27;./src/models/baseuser.js&#x27;;
+import(&#x27;./src/commands/monopoly/monopoly.js&#x27;);
+/**
+ * @memberof Client
+ * @name commands
+ * @description Map of commands loaded to the client
+*/
 client.commands &#x3D; new Map();
+/**
+ * @memberof Client
+ * @name handlers
+ * @description Map of handlers loaded to the client
+*/
 client.handlers &#x3D; new Map();
+/**
+ * @memberof Client
+ * @name events
+ * @description Map of events loaded to the client
+*/
 client.events &#x3D; new Map();
+/**
+ * @memberof Client
+ * @name aliases
+ * @description Map of command aliases loaded to the client
+*/
 client.aliases &#x3D; new Map();
+/**
+ * @memberof Client
+ * @name muted
+ * @description List of muted members
+*/
 client.muted &#x3D; [];
+/**
+ * @memberof Client
+ * @name mgames
+ * @description Map of ongoing monopoly games
+*/
 client.mgames &#x3D; new Map();
 client.sydneyqueue &#x3D; [];
 client.prefix &#x3D; &#x60;@${process.env.PHONE} &#x60;;

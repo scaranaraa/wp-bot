@@ -6,6 +6,8 @@ import 'dotenv/config';
 const { Client, LocalAuth } = pkg;
 
 /**
+ * @module Client
+ * @class Client
  * Entry point for the WhatsApp bot.
  *
  * Initializes the WhatsApp client, connects to the MongoDB database, 

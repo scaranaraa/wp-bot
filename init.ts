@@ -1,15 +1,3 @@
-import { readdirSync } from 'fs';
-import { Shazam } from 'node-shazam';
-import { type Message, type Contact } from 'whatsapp-web.js';
-import GameManager from './src/commands/unogame/Shard/GameManager.js';
-import { rules, ruleKeys } from './src/commands/unogame/rules.js';
-import client from './index.js';
-import { PokemonBase, pokemonschema } from './src/models/mongoa.js';
-import { type Ruleset } from './src/types/unotypes.js';
-import DataManager from './src/pokedex/init.js';
-import curr from './src/models/baseuser.js';
-
-import('./src/commands/monopoly/monopoly.js');
 /**
  * Initializes the WhatsApp bot, including commands, handlers, events, and configuration.
  *
@@ -21,50 +9,155 @@ import('./src/commands/monopoly/monopoly.js');
  * - Setting up game-related properties and queues. 
  * - `checkpokemon` function for handling Pokemon level-ups and evolutions
  */
+
+import { readdirSync } from 'fs';
+import { Shazam } from 'node-shazam';
+import { type Message, type Contact } from 'whatsapp-web.js';
+import GameManager from './src/commands/unogame/Shard/GameManager.js';
+import { rules, ruleKeys } from './src/commands/unogame/rules.js';
+import client from './index.js';
+import { PokemonBase, pokemonschema } from './src/models/mongoa.js';
+import { type Ruleset } from './src/types/unotypes.js';
+import DataManager from './src/pokedex/init.js';
+import curr from './src/models/baseuser.js';
+import { MGame } from './src/commands/monopoly/monopoly.js';
+
+import('./src/commands/monopoly/monopoly.js');
+
+/**
+ * @memberof Client
+ * @name commands
+ * @type {Map<string, any>}
+ * @description Map of commands loaded to the client
+*/
 client.commands = new Map();
+
+/**
+ * @memberof Client
+ * @name handlers
+ * @type {Map<string, any>}
+ * @description Map of handlers loaded to the client
+*/
 client.handlers = new Map();
+
+/**
+ * @memberof Client
+ * @name events
+ * @type {Map<string, any>}
+ * @description Map of events loaded to the client
+*/
 client.events = new Map();
+
+/**
+ * @memberof Client
+ * @name aliases
+ * @type {Map<string, any>}
+ * @description Map of command aliases loaded to the client
+*/
 client.aliases = new Map();
+
+/**
+ * @memberof Client
+ * @name muted
+ * @type {string[]}
+ * @description List of muted members
+*/
 client.muted = [];
+
+/**
+ * @memberof Client
+ * @name mgames
+ * @type {Map<string, MGame>}
+ * @description Map of ongoing monopoly games
+*/
 client.mgames = new Map();
+
+/**
+ * @memberof Client
+ * @name sydneyqueue
+ * @type {Array<[Message, string, Message]>}
+ * @description Queue messages to be sent to sydney to avoid crash
+ * @deprecated
+*/
 client.sydneyqueue = [];
+
+/**
+ * @memberof Client
+ * @name prefix
+ * @type {string}
+ * @description Main prefix for the bot
+*/
 client.prefix = `@${process.env.PHONE} `;
-client.s_prefix = [
-	'$',
-	'/',
-	'?',
-	'-',
-	'&',
-	'*',
-	'>',
-	',',
-	'.',
-	'£',
-	'₹',
-	'¢',
-	'√',
-	'π',
-	'%',
-	'©',
-	'®',
-	'™',
-	'✓',
-	'§',
-	'∆',
-];
+
+/**
+ * @memberof Client
+ * @name s_prefix
+ * @type {string[]}
+ * @description List of secondary prefixes for the bot
+*/
+client.s_prefix = ['$','/','?','-','&','*','>',',','.','£','₹','¢','√','π','%','©','®','™','✓','§','∆',];
+
+/**
+ * @memberof Client
+ * @name prefix2
+ * @type {string}
+ * @description Prefix for uno bot
+*/
 client.prefix2 = 'uno';
+
+/**
+ * @memberof Client
+ * @name gartic
+ * @type {boolean}
+ * @description Indicates whether a gartic game is ongoing
+*/
 client.gartic = false;
+
+/**
+ * @memberof Client
+ * @name gameManager
+ * @type {GameManager}
+ * @description Manager for uno games
+*/
 client.gameManager = new GameManager(client);
+
+/**
+ * @memberof Client
+ * @name commands2
+ * @description Loaded uno commands
+*/
 client.commands2 = {};
+
+/**
+ * @memberof Client
+ * @name commandMap
+ * @description Loaded uno commands
+*/
 client.commandMap = {};
 
+/**
+ * @memberof Client
+ * @name getCommand
+ * @description Retrieves UNO commands
+*/
 client.getCommand = function (name: string) {
 	const commandName = this.commandMap[name];
 	return this.commands2[commandName];
 };
 
+/**
+ * @memberof Client
+ * @name shazam
+ * @type {Shazam}
+ * @description Shazam client for song recognition
+*/
 client.shazam = new Shazam();
 
+/**
+ * @memberof Client
+ * @name loadCommands
+ * @description Loads UNO commands
+*/
 client.loadCommands = async function () {
 	const files = readdirSync('./dist/src/commands/unogame/Shard/commands/');
 	for (const file of files) {
@@ -84,15 +177,37 @@ client.loadCommands = async function () {
 };
 
 client.loadCommands();
+
+/**
+ * @memberof Client
+ * @name games
+ * @description Map of UNO commands
+*/
 client.games = {};
+
+/**
+ * @memberof Client
+ * @name getrules
+ * @description Get UNO rules
+*/
 client.getrules = function () {
 	return rules;
 };
 
+/**
+ * @memberof Client
+ * @name getruleKeys
+ * @description Get UNO rules
+*/
 client.getruleKeys = function () {
 	return ruleKeys;
 };
 
+/**
+ * @memberof Client
+ * @name getruleset
+ * @description Get UNO rules
+*/
 client.getruleset = function () {
 	const obj: Ruleset = {};
 	for (const key of Object.keys(rules)) {
@@ -102,7 +217,20 @@ client.getruleset = function () {
 	return obj;
 };
 
+/**
+ * @memberof Client
+ * @name snipe
+ * @type {string[]}
+ * @description Stores list of deleted/edited messages to be used by snipe command
+*/
 client.snipe = [];
+
+/**
+ * @memberof Client
+ * @name downloading
+ * @type {boolean}
+ * @description Prevent parallel downloads by yt command
+*/
 client.downloading = false;
 
 // very badly optimized not worth it

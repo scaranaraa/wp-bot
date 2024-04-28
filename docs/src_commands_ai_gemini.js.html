@@ -29,10 +29,7 @@
             <h1>Source: src/commands/ai/gemini.js</h1>
           </header>
           <article>
-            <pre class="prettyprint linenums"><code>/**
- * @module AI
-*/
-import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold, } from &#x27;@google/generative-ai&#x27;;
+            <pre class="prettyprint linenums"><code>import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold, } from &#x27;@google/generative-ai&#x27;;
 import pkg from &#x27;whatsapp-web.js&#x27;;
 const genAI &#x3D; new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 const model &#x3D; genAI.getGenerativeModel({ model: &#x27;gemini-1.0-pro-latest&#x27; });
