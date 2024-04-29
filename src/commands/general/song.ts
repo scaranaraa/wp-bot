@@ -11,7 +11,6 @@ const { path } = pkg;
 const downloader = new DownloadYTFile({
 	outputPath: './src/commands/utils',
 	ffmpegPath: path,
-	//For some reason, parallel downloads mades the bot crash
 	maxParallelDownload: 1,
 });
 

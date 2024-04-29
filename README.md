@@ -1,5 +1,8 @@
 # wp-bot
 
+## Documentation
+Documentation for all commands can be found [here](https://scaranaraa.github.io/wp-bot/)
+
 ## Features
 - UNO
 - Poketwo bot
