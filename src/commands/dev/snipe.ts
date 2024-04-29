@@ -8,7 +8,7 @@ export const aliases = ['sn', 'snp'];
 export const category = 'Dev';
 export const description = 'Check previously deleted/edited messages or media';
 /**
- * @memberof! Dev
+ * @memberof! module:Dev
  * @name snipe
  * @description
  * Retrieves and displays previously deleted or edited messages.

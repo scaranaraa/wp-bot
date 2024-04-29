@@ -26,7 +26,7 @@ export const description = 'Get a question of will you press the button';
 export const category = 'General';
 const { Client, LocalAuth, MessageMedia } = pkg;
 /**
- * @memberof! General
+ * @memberof! module:General
  * @name wyp
  * @description
  * Provides "Will You Press the Button" questions from a JSON database. 

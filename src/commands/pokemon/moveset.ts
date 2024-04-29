@@ -8,7 +8,7 @@ export const aliases = ['moves'];
 export const description = 'Select moves for your pokemon';
 export const category = 'Pokemon';
 /**
- * @memberof! Pokemon
+ * @memberof! module:Pokemon
  * @name moveset
  * @description
  * Allows users to manage the moveset of their Pokemon in the Pokemon game. 

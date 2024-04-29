@@ -6,7 +6,7 @@ export default class HelpCommand extends BaseCommand {
 		super(client, 'help');
 	}
 	/**
-	 * @memberof! UNO
+	 * @memberof! module:UNO
  	 * @name help
  	 * @description
 	 * Provides a help message for the UNO game commands. 

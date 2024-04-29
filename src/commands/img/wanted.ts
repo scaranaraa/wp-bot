@@ -12,7 +12,7 @@ export const aliases: string[] = [];
 export const description = 'Make a wanted poster of someone';
 export const category = 'Image';
 /**
- * @memberof! Image
+ * @memberof! module:Image
  * @name wanted
  * @description
  * Generate modified image of a members pfp

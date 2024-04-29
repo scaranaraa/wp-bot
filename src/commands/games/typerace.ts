@@ -21,7 +21,7 @@ export const description =
 	'Play a game of typerace to measure your typing speed';
 export const category = 'Games';
 /**
- * @memberof! Games
+ * @memberof! module:Games
  * @name typerace
  * @description
  * Implements a typing race game within WhatsApp. 

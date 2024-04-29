@@ -31,7 +31,7 @@ export const aliases = ['ph'];
 export const description = 'shhhh';
 export const category = 'API';
 /**
- * @memberof! API
+ * @memberof! module:API
  * @name pornhub
  * @description
  * Downloads content from a public Pornhub video and sends them or provides links within WhatsApp.

@@ -25,7 +25,7 @@ export const description = 'Get a Never Have I Ever question';
 export const category = 'General';
 const { Client, LocalAuth, MessageMedia } = pkg;
 /**
- * @memberof! General
+ * @memberof! module:General
  * @name nhie
  * @description
  * Provides "Never Have I Ever" questions from a JSON database. 

@@ -139,7 +139,7 @@ export const aliases = ['w'];
 export const description = 'Play a game of wordle from NYT games';
 export const category = 'Games';
 /**
- * @memberof! Games
+ * @memberof! module:Games
  * @name wordle
  * @description
  * Implements the Wordle word game within WhatsApp, including image generation. 

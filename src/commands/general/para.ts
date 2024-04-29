@@ -25,7 +25,7 @@ export const description = 'Get a paranoia question';
 export const category = 'General';
 const { Client, LocalAuth, MessageMedia } = pkg;
 /** 
- * @memberof! General
+ * @memberof! module:General
  * @name para
  * @description
  * Provides "Paranoia" questions from a JSON database. 

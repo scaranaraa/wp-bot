@@ -7,7 +7,7 @@ export const aliases = ['lb'];
 export const description = 'Check the leaderboard for most commands ran';
 export const category = 'General';
 /**
- * @memberof! General
+ * @memberof! module:General
  * @name leaderboard
  * @description
  * Displays leaderboards for message counts, command usage, and game wins within the WhatsApp chat.

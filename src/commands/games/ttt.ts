@@ -273,7 +273,7 @@ export const aliases = ['tic', 'tac', 'toe', 'ttt'];
 export const description = 'Play Tic Tac Toe with someone';
 export const category = 'Games';
 /**
- * @memberof! Games
+ * @memberof! module:Games
  * @name ttt
  * @description
  * Implements the Tic Tac Toe game within WhatsApp, including image generation.

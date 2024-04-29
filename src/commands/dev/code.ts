@@ -13,7 +13,7 @@ export const aliases: string[] = ['cnow', 'carbon'];
 export const description = 'Create images of code provided';
 export const category = 'Dev';
 /**
- * @memberof! Dev
+ * @memberof! module:Dev
  * @name code
  * @description
  * Generates an image of the provided code snippet using Carbon.

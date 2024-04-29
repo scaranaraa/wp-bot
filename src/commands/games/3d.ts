@@ -441,7 +441,7 @@ export const aliases = ['3d', '3dttt'];
 export const description = 'Play 3d Tic Tac Toe with someone';
 export const category = 'Games';
 /**
- * @memberof! Games
+ * @memberof! module:Games
  * @name 3Dttt
  * @description
  * Implements a 3D Tic Tac Toe game within WhatsApp, including image generation. 

@@ -495,7 +495,7 @@ export const aliases = ['catch'];
 export const description = 'Hunt for new pokemon';
 export const category = 'Pokemon';
 /**
- * @memberof! Pokemon
+ * @memberof! module:Pokemon
  * @name hunt
  * @description
  * Allows users to hunt for wild Pokemon in the Pokemon game. 

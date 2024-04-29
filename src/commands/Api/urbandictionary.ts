@@ -9,7 +9,7 @@ export const aliases = ['ud', 'urban'];
 export const description = 'Get upto 5 definitions from urban dictionary';
 export const category = 'API';
 /**
- * @memberof! API
+ * @memberof! module:API
  * @name urbandictionary
  * @description
  * Retrieves definitions from Urban Dictionary for a given term.

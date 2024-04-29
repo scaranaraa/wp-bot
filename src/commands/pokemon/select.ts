@@ -9,7 +9,7 @@ export const aliases: string[] = [];
 export const description = 'Select pokemon for your team';
 export const category = 'Pokemon';
 /**
- * @memberof! Pokemon
+ * @memberof! module:Pokemon
  * @name select
  * @description
  * Allows users to select Pokemon for their team in the Pokemon game. 

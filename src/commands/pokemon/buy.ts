@@ -8,7 +8,7 @@ export const aliases: string[] = [];
 export const description = 'Buy something from the shop';
 export const category = 'Pokemon';
 /**
- * @memberof! Pokemon
+ * @memberof! module:Pokemon
  * @name buy
  * @description
  * Allows users to buy items from the shop in the Pokemon game.

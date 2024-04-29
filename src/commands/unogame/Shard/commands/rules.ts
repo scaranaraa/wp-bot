@@ -7,7 +7,7 @@ export default class RulesCommand extends BaseCommand {
 		super(client, 'rules');
 	}
 	/**
-	 * @memberof! UNO
+	 * @memberof! module:UNO
  	 * @name rules
  	 * @description
 	 * Manages UNO game rules within a WhatsApp chat. 

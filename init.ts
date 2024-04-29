@@ -20,8 +20,6 @@ import { PokemonBase, pokemonschema } from './src/models/mongoa.js';
 import { type Ruleset } from './src/types/unotypes.js';
 import DataManager from './src/pokedex/init.js';
 import curr from './src/models/baseuser.js';
-import { MGame } from './src/commands/monopoly/monopoly.js';
-import { BaseUserType } from './src/types/baseuser.js';
 
 import('./src/commands/monopoly/monopoly.js');
 

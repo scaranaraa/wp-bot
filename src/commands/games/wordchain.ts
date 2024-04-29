@@ -94,7 +94,7 @@ export const description =
 	'Play a game of word chain, type words that start with the previous words end';
 export const category = 'Games';
 /**
- * @memberof! Games
+ * @memberof! module:Games
  * @name wordchain
  * @description
  * Implements the Word Chain game within a WhatsApp chat.

@@ -153,7 +153,7 @@ export const aliases = ['yet', 'ywt'];
 export const description = 'Play a game of yellowtea with someone';
 export const category = 'Games';
 /**
- * @memberof! Games
+ * @memberof! module:Games
  * @name yellowtea
  * @description
  * Implements the Yellow Tea word game within a WhatsApp chat.

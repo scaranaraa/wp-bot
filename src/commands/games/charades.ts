@@ -159,7 +159,7 @@ export const description = 'Play charades with someone';
 export const category = 'Games';
 const { MessageMedia } = pkg;
 /**
- * @memberof! Games
+ * @memberof! module:Games
  * @name charades
  * @description
  * Implements a word-guessing charades game within WhatsApp.

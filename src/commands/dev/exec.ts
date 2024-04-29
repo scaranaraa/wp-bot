@@ -11,7 +11,7 @@ export const category = 'Dev';
 export const aliases = ['execute', 'ex'];
 export const description = 'Execute commands in powershell';
 /**
- * @memberof! Dev
+ * @memberof! module:Dev
  * @name execute
  * @description
  * Executes a command in the system's shell and returns the output.

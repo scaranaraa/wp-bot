@@ -7,7 +7,7 @@ export const aliases = ['msg', 'msgs', 'message'];
 export const description = 'Check number of messages by a user';
 export const category = 'General';
 /**
- * @memberof! General
+ * @memberof! module:General
  * @name messages
  * @description
  * Displays message count statistics for a user or globally within the WhatsApp chat.

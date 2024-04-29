@@ -11,9 +11,7 @@ const { path } = pkg;
 const downloader = new DownloadYTFile({
 	outputPath: './src/commands/utils',
 	ffmpegPath: path,
-	/**
-	 * For some reason, parallel downloads mades the bot crash
-	 */
+	//For some reason, parallel downloads mades the bot crash
 	maxParallelDownload: 1,
 });
 
@@ -23,7 +21,7 @@ export const aliases = ['audio', 'yt'];
 export const description = 'Download audio from youtube';
 export const category = 'General';
 /**
- * @memberof! General
+ * @memberof! module:General
  * @name song
  * @description
  * Downloads audio from YouTube videos and sends them as audio messages within WhatsApp. 

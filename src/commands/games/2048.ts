@@ -398,7 +398,7 @@ export const aliases: string[] = [];
 export const description = 'Play a game of 2048';
 export const category = 'Games';
 /**
- * @memberof! Games
+ * @memberof! module:Games
  * @name 2048
  * @description
  * Implements the 2048 game within WhatsApp, including image generation. 

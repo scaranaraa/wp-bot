@@ -11,7 +11,7 @@ export const aliases: string[] = [];
 export const description = 'Hitler image of someone';
 export const category = 'Image';
 /**
- * @memberof! Image
+ * @memberof! module:Image
  * @name hitler
  * @description
  * Generate modified image of a members pfp

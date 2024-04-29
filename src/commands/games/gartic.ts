@@ -162,7 +162,7 @@ export const description = 'Play a game of gartic with someone';
 export const category = 'Games';
 const { MessageMedia } = pkg;
 /**
- * @memberof! Games
+ * @memberof! module:Games
  * @name gartic
  * @description
  * Implements a drawing and guessing game (similar to Gartic Phone) within WhatsApp.

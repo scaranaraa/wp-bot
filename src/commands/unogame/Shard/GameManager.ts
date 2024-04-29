@@ -2,7 +2,7 @@ import { type Client, type Contact } from 'whatsapp-web.js';
 import { type GameManagerBase } from '../../../types/unotypes.js';
 import type Game from '../Structures/Game.js';
 /**
- * @memberof UNO
+ * @memberof module:UNO
  * @name GameManager
  * @description
  * Manages UNO games within the WhatsApp bot. 

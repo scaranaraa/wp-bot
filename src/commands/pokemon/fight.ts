@@ -350,7 +350,7 @@ export const aliases: string[] = [];
 export const description = 'Fight someone using your pokemon';
 export const category = 'Pokemon';
 /**
- * @memberof! Pokemon
+ * @memberof! module:Pokemon
  * @name fight
  * @description
  * Allows users to battle other players using their Pokemon in the Pokemon game. 

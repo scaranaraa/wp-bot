@@ -11,7 +11,7 @@ export const aliases: string[] = [];
 export const description = 'Use any item';
 export const category = 'Pokemon';
 /**
- * @memberof! Pokemon
+ * @memberof! module:Pokemon
  * @name use
  * @description
  * Allows users to use items from their inventory in the Pokemon game.

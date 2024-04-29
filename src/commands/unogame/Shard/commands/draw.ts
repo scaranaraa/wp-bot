@@ -8,7 +8,7 @@ export default class DrawCommand extends BaseCommand {
 		});
 	}
 	/**
-	 * @memberof! UNO
+	 * @memberof! module:UNO
  	 * @name draw
  	 * @description
 	 * Allows the current player to draw a card from the deck in a UNO game. 

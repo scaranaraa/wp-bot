@@ -10,7 +10,7 @@ export default class PlayCommand extends BaseCommand {
 		});
 	}
 	/**
-	 * @memberof! UNO
+	 * @memberof! module:UNO
  	 * @name play
  	 * @description
 	 * Plays a card in the UNO game within a WhatsApp chat. 

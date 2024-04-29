@@ -8,7 +8,7 @@ export default class PingCommand extends BaseCommand {
 		});
 	}
 	/**
-	 * @memberof! UNO
+	 * @memberof! module:UNO
  	 * @name uno!
  	 * @description
 	 * Handles UNO callouts within a WhatsApp chat.

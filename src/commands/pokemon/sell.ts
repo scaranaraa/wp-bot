@@ -9,7 +9,7 @@ export const aliases: string[] = [];
 export const description = 'Sell your pokemon';
 export const category = 'Pokemon';
 /** 
- * @memberof! Pokemon
+ * @memberof! module:Pokemon
  * @name sell
  * @description
  * Allows users to sell their Pokemon for coins in the Pokemon game. 

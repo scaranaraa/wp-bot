@@ -25,7 +25,7 @@ export const description = 'Get a Would You Rather question';
 export const category = 'General';
 const { Client, LocalAuth, MessageMedia } = pkg;
 /**
- * @memberof! General
+ * @memberof! module:General
  * @name wyr
  * @description
  * Provides "Would You Rather" questions from a JSON database. 

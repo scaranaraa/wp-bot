@@ -7,7 +7,7 @@ export const aliases = ['identify', 'id', 'sh', 'recognise'];
 export const description = 'Identify any song in a video/audio';
 export const category = 'Shazam';
 /**
- * @memberof! Shazam
+ * @memberof! module:Shazam
  * @name recognise
  * @description
  * Identifies a song from an audio or video message using Shazam.
@@ -27,6 +27,11 @@ export async function run(
 
 	let media;
 
+	let download = true
+	if(args.includes('--n')){
+		download = false
+	}
+	
 	if (msg.hasMedia) {
 		media = await msg.downloadMedia();
 	} else {
@@ -93,8 +98,10 @@ export async function run(
 		await msg.reply(`${title}\n\n*Artist* - ${artist}\n\n*Album* - ${album}`);
 	}
 	await msg.reply(`Shazam song ID - ${recognise.matches[0].id}`);
-
-	const related = await shazam.related_songs(
+	if(download) {
+		await client.commands.get('youtube').run(client,msg, [title,artist])
+	}
+	/*const related = await shazam.related_songs(
 		'en-US',
 		'GB',
 		`${recognise.matches[0].id}`,
@@ -105,4 +112,5 @@ export async function run(
 	// @ts-ignore
 	related.tracks.forEach(song => (relatedsongs += `${song.title}\n`));
 	await msg.reply(relatedsongs);
+	*/
 }

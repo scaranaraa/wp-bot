@@ -6,7 +6,7 @@ export default class QuitCommand extends BaseCommand {
 		super(client, 'quit');
 	}
 	/**
-	 * @memberof! UNO
+	 * @memberof! module:UNO
  	 * @name quit
  	 * @description
 	 * Allows a player to quit an ongoing UNO game in a WhatsApp chat.

@@ -8,7 +8,7 @@ export const aliases = ['dex', 'pd'];
 export const description = 'Check your pokedex';
 export const category = 'Pokemon';
 /**
- * @memberof! Pokemon
+ * @memberof! module:Pokemon
  * @name pokedex
  * @description
  * Provides information about Pokemon and moves in the Pokemon game.

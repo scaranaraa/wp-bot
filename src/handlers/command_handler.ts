@@ -1,16 +1,19 @@
-import { readdirSync } from 'fs';
-import { type Client } from 'whatsapp-web.js';
 /**
+ * @name CommandHandler
+ * @memberof Client
  * Loads command files for the WhatsApp bot and registers them with the client.
  *
  *  iterates through command files in the 'src/commands' directory, and loads into the bot
  *  also checks environment variables before loading commands.
  */ 
+
+import { readdirSync } from 'fs';
+import { type Client } from 'whatsapp-web.js';
 export default (client: Client) => {
 	try {
 		let command = 0;
 		readdirSync('./dist/src/commands').forEach(async cmd => {
-			if (cmd !== 'utils' && cmd !== 'commandModules') {
+			if (cmd !== 'utils' && cmd !== '') {
 				const commands = readdirSync(`./dist/src/commands/${cmd}/`).filter(
 					file => file.endsWith('.js')
 				);

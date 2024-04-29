@@ -26,7 +26,7 @@ export const aliases = ['choose'];
 export const description = 'Pick your starter pokemon';
 export const category = 'Pokemon';
 /**
- * @memberof! Pokemon
+ * @memberof! module:Pokemon
  * @name pick
  * @description
  * Allows users to choose their starter Pokemon in the Pokemon game. 

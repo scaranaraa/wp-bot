@@ -13,7 +13,7 @@ export const aliases: string[] = [];
 export const description = 'Lick someone';
 export const category = 'Image';
 /**
- * @memberof! Image
+ * @memberof! module:Image
  * @name lick
  * @description
  * Get a random anime gif for licking someone

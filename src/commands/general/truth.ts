@@ -27,7 +27,7 @@ export const category = 'General';
 
 const { Client, LocalAuth, MessageMedia } = pkg;
 /**
- * @memberof! General
+ * @memberof! module:General
  * @name truth
  * @description
  * Provides "Truth" questions from a JSON database. 

@@ -9,7 +9,7 @@ export const aliases = ['video', 'vid', 'ytv'];
 export const description = 'Download any youtube video upto 30 minutes';
 export const category = 'API';
 /**
- * @memberof! API
+ * @memberof! module:API
  * @name ytvideo
  * @description
  * Downloads YouTube videos and sends them or provides a link within WhatsApp. 

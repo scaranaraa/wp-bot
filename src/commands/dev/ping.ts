@@ -8,7 +8,7 @@ export const aliases: string[] = ['p'];
 export const description = 'Check bot reponse time';
 export const category = 'Dev';
 /**
- * @memberof! Dev
+ * @memberof! module:Dev
  * @name ping
  * @description
  * Measures and reports the bot's response time

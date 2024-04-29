@@ -236,7 +236,7 @@ export const aliases = ['triv', 'tv'];
 export const description = 'Start a game of trivia';
 export const category = 'Games';
 /**
- * @memberof! Games
+ * @memberof! module:Games
  * @name trivia
  * @description
  * Implements a trivia game using the Open Trivia DB within WhatsApp.

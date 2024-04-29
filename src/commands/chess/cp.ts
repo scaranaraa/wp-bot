@@ -261,7 +261,7 @@ export const aliases = ['chess', 'puzzle', 'cp'];
 export const description = 'Get one move chess puzzles';
 export const category = 'Chess';
 /**
- * @memberof! Chess
+ * @memberof! module:Chess
  * @name ChessPuzzle
  * @description
  * Manages chess puzzles within a WhatsApp chat.

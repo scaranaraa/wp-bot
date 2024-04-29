@@ -8,7 +8,7 @@ export const aliases = ['bal', 'coins'];
 export const description = 'Check your balance';
 export const category = 'Pokemon';
 /**
- * @memberof! Pokemon
+ * @memberof! module:Pokemon
  * @name balance
  * @description
  * Displays the user's current coin balance in the Pokemon game. 

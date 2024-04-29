@@ -2,7 +2,7 @@ import { type Client } from 'whatsapp-web.js';
 import { type CommandBase } from '../../../types/unotypes.js';
 import Game from '../Structures/Game.js';
 /**
- * @memberof UNO
+ * @memberof module:UNO
  * @name BaseCommand
  * @description
  * Provides a base class for UNO game commands.

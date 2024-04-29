@@ -149,7 +149,7 @@ export const aliases = ['con', 'conns'];
 export const description = 'Play connections from NYT games';
 export const category = 'Games';
 /**
- * @memberof! Games
+ * @memberof! module:Games
  * @name connections
  * @description
  * Implements the Connections word game from NYT Games within WhatsApp

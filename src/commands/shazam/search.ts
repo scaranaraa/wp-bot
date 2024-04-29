@@ -7,7 +7,7 @@ export const aliases = ['song'];
 export const description = 'Search for a song';
 export const category = 'Shazam';
 /**
- * @memberof! Shazam
+ * @memberof! module:Shazam
  * @name search
  * @description
  * Searches for a song using the Shazam API then downloads it from YouTube. 

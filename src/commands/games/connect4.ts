@@ -208,7 +208,7 @@ export const aliases = ['connect', 'c4'];
 export const description = 'Play connect4 with someone';
 export const category = 'Games';
 /**
- * @memberof! Games
+ * @memberof! module:Games
  * @name connect4
  * @description
  * Implements the Connect Four game within WhatsApp. 

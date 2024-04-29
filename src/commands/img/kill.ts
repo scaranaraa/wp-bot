@@ -13,7 +13,7 @@ export const aliases: string[] = [];
 export const description = 'Kill someone';
 export const category = 'Image';
 /**
- * @memberof! Image
+ * @memberof! module:Image
  * @name kill
  * @description
  * Get a random anime gif for killing someone

@@ -8,7 +8,7 @@ export const aliases = ['inv', 'items'];
 export const description = 'Check your inventory';
 export const category = 'Pokemon';
 /**
- * @memberof! Pokemon
+ * @memberof! module:Pokemon
  * @name inventory
  * @description
  * Displays the items in the user's inventory for the Pokemon game. 

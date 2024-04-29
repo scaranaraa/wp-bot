@@ -26,7 +26,7 @@ export const category = 'General';
 
 const { Client, LocalAuth, MessageMedia } = pkg;
 /**
- * @memberof! General
+ * @memberof! module:General
  * @name dare
  * @description
  * Provides "Dare" prompts from a JSON database. 
