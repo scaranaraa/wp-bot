@@ -494,6 +494,21 @@ export const args = true;
 export const aliases = ['catch'];
 export const description = 'Hunt for new pokemon';
 export const category = 'Pokemon';
+/**
+ * @memberof! Pokemon
+ * @name hunt
+ * @description
+ * Allows users to hunt for wild Pokemon in the Pokemon game. 
+ * 
+ * This command initiates a battle with a randomly spawned wild Pokemon, allowing the user 
+ * to attempt to catch it. It utilizes the `Battle` class to manage the battle mechanics and 
+ * visualization using Puppeteer and a temporary web server. 
+ * 
+ * **Usage:** 
+ * - `!hunt [legendary|mythical|ultra]` - Starts a Pokemon hunt, optionally specifying the type of Pokemon to encounter. 
+ * - `catch` - Attempts to catch the encountered Pokemon during the battle. 
+ *
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

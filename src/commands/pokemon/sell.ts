@@ -8,6 +8,17 @@ export const args = true;
 export const aliases: string[] = [];
 export const description = 'Sell your pokemon';
 export const category = 'Pokemon';
+/** 
+ * @memberof! Pokemon
+ * @name sell
+ * @description
+ * Allows users to sell their Pokemon for coins in the Pokemon game. 
+ *
+ * This command handles the selling process, including confirming the sale and updating the user's balance and Pokemon data.
+ *
+ * **Usage:**
+ * - `!sell {Pokedex ID}` - Initiates the process of selling the specified Pokemon.
+ */
 export async function run(client: pkg.Client, msg: pkg.Message, args: any[]) {
 	const member = await msg.getContact();
 	const chat = await msg.getChat();

@@ -1,3 +1,5 @@
+
+
 import Anthropic from '@anthropic-ai/sdk';
 
 import pkg from 'whatsapp-web.js';
@@ -13,8 +15,9 @@ export const aliases: string[] = ['laude', 'cld'];
 export const description = 'Chat with Claude 3.0 sonnet';
 export const category = 'AI';
 /**
- * @memberof AI
+ * @memberof! module:AI
  * @name claude
+ * @description
  * Enables chatting with Anthropic's Claude 3.0 Sonnet model within WhatsApp.
  * 
  * **Usage:**

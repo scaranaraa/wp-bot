@@ -14,6 +14,9 @@ export const aliases = ['remind', 'rm'];
 export const description = 'Set a reminder';
 export const category = 'General';
 /**
+ * @memberof! General
+ * @name reminder
+ * @description
  * Sets reminders for users within a WhatsApp chat. 
  * 
  * **Usage:**

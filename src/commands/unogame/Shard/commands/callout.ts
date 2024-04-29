@@ -6,6 +6,9 @@ export default class CalloutCommand extends BaseCommand {
 		super(client, 'callout');
 	}
 	/**
+	 * @memberof! UNO
+ 	 * @name callout
+ 	 * @description
 	 * Allows players to call out other players who fail to say "UNO!" when they have one card left.
 	 * 
 	 * **Usage:**

@@ -7,6 +7,15 @@ export const args = true;
 export const aliases = ['bal', 'coins'];
 export const description = 'Check your balance';
 export const category = 'Pokemon';
+/**
+ * @memberof! Pokemon
+ * @name balance
+ * @description
+ * Displays the user's current coin balance in the Pokemon game. 
+ *
+ * **Usage:**
+ * - `!balance` or `!bal` - Shows the user's current coin balance. 
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

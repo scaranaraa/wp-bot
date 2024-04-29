@@ -8,6 +8,9 @@ export default class PingCommand extends BaseCommand {
 		});
 	}
 	/**
+	 * @memberof! UNO
+ 	 * @name uno!
+ 	 * @description
 	 * Handles UNO callouts within a WhatsApp chat.
 	 *
 	 * This command checks if a player has only one card left and allows them to call "UNO!". 

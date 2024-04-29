@@ -11,6 +11,9 @@ export const aliases = ['evaluate', 'ev', 'eval'];
 export const description = 'Evaluate javascript code';
 export const category = 'Dev';
 /**
+ * @memberof! Dev
+ * @name evaluate
+ * @description
  * Evaluates JavaScript code and returns the result. 
  * 
  * **Usage:**

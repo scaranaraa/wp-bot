@@ -166,6 +166,9 @@ export const category = 'Games';
 
 const { MessageMedia } = pkg;
 /**
+ * @memberof! Games
+ * @name 20questions
+ * @description
  * Implements a 20 Questions-style guessing game within WhatsApp.
  *
  * **Usage (within the bot):**

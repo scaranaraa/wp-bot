@@ -10,6 +10,9 @@ export const aliases = ['wf', 'wm'];
 export const description = 'Query WolframAlpha';
 export const category = 'General';
 /**
+ * @memberof! General
+ * @name wolfram
+ * @description
  * Queries WolframAlpha for information and returns results (text and images) within WhatsApp.
  * 
  * **Usage:**

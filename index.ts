@@ -11,7 +11,7 @@ const { Client, LocalAuth } = pkg;
  * Entry point for the WhatsApp bot.
  *
  * Initializes the WhatsApp client, connects to the MongoDB database, 
- * handles QR code generation for authentication, and loads command and event handlers when the bot is ready. 
+ * and handles QR code generation for authentication when the bot is ready. 
  *
  * **Other things:**
  * - Loading command and event handlers when the bot is ready. 

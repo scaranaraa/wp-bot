@@ -10,6 +10,9 @@ export const aliases: string[] = ['retar'];
 export const description = 'Restart the bot to fix lag';
 export const category = 'Dev';
 /**
+ * @memberof! Dev
+ * @name restart
+ * @description
  * Restarts the bot process.
  * 
  * **Usage:**

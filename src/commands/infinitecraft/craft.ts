@@ -17,6 +17,9 @@ export const aliases = ['make', 'join'];
 export const description = 'Craft any two times together';
 export const category = 'InfiniteCraft';
 /**
+ * @memberof! InfiniteCraft
+ * @name craft
+ * @description
  * Combines two items in the Infinite Craft game and returns the resulting item, if any. 
  * 
  * **Usage:**

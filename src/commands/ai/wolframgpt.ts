@@ -53,8 +53,9 @@ export const aliases: string[] = ['wgpt'];
 export const description = 'Chat with WolframAlpha using GPT 3.5';
 export const category = 'AI';
 /**
- * @memberof AI
+ * @memberof! module:AI
  * @name wolframgpt
+ * @description
  * Enables interaction with WolframAlpha and other tools using GPT-3.5 within WhatsApp.
  *
  * **Usage:**

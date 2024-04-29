@@ -150,6 +150,9 @@ export const aliases = ['gt'];
 export const description = 'Play greentea with someone';
 export const category = 'Games';
 /** 
+ * @memberof! Games
+ * @name greentea
+ * @description
  * Implements the Green Tea word game within a WhatsApp chat. 
  * 
  * **Usage (within the bot):** 

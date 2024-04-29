@@ -7,6 +7,22 @@ export const args = true;
 export const aliases = ['moves'];
 export const description = 'Select moves for your pokemon';
 export const category = 'Pokemon';
+/**
+ * @memberof! Pokemon
+ * @name moveset
+ * @description
+ * Allows users to manage the moveset of their Pokemon in the Pokemon game. 
+ *
+ * This command displays the Pokemon's currently selected moves and allows users to 
+ * select different moves from the Pokemon's learned moves. 
+ *
+ * **Usage:**
+ * - `!moveset {Pokedex ID}` - Shows the selected and learned moves for the specified Pokemon. 
+ * - `!moveset {Pokedex ID} select {move index}` - Selects the specified move for the Pokemon's moveset.
+ * 
+ * **Notes:** 
+ * - Pokemon can have up to 4 moves in their moveset. 
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

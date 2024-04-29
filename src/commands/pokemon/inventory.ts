@@ -7,6 +7,16 @@ export const args = true;
 export const aliases = ['inv', 'items'];
 export const description = 'Check your inventory';
 export const category = 'Pokemon';
+/**
+ * @memberof! Pokemon
+ * @name inventory
+ * @description
+ * Displays the items in the user's inventory for the Pokemon game. 
+ * 
+ * **Usage:**
+ * - `!inventory` or `!inv` - Shows the list of items and their quantities in the user's inventory.
+ *
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

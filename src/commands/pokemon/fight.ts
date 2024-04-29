@@ -349,6 +349,22 @@ export const args = true;
 export const aliases: string[] = [];
 export const description = 'Fight someone using your pokemon';
 export const category = 'Pokemon';
+/**
+ * @memberof! Pokemon
+ * @name fight
+ * @description
+ * Allows users to battle other players using their Pokemon in the Pokemon game. 
+ *
+ * This command initiates a Pokemon battle between two players, managing turns, 
+ * move selection, damage calculation, and win/loss conditions. It utilizes the `Battle` 
+ * class to handle the battle mechanics and visualization using Puppeteer and a temporary web server.
+ *
+ * **Usage:**
+ * - `!fight @user [bet amount]` - Challenges the mentioned user to a Pokemon battle, optionally with a specified bet amount. 
+ * - `use {move number}` - Uses the selected move during the player's turn.
+ * - `select {pokemon ID}` - Switches to a different Pokemon from the player's team.
+ *
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

@@ -25,6 +25,22 @@ export const args = true;
 export const aliases = ['choose'];
 export const description = 'Pick your starter pokemon';
 export const category = 'Pokemon';
+/**
+ * @memberof! Pokemon
+ * @name pick
+ * @description
+ * Allows users to choose their starter Pokemon in the Pokemon game. 
+ * 
+ * This command presents a selection of starter Pokemon from different generations and assigns 
+ * a randomly generated Pokemon with stats and moves to the user. 
+ *
+ * **Usage:**
+ * - `!pick` or `!choose` - Displays the available starter Pokemon options.
+ * - `!pick {Pokemon name}` - Chooses the specified Pokemon as the user's starter. 
+ * 
+ * **Notes:**
+ * - Users can only choose a starter Pokemon once. 
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

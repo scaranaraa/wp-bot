@@ -149,6 +149,9 @@ export const aliases = ['bt'];
 export const description = 'Play a game of blacktea';
 export const category = 'Games';
 /**
+ * @memberof! Games
+ * @name blacktea
+ * @description
 * Implements the Black Tea word game within a WhatsApp chat.
 *
 * **Usage (within the bot):**

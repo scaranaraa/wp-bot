@@ -10,6 +10,9 @@ export default class PlayCommand extends BaseCommand {
 		});
 	}
 	/**
+	 * @memberof! UNO
+ 	 * @name play
+ 	 * @description
 	 * Plays a card in the UNO game within a WhatsApp chat. 
 	 *
 	 * This command allows players to play a card from their hand if it matches the color, number, or symbol of the previously played card. 

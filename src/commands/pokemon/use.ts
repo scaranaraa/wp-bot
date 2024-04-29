@@ -10,6 +10,20 @@ export const args = true;
 export const aliases: string[] = [];
 export const description = 'Use any item';
 export const category = 'Pokemon';
+/**
+ * @memberof! Pokemon
+ * @name use
+ * @description
+ * Allows users to use items from their inventory in the Pokemon game.
+ *
+ * This command handles item usage, including checking item availability, 
+ * applying item effects (e.g., XP boosts, level-ups, Pokemon redemption), and 
+ * updating the user's inventory and Pokemon data.
+ *
+ * **Usage:**
+ * - `!use {item ID or name} [amount]` - Uses the specified item from the inventory.
+ * 
+ */ 
 export async function run(client: pkg.Client, msg: pkg.Message, args: any[]) {
 	const member = await msg.getContact();
 	const chat = await msg.getChat();

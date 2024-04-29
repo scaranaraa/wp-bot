@@ -26,6 +26,9 @@ export const category = 'General';
 
 const { Client, LocalAuth, MessageMedia } = pkg;
 /**
+ * @memberof! General
+ * @name dare
+ * @description
  * Provides "Dare" prompts from a JSON database. 
  * 
  * This command retrieves dares from 'dare.json' and sends a random one to the chat. 

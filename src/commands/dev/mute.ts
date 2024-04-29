@@ -8,6 +8,9 @@ export const aliases = ['shut', 'shutup'];
 export const description = 'Make someone be unable to send messages';
 export const category = 'Dev';
 /**
+ * @memberof! Dev
+ * @name mute
+ * @description
  * Mutes or unmutes a mentioned user in a group chat. 
  * 
  * **Usage:**

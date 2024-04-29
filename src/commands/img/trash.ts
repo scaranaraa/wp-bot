@@ -12,6 +12,9 @@ export const aliases: string[] = [];
 export const description = 'Make a trash image of someone';
 export const category = 'Image';
 /**
+ * @memberof! Image
+ * @name trash
+ * @description
  * Generate modified image of a members pfp
  * 
  * **Usage:**

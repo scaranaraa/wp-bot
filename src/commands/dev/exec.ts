@@ -11,10 +11,10 @@ export const category = 'Dev';
 export const aliases = ['execute', 'ex'];
 export const description = 'Execute commands in powershell';
 /**
+ * @memberof! Dev
+ * @name execute
+ * @description
  * Executes a command in the system's shell and returns the output.
- * @param {Client} client - The WhatsApp client instance.
- * @param {Message} msg - The message that triggered the command.
- * @param {string[]} args - An array containing the command and its arguments.
  * 
  * **Usage:**
  * - `!exec dir` - Executes the `dir` command and displays the directory listing.

@@ -7,6 +7,9 @@ export const aliases = ['identify', 'id', 'sh', 'recognise'];
 export const description = 'Identify any song in a video/audio';
 export const category = 'Shazam';
 /**
+ * @memberof! Shazam
+ * @name recognise
+ * @description
  * Identifies a song from an audio or video message using Shazam.
  *
  * **Usage:**

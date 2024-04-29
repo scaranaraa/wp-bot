@@ -7,6 +7,17 @@ export const args = true;
 export const aliases: string[] = [];
 export const description = 'Check the shop';
 export const category = 'Pokemon';
+/**
+ * @memberof! Pokemon
+ * @name shop
+ * @description
+ * Displays the available items in the Pokemon game shop.
+ *
+ * This command retrieves item data and presents it to the user, allowing them to browse items and their costs.
+ *
+ * **Usage:**
+ * - `!shop [page number]` - Shows the items available for purchase in the shop. .
+ */
 export async function run(client: pkg.Client, msg: pkg.Message, args: any[]) {
 	let idx = 0;
 	if (args[0] && !isNaN(args[0])) {

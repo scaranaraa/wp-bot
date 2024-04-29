@@ -6,6 +6,9 @@ export default class StartCommand extends BaseCommand {
 		super(client, 'start');
 	}
 	/**
+	 * @memberof! UNO
+ 	 * @name start
+ 	 * @description
 	 * Starts a UNO game in a WhatsApp chat. 
 	 *
 	 * This command initiates the game if there are enough players and deals cards to each player. 

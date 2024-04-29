@@ -25,6 +25,9 @@ export const description = 'Get a paranoia question';
 export const category = 'General';
 const { Client, LocalAuth, MessageMedia } = pkg;
 /** 
+ * @memberof! General
+ * @name para
+ * @description
  * Provides "Paranoia" questions from a JSON database. 
  *
  * This command retrieves questions from 'paranoia.json' and sends a random one to the chat.

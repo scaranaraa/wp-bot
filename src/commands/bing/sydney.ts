@@ -184,6 +184,9 @@ export const aliases = ['bing', 'syd'];
 export const description = 'Chat with sydney/microsoft copilot';
 export const category = 'Bing';
 /**
+ * @memberof! Bing
+ * @name sydney
+ * @description
  * Talk with the Bing AI (Sydney) within WhatsApp.
  *
  * **Usage (within the bot):**

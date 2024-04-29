@@ -54,6 +54,9 @@ export const aliases = ['handwrite'];
 export const description = 'Write letters';
 export const category = 'General';
 /**
+ * @memberof! General
+ * @name write
+ * @description
  * Generates an image of handwritten text using individual letter images.
  *
  * **Usage:**

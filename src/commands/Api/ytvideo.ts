@@ -1,6 +1,6 @@
-import axios from 'axios';
+import ytdl from 'ytdl-core'
 import pkg2, { type Client, type Message } from 'whatsapp-web.js';
-
+import {createWriteStream} from 'fs'
 const { MessageMedia } = pkg2;
 
 export const name = 'ytvideo';
@@ -9,13 +9,15 @@ export const aliases = ['video', 'vid', 'ytv'];
 export const description = 'Download any youtube video upto 30 minutes';
 export const category = 'API';
 /**
+ * @memberof! API
+ * @name ytvideo
+ * @description
  * Downloads YouTube videos and sends them or provides a link within WhatsApp. 
  * 
  * **Usage:**
  * - `!ytvideo {YouTube URL}` - Downloads the video from the provided URL and attempts to send it or provides a link. 
  *
  * **Notes:** 
- * - This command requires an API key for 'lolhuman.xyz'.
  * - Videos longer than 30 minutes may not be downloaded due to API limitations.
  */
 export async function run(client: Client, msg: Message, args: string[]) {
@@ -23,42 +25,28 @@ export async function run(client: Client, msg: Message, args: string[]) {
 		return msg.reply('Provide youtube url');
 	}
 
-	const chat = await msg.getChat();
-	if (!args[0].includes('https') || !args[0].includes('you')) {
-		return msg.reply('Invalid url');
-	}
+	const url = args.join()
+	if(!ytdl.validateURL(url)) return msg.reply("Invalid url dumbass")
+	
+	ytdl(args.join(), {quality: 'lowest'})
+	.pipe(createWriteStream('./src/commands/utils/video.mp4')).once("finish", async () => {
 
-	let res: any = await fetch(
-		`https://api.lolhuman.xyz/api/ytvideo2?apikey=${process.env.LOL_API}&url=${args[0]}`
-	);
-	res = await res.json();
-	if (res.status != 200) {
-		return msg.reply('Error :(');
-	}
+		try {
+			const media = MessageMedia.fromFilePath('./src/commands/utils/video.mp4')
+			await msg.reply(media)
+		}
+		catch (err) {
+			await msg.reply(`An error occured : ${clean(err)}`)
+		}
 
-	const thumbnail = await MessageMedia.fromUrl(res.result.thumbnail, {
-		unsafeMime: true,
-	});
-	await msg.reply(thumbnail, undefined, { caption: res.result.title });
-	const vid = await MessageMedia.fromUrl(res.result.link, { unsafeMime: true });
-	vid.mimetype = 'video';
-	if (!vid.filesize || vid.filesize > 49060288) {
-		await msg.reply('video too big to send, view as link');
-		const tiny = await axios.get(
-			`https://tinyurl.com/api-create.php?url=${res.result.link}`
-		);
-		const tinyUrl = tiny.data;
-		await msg.reply(tinyUrl);
-		return;
-	}
+	})
+}
 
-	try {
-		await msg.reply(vid);
-	} catch (e) {
-		const tiny = await axios.get(
-			`https://tinyurl.com/api-create.php?url=${res.result.link}`
-		);
-		const tinyUrl = tiny.data;
-		await msg.reply(tinyUrl);
+function clean(text: unknown): string {
+	if (typeof text === 'string') {
+		return text
+			.replace(/`/g, `\`${String.fromCharCode(8203)}`)
+			.replace(/@/g, `@${String.fromCharCode(8203)}`);
 	}
+	return String(text);
 }

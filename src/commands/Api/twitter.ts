@@ -9,6 +9,9 @@ export const aliases = ['x', 'tw', 'twd'];
 export const description = 'Download any form of content from a public tweet';
 export const category = 'API';
 /**
+ * @memberof! API
+ * @name twitter
+ * @description
  * Downloads content (images, videos) from a public tweet and sends them or provides links within WhatsApp.
  * 
  * **Usage:**

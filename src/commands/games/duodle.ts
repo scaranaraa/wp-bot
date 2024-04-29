@@ -189,6 +189,9 @@ export const aliases = ['dd'];
 export const description = 'Play duodle, 2 wordles at once';
 export const category = 'Games';
 /**
+ * @memberof! Games
+ * @name duodle
+ * @description
  * Implements a Duodle game (two Wordle puzzles simultaneously) within WhatsApp
  *
  * **Usage (within the bot):**

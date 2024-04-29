@@ -12,6 +12,9 @@ export const aliases: string[] = [];
 export const description = 'Get an Affect image on someone';
 export const category = 'Image';
 /**
+ * @memberof! Image
+ * @name affect
+ * @description
  * Generate modified image of a members pfp
  * 
  * **Usage:**

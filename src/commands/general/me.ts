@@ -7,6 +7,9 @@ export const aliases = ['me'];
 export const description = 'Check your wins and commands ran';
 export const category = 'General';
 /**
+ * @memberof! General
+ * @name stats
+ * @description
  * Displays user statistics, including game wins and command usage, within the WhatsApp chat.
  *
  * **Usage:**

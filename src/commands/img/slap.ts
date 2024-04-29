@@ -11,6 +11,9 @@ export const aliases: string[] = [];
 export const description = 'Slap someone';
 export const category = 'Image';
 /**
+ * @memberof! Image
+ * @name slap
+ * @description
  * Generate modified image of a members pfp
  * 
  * **Usage:**

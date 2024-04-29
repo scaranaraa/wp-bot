@@ -7,6 +7,23 @@ export const args = true;
 export const aliases = ['dex', 'pd'];
 export const description = 'Check your pokedex';
 export const category = 'Pokemon';
+/**
+ * @memberof! Pokemon
+ * @name pokedex
+ * @description
+ * Provides information about Pokemon and moves in the Pokemon game.
+ *
+ * This command allows users to view details about Pokemon they own, search for Pokemon or moves 
+ * in the Pokedex, and retrieve information about specific Pokemon or moves. 
+ *
+ * **Usage:**
+ * - `!pokedex` or `!dex` - Shows information about the user's first Pokemon.
+ * - `!pokedex {Pokedex ID or name} [pokemon index]` - Shows details about a specific Pokemon owned by the user. 
+ * - `!pokedex all` - Shows information about all Pokemon owned by the user. 
+ * - `!pokedex search pokemon {pokemon name}` - Searches for a Pokemon in the Pokedex and displays its information.
+ * - `!pokedex search move {move name or ID}` - Searches for a move in the Pokedex and displays its information.
+ * - `!pokedex search evolution {pokemon name}` - Searches for the evolution of the pokemon  and displays its information.
+ */
 export async function run(client: pkg.Client, msg: pkg.Message, args: any) {
 	const member = await msg.getContact();
 	const chat = await msg.getChat();

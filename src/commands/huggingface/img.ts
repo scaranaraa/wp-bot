@@ -16,6 +16,9 @@ export const aliases = ['draw', 'create'];
 export const description = 'Create an image using stable diffusion';
 export const category = 'HuggingFace';
 /**
+ * @memberof! HuggingFace
+ * @name img
+ * @description
  * Generates images using Stable Diffusion via the Hugging Face API.
  * 
  * **Usage:**

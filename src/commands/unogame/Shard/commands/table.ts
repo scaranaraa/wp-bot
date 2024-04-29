@@ -10,6 +10,9 @@ export default class TableCommand extends BaseCommand {
 		super(client, 'table');
 	}
 	/**
+	 * @memberof! UNO
+ 	 * @name table
+ 	 * @description
 	 * Displays information about the current UNO game in a WhatsApp chat.
 	 * 
 	 * This command shows the list of players, the current player's turn, the last played card, 

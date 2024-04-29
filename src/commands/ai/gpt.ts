@@ -27,9 +27,10 @@ export const aliases: string[] = ['chatgpt', 'openai'];
 export const description = 'Chat with ChatGPT 3.5 turbo';
 export const category = 'AI';
 /**
- * @memberof AI
+ * @memberof! module:AI
  * @name gpt
- * @description Enables chatting with ChatGPT 3.5 Turbo within WhatsApp.
+ * @description 
+ * Enables chatting with ChatGPT 3.5 Turbo within WhatsApp.
  *
  * **Usage:** 
  * - `!gpt {message}` - Sends the message to ChatGPT and replies with its response. 

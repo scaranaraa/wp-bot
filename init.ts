@@ -76,7 +76,6 @@ client.mgames = new Map();
 /**
  * @memberof Client
  * @name sydneyqueue
- * @type {Array<[Message, string, Message]>}
  * @description Queue messages to be sent to sydney to avoid crash
  * @deprecated
 */

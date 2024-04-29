@@ -26,6 +26,9 @@ export const description = 'Get a question of will you press the button';
 export const category = 'General';
 const { Client, LocalAuth, MessageMedia } = pkg;
 /**
+ * @memberof! General
+ * @name wyp
+ * @description
  * Provides "Will You Press the Button" questions from a JSON database. 
  *
  * This command retrieves questions from 'wyp.json' and sends a random one to the chat. 

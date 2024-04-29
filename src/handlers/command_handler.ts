@@ -10,7 +10,7 @@ export default (client: Client) => {
 	try {
 		let command = 0;
 		readdirSync('./dist/src/commands').forEach(async cmd => {
-			if (cmd !== 'utils') {
+			if (cmd !== 'utils' && cmd !== 'commandModules') {
 				const commands = readdirSync(`./dist/src/commands/${cmd}/`).filter(
 					file => file.endsWith('.js')
 				);

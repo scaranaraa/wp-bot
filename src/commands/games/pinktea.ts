@@ -159,6 +159,9 @@ export const description = 'Play a game of pinktea';
 export const disabled = false;
 export const category = 'Games';
 /**
+ * @memberof! Games
+ * @name pinktea
+ * @description
  * Implements the Pink Tea word game (anagram-based) within a WhatsApp chat. 
  *
  * **Usage (within the bot):**

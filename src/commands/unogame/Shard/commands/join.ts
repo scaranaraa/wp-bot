@@ -7,6 +7,9 @@ export default class JoinCommand extends BaseCommand {
 		super(client, 'join');
 	}
 	/**
+	 * @memberof! UNO
+ 	 * @name join
+ 	 * @description
 	 * Allows players to join a UNO game in a WhatsApp chat. 
 	 *
 	 * This command adds a player to the game queue or creates a new game if one doesn't exist. 

@@ -261,6 +261,9 @@ export const aliases = ['chess', 'puzzle', 'cp'];
 export const description = 'Get one move chess puzzles';
 export const category = 'Chess';
 /**
+ * @memberof! Chess
+ * @name ChessPuzzle
+ * @description
  * Manages chess puzzles within a WhatsApp chat.
  * 
  * This class handles puzzle loading, retrieval, user interaction, and scoring.

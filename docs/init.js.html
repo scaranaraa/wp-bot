@@ -1,157 +1,128 @@
-<!doctype html>
-<html>
-
-<head>
-  <meta name="generator" content="JSDoc 4.0.2">
-  <meta charset="utf-8">
-  <title>wp-bot 4.3.2 &raquo; Source: init.js</title>
-  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
-  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
-  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
-  <link href="css/baseline.css" rel="stylesheet">
-</head>
-
-<body onload="prettyPrint()">
-  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
-    <div id="jsdoc-navbar-container">
-      <div id="jsdoc-navbar-content">
-        <a href="index.html" class="jsdoc-navbar-package-name">wp-bot 4.<wbr>3.<wbr>2</a>
-      </div>
-    </div>
-  </nav>
-  <div id="jsdoc-body-container">
-    <div id="jsdoc-content">
-      <div id="jsdoc-content-container">
-        <div id="jsdoc-banner" role="banner">
-        </div>
-        <div id="jsdoc-main" role="main">
-          <header class="page-header">
-            <h1>Source: init.js</h1>
-          </header>
-          <article>
-            <pre class="prettyprint linenums"><code>/**
+<!DOCTYPE html><html lang="en" style="font-size:16px"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Source: init.js</title><!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]--><script src="scripts/third-party/hljs.js" defer="defer"></script><script src="scripts/third-party/hljs-line-num.js" defer="defer"></script><script src="scripts/third-party/popper.js" defer="defer"></script><script src="scripts/third-party/tippy.js" defer="defer"></script><script src="scripts/third-party/tocbot.min.js"></script><script>var baseURL="/",locationPathname="";baseURL=(locationPathname=document.location.pathname).substr(0,locationPathname.lastIndexOf("/")+1)</script><link rel="stylesheet" href="styles/clean-jsdoc-theme.min.css"><svg aria-hidden="true" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="display:none"><defs><symbol id="copy-icon" viewbox="0 0 488.3 488.3"><g><path d="M314.25,85.4h-227c-21.3,0-38.6,17.3-38.6,38.6v325.7c0,21.3,17.3,38.6,38.6,38.6h227c21.3,0,38.6-17.3,38.6-38.6V124    C352.75,102.7,335.45,85.4,314.25,85.4z M325.75,449.6c0,6.4-5.2,11.6-11.6,11.6h-227c-6.4,0-11.6-5.2-11.6-11.6V124    c0-6.4,5.2-11.6,11.6-11.6h227c6.4,0,11.6,5.2,11.6,11.6V449.6z"/><path d="M401.05,0h-227c-21.3,0-38.6,17.3-38.6,38.6c0,7.5,6,13.5,13.5,13.5s13.5-6,13.5-13.5c0-6.4,5.2-11.6,11.6-11.6h227    c6.4,0,11.6,5.2,11.6,11.6v325.7c0,6.4-5.2,11.6-11.6,11.6c-7.5,0-13.5,6-13.5,13.5s6,13.5,13.5,13.5c21.3,0,38.6-17.3,38.6-38.6    V38.6C439.65,17.3,422.35,0,401.05,0z"/></g></symbol><symbol id="search-icon" viewBox="0 0 512 512"><g><g><path d="M225.474,0C101.151,0,0,101.151,0,225.474c0,124.33,101.151,225.474,225.474,225.474    c124.33,0,225.474-101.144,225.474-225.474C450.948,101.151,349.804,0,225.474,0z M225.474,409.323    c-101.373,0-183.848-82.475-183.848-183.848S124.101,41.626,225.474,41.626s183.848,82.475,183.848,183.848    S326.847,409.323,225.474,409.323z"/></g></g><g><g><path d="M505.902,476.472L386.574,357.144c-8.131-8.131-21.299-8.131-29.43,0c-8.131,8.124-8.131,21.306,0,29.43l119.328,119.328    c4.065,4.065,9.387,6.098,14.715,6.098c5.321,0,10.649-2.033,14.715-6.098C514.033,497.778,514.033,484.596,505.902,476.472z"/></g></g></symbol><symbol id="font-size-icon" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0z"/><path d="M11.246 15H4.754l-2 5H.6L7 4h2l6.4 16h-2.154l-2-5zm-.8-2L8 6.885 5.554 13h4.892zM21 12.535V12h2v8h-2v-.535a4 4 0 1 1 0-6.93zM19 18a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></symbol><symbol id="add-icon" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0z"/><path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z"/></symbol><symbol id="minus-icon" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0z"/><path d="M5 11h14v2H5z"/></symbol><symbol id="dark-theme-icon" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0z"/><path d="M10 7a7 7 0 0 0 12 4.9v.1c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2h.1A6.979 6.979 0 0 0 10 7zm-6 5a8 8 0 0 0 15.062 3.762A9 9 0 0 1 8.238 4.938 7.999 7.999 0 0 0 4 12z"/></symbol><symbol id="light-theme-icon" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm0-2a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM11 1h2v3h-2V1zm0 19h2v3h-2v-3zM3.515 4.929l1.414-1.414L7.05 5.636 5.636 7.05 3.515 4.93zM16.95 18.364l1.414-1.414 2.121 2.121-1.414 1.414-2.121-2.121zm2.121-14.85l1.414 1.415-2.121 2.121-1.414-1.414 2.121-2.121zM5.636 16.95l1.414 1.414-2.121 2.121-1.414-1.414 2.121-2.121zM23 11v2h-3v-2h3zM4 11v2H1v-2h3z"/></symbol><symbol id="reset-icon" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0z"/><path d="M18.537 19.567A9.961 9.961 0 0 1 12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10c0 2.136-.67 4.116-1.81 5.74L17 12h3a8 8 0 1 0-2.46 5.772l.997 1.795z"/></symbol><symbol id="down-icon" viewBox="0 0 16 16"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.7803 6.21967C13.0732 6.51256 13.0732 6.98744 12.7803 7.28033L8.53033 11.5303C8.23744 11.8232 7.76256 11.8232 7.46967 11.5303L3.21967 7.28033C2.92678 6.98744 2.92678 6.51256 3.21967 6.21967C3.51256 5.92678 3.98744 5.92678 4.28033 6.21967L8 9.93934L11.7197 6.21967C12.0126 5.92678 12.4874 5.92678 12.7803 6.21967Z"></path></symbol><symbol id="codepen-icon" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0z"/><path d="M16.5 13.202L13 15.535v3.596L19.197 15 16.5 13.202zM14.697 12L12 10.202 9.303 12 12 13.798 14.697 12zM20 10.869L18.303 12 20 13.131V10.87zM19.197 9L13 4.869v3.596l3.5 2.333L19.197 9zM7.5 10.798L11 8.465V4.869L4.803 9 7.5 10.798zM4.803 15L11 19.131v-3.596l-3.5-2.333L4.803 15zM4 13.131L5.697 12 4 10.869v2.262zM2 9a1 1 0 0 1 .445-.832l9-6a1 1 0 0 1 1.11 0l9 6A1 1 0 0 1 22 9v6a1 1 0 0 1-.445.832l-9 6a1 1 0 0 1-1.11 0l-9-6A1 1 0 0 1 2 15V9z"/></symbol><symbol id="close-icon" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"/></symbol><symbol id="menu-icon" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0z"/><path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z"/></symbol></defs></svg></head><body data-theme="dark"><div class="sidebar-container"><div class="sidebar" id="sidebar"><a href="/" class="sidebar-title sidebar-title-anchor">Home</a><div class="sidebar-items-container"><div class="sidebar-section-title with-arrow" data-isopen="false" id="sidebar-modules"><div>Modules</div><svg><use xlink:href="#down-icon"></use></svg></div><div class="sidebar-section-children-container"><div class="sidebar-section-children"><a href="module-AI.html">AI</a></div></div><div class="sidebar-section-title with-arrow" data-isopen="false" id="sidebar-classes"><div>Classes</div><svg><use xlink:href="#down-icon"></use></svg></div><div class="sidebar-section-children-container"><div class="sidebar-section-children"><a href="API.html">API</a></div><div class="sidebar-section-children"><a href="Bing.html">Bing</a></div><div class="sidebar-section-children"><a href="Chess.html">Chess</a></div><div class="sidebar-section-children"><a href="Client.html">Client</a></div><div class="sidebar-section-children"><a href="Dev.html">Dev</a></div><div class="sidebar-section-children"><a href="Games.html">Games</a></div><div class="sidebar-section-children"><a href="General.html">General</a></div><div class="sidebar-section-children"><a href="HuggingFace.html">HuggingFace</a></div><div class="sidebar-section-children"><a href="Image.html">Image</a></div><div class="sidebar-section-children"><a href="InfiniteCraft.html">InfiniteCraft</a></div><div class="sidebar-section-children"><a href="Monopoly.html">Monopoly</a></div><div class="sidebar-section-children"><a href="Pokemon.html">Pokemon</a></div><div class="sidebar-section-children"><a href="Shazam.html">Shazam</a></div><div class="sidebar-section-children"><a href="UNO.html">UNO</a></div></div><div class="sidebar-section-title with-arrow" data-isopen="false" id="sidebar-global"><div>Global</div><svg><use xlink:href="#down-icon"></use></svg></div><div class="sidebar-section-children-container"><div class="sidebar-section-children"><a href="global.html#db">db</a></div><div class="sidebar-section-children"><a href="global.html#maxParallelDownload">maxParallelDownload</a></div></div></div></div></div><div class="navbar-container" id="VuAckcnZhf"><nav class="navbar"><div class="navbar-left-items"></div><div class="navbar-right-items"><div class="navbar-right-item"><button class="icon-button search-button" aria-label="open-search"><svg><use xlink:href="#search-icon"></use></svg></button></div><div class="navbar-right-item"><button class="icon-button theme-toggle" aria-label="toggle-theme"><svg><use class="theme-svg-use" xlink:href="#light-theme-icon"></use></svg></button></div><div class="navbar-right-item"><button class="icon-button font-size" aria-label="change-font-size"><svg><use xlink:href="#font-size-icon"></use></svg></button></div></div><nav></nav></nav></div><div class="toc-container"><div class="toc-content"><span class="bold">On this page</span><div id="eed4d2a0bfd64539bb9df78095dec881"></div></div></div><div class="body-wrapper"><div class="main-content"><div class="main-wrapper"><section id="source-page" class="source-page"><header><h1 id="title" class="has-anchor">init.js</h1></header><article><pre class="prettyprint source lang-js"><code>/**
  * Initializes the WhatsApp bot, including commands, handlers, events, and configuration.
  *
- * sets up the bot&#x27;s core functionality, loads commands and events, configures
+ * sets up the bot's core functionality, loads commands and events, configures
  * prefixes, initializes external libraries, and sets up various
- * properties and methods on the &#x60;client&#x60; object.
+ * properties and methods on the `client` object.
  *
  * **Other things:**
  * - Setting up game-related properties and queues.
- * - &#x60;checkpokemon&#x60; function for handling Pokemon level-ups and evolutions
+ * - `checkpokemon` function for handling Pokemon level-ups and evolutions
  */
-import { readdirSync } from &#x27;fs&#x27;;
-import { Shazam } from &#x27;node-shazam&#x27;;
-import GameManager from &#x27;./src/commands/unogame/Shard/GameManager.js&#x27;;
-import { rules, ruleKeys } from &#x27;./src/commands/unogame/rules.js&#x27;;
-import client from &#x27;./index.js&#x27;;
-import { PokemonBase, pokemonschema } from &#x27;./src/models/mongoa.js&#x27;;
-import DataManager from &#x27;./src/pokedex/init.js&#x27;;
-import curr from &#x27;./src/models/baseuser.js&#x27;;
-import(&#x27;./src/commands/monopoly/monopoly.js&#x27;);
+import { readdirSync } from 'fs';
+import { Shazam } from 'node-shazam';
+import GameManager from './src/commands/unogame/Shard/GameManager.js';
+import { rules, ruleKeys } from './src/commands/unogame/rules.js';
+import client from './index.js';
+import { PokemonBase, pokemonschema } from './src/models/mongoa.js';
+import DataManager from './src/pokedex/init.js';
+import curr from './src/models/baseuser.js';
+import('./src/commands/monopoly/monopoly.js');
 /**
  * @memberof Client
  * @name commands
- * @type {Map&amp;lt;string, any&gt;}
+ * @type {Map&lt;string, any>}
  * @description Map of commands loaded to the client
 */
-client.commands &#x3D; new Map();
+client.commands = new Map();
 /**
  * @memberof Client
  * @name handlers
- * @type {Map&amp;lt;string, any&gt;}
+ * @type {Map&lt;string, any>}
  * @description Map of handlers loaded to the client
 */
-client.handlers &#x3D; new Map();
+client.handlers = new Map();
 /**
  * @memberof Client
  * @name events
- * @type {Map&amp;lt;string, any&gt;}
+ * @type {Map&lt;string, any>}
  * @description Map of events loaded to the client
 */
-client.events &#x3D; new Map();
+client.events = new Map();
 /**
  * @memberof Client
  * @name aliases
- * @type {Map&amp;lt;string, any&gt;}
+ * @type {Map&lt;string, any>}
  * @description Map of command aliases loaded to the client
 */
-client.aliases &#x3D; new Map();
+client.aliases = new Map();
 /**
  * @memberof Client
  * @name muted
  * @type {string[]}
  * @description List of muted members
 */
-client.muted &#x3D; [];
+client.muted = [];
 /**
  * @memberof Client
  * @name mgames
- * @type {Map&amp;lt;string, MGame&gt;}
+ * @type {Map&lt;string, MGame>}
  * @description Map of ongoing monopoly games
 */
-client.mgames &#x3D; new Map();
+client.mgames = new Map();
 /**
  * @memberof Client
  * @name sydneyqueue
  * @description Queue messages to be sent to sydney to avoid crash
  * @deprecated
 */
-client.sydneyqueue &#x3D; [];
+client.sydneyqueue = [];
 /**
  * @memberof Client
  * @name prefix
  * @type {string}
  * @description Main prefix for the bot
 */
-client.prefix &#x3D; &#x60;@${process.env.PHONE} &#x60;;
+client.prefix = `@${process.env.PHONE} `;
 /**
  * @memberof Client
  * @name s_prefix
  * @type {string[]}
  * @description List of secondary prefixes for the bot
 */
-client.s_prefix &#x3D; [&#x27;$&#x27;, &#x27;/&#x27;, &#x27;?&#x27;, &#x27;-&#x27;, &#x27;&amp;amp;&#x27;, &#x27;*&#x27;, &#x27;&gt;&#x27;, &#x27;,&#x27;, &#x27;.&#x27;, &#x27;£&#x27;, &#x27;₹&#x27;, &#x27;¢&#x27;, &#x27;√&#x27;, &#x27;π&#x27;, &#x27;%&#x27;, &#x27;©&#x27;, &#x27;®&#x27;, &#x27;™&#x27;, &#x27;✓&#x27;, &#x27;§&#x27;, &#x27;∆&#x27;,];
+client.s_prefix = ['$', '/', '?', '-', '&amp;', '*', '>', ',', '.', '£', '₹', '¢', '√', 'π', '%', '©', '®', '™', '✓', '§', '∆',];
 /**
  * @memberof Client
  * @name prefix2
  * @type {string}
  * @description Prefix for uno bot
 */
-client.prefix2 &#x3D; &#x27;uno&#x27;;
+client.prefix2 = 'uno';
 /**
  * @memberof Client
  * @name gartic
  * @type {boolean}
  * @description Indicates whether a gartic game is ongoing
 */
-client.gartic &#x3D; false;
+client.gartic = false;
 /**
  * @memberof Client
  * @name gameManager
  * @type {GameManager}
  * @description Manager for uno games
 */
-client.gameManager &#x3D; new GameManager(client);
+client.gameManager = new GameManager(client);
 /**
  * @memberof Client
  * @name commands2
  * @description Loaded uno commands
 */
-client.commands2 &#x3D; {};
+client.commands2 = {};
 /**
  * @memberof Client
  * @name commandMap
  * @description Loaded uno commands
 */
-client.commandMap &#x3D; {};
+client.commandMap = {};
 /**
  * @memberof Client
  * @name getCommand
  * @description Retrieves UNO commands
 */
-client.getCommand &#x3D; function (name) {
-    const commandName &#x3D; this.commandMap[name];
+client.getCommand = function (name) {
+    const commandName = this.commandMap[name];
     return this.commands2[commandName];
 };
 /**
@@ -160,23 +131,23 @@ client.getCommand &#x3D; function (name) {
  * @type {Shazam}
  * @description Shazam client for song recognition
 */
-client.shazam &#x3D; new Shazam();
+client.shazam = new Shazam();
 /**
  * @memberof Client
  * @name loadCommands
  * @description Loads UNO commands
 */
-client.loadCommands &#x3D; async function () {
-    const files &#x3D; readdirSync(&#x27;./dist/src/commands/unogame/Shard/commands/&#x27;);
+client.loadCommands = async function () {
+    const files = readdirSync('./dist/src/commands/unogame/Shard/commands/');
     for (const file of files) {
-        if (file.endsWith(&#x27;.js&#x27;)) {
-            const CommandModule &#x3D; await import(&#x60;./src/commands/unogame/Shard/commands/${file}&#x60;);
-            const Command &#x3D; CommandModule.default;
-            const command &#x3D; new Command(this);
-            this.commands2[command.name] &#x3D; command;
-            this.commandMap[command.name] &#x3D; command.name;
+        if (file.endsWith('.js')) {
+            const CommandModule = await import(`./src/commands/unogame/Shard/commands/${file}`);
+            const Command = CommandModule.default;
+            const command = new Command(this);
+            this.commands2[command.name] = command;
+            this.commandMap[command.name] = command.name;
             for (const alias of command.aliases) {
-                this.commandMap[alias] &#x3D; command.name;
+                this.commandMap[alias] = command.name;
             }
         }
     }
@@ -187,13 +158,13 @@ client.loadCommands();
  * @name games
  * @description Map of UNO commands
 */
-client.games &#x3D; {};
+client.games = {};
 /**
  * @memberof Client
  * @name getrules
  * @description Get UNO rules
 */
-client.getrules &#x3D; function () {
+client.getrules = function () {
     return rules;
 };
 /**
@@ -201,7 +172,7 @@ client.getrules &#x3D; function () {
  * @name getruleKeys
  * @description Get UNO rules
 */
-client.getruleKeys &#x3D; function () {
+client.getruleKeys = function () {
     return ruleKeys;
 };
 /**
@@ -209,10 +180,10 @@ client.getruleKeys &#x3D; function () {
  * @name getruleset
  * @description Get UNO rules
 */
-client.getruleset &#x3D; function () {
-    const obj &#x3D; {};
+client.getruleset = function () {
+    const obj = {};
     for (const key of Object.keys(rules)) {
-        obj[key] &#x3D; rules[key].value;
+        obj[key] = rules[key].value;
     }
     return obj;
 };
@@ -222,16 +193,16 @@ client.getruleset &#x3D; function () {
  * @type {string[]}
  * @description Stores list of deleted/edited messages to be used by snipe command
 */
-client.snipe &#x3D; [];
+client.snipe = [];
 /**
  * @memberof Client
  * @name downloading
  * @type {boolean}
  * @description Prevent parallel downloads by yt command
 */
-client.downloading &#x3D; false;
+client.downloading = false;
 // very badly optimized not worth it
-// client.character &#x3D; &#x27;Leon Kennedy&#x27;
+// client.character = 'Leon Kennedy'
 /**
  * @memberof Client
  * @name ingame
@@ -239,15 +210,15 @@ client.downloading &#x3D; false;
  * @description Prevent parallel games in chats
  * @todo Unnecesarry, allow games in different channels
 */
-client.ingame &#x3D; false;
-client.ind &#x3D; false;
+client.ingame = false;
+client.ind = false;
 /**
  * @memberof Client
  * @name cachedUsers
- * @type {Map&amp;lt;string,BaseUserType&gt;}
+ * @type {Map&lt;string,BaseUserType>}
  * @description Map of users cached by the bot
 */
-client.cachedUsers &#x3D; new Map();
+client.cachedUsers = new Map();
 /**
  * @memberof Client
  * @name battling
@@ -255,22 +226,22 @@ client.cachedUsers &#x3D; new Map();
  * @description Prevent parallel pokemon battles
  * @todo Unnecesarry, allow parallel games in seperate chats
 */
-client.battling &#x3D; false;
+client.battling = false;
 /**
  * @memberof Client
  * @name data
  * @type {DataManager}
  * @description Base Pokedex for the bot
 */
-client.data &#x3D; new DataManager();
+client.data = new DataManager();
 /**
  * @memberof Client
  * @name checkpokemon
  * @type {Function}
  * @description Function to check and level up pokemon basedo n xp
 */
-client.checkpokemon &#x3D; async function (msg, member, pokemons, selected) {
-    const pokemon &#x3D; new PokemonBase({
+client.checkpokemon = async function (msg, member, pokemons, selected) {
+    const pokemon = new PokemonBase({
         id: pokemons.id,
         timestamp: pokemons.timestamp,
         owner_id: pokemons.owner_id,
@@ -294,9 +265,9 @@ client.checkpokemon &#x3D; async function (msg, member, pokemons, selected) {
         has_color: pokemons.has_color,
         color: pokemons.color,
     });
-    if (pokemon.xp &gt;&#x3D; pokemon.max_xp &amp;amp;&amp;amp; pokemon.level &amp;lt; 100) {
-        pokemon.level +&#x3D; 1;
-        pokemon.xp &#x3D; 0;
+    if (pokemon.xp >= pokemon.max_xp &amp;&amp; pokemon.level &lt; 100) {
+        pokemon.level += 1;
+        pokemon.xp = 0;
         await pokemonschema.updateOne({ owner_id: member.number, id: selected }, {
             $set: {
                 level: pokemon.level,
@@ -307,15 +278,15 @@ client.checkpokemon &#x3D; async function (msg, member, pokemons, selected) {
                 xp: pokemon.xp,
             },
         });
-        await msg.reply(&#x60;Your ${cp(client.data.findSpeciesByNumber(pokemon.species_id).slug)} levelled up!\n Its now level ${pokemon.level}&#x60;);
+        await msg.reply(`Your ${cp(client.data.findSpeciesByNumber(pokemon.species_id).slug)} levelled up!\n Its now level ${pokemon.level}`);
         if (pokemon.getNextEvolution()) {
-            const evo &#x3D; pokemon.getNextEvolution();
+            const evo = pokemon.getNextEvolution();
             if (!evo) {
                 return;
             }
-            const oldname &#x3D; cp(client.data.findSpeciesByNumber(pokemon.species_id).slug);
-            pokemon.species_id &#x3D; evo.id;
-            await msg.reply(&#x60;Your ${oldname} evolved into ${cp(client.data.findSpeciesByNumber(pokemon.species_id).slug)}!&#x60;);
+            const oldname = cp(client.data.findSpeciesByNumber(pokemon.species_id).slug);
+            pokemon.species_id = evo.id;
+            await msg.reply(`Your ${oldname} evolved into ${cp(client.data.findSpeciesByNumber(pokemon.species_id).slug)}!`);
             await pokemonschema.updateOne({ owner_id: member.number, id: selected }, {
                 $set: {
                     species_id: pokemon.species_id,
@@ -323,13 +294,13 @@ client.checkpokemon &#x3D; async function (msg, member, pokemons, selected) {
             });
         }
         else {
-            let res &#x3D; &#x60;Your ${cp(client.data.findSpeciesByNumber(pokemon.species_id).slug)} learnt these moves :-\n&#x60;;
-            let flag &#x3D; false;
+            let res = `Your ${cp(client.data.findSpeciesByNumber(pokemon.species_id).slug)} learnt these moves :-\n`;
+            let flag = false;
             for (const move of pokemon.species.moves) {
-                if (move?.method?.level &#x3D;&#x3D; pokemon.level) {
+                if (move?.method?.level == pokemon.level) {
                     pokemon.moves.push(move.move_id);
-                    flag &#x3D; true;
-                    res +&#x3D; &#x60;*${cp(client.data.moveByNumber(move.move_id)?.slug || &#x27;broke here&#x27;)}*\n&#x60;;
+                    flag = true;
+                    res += `*${cp(client.data.moveByNumber(move.move_id)?.slug || 'broke here')}*\n`;
                     await pokemonschema.updateOne({ owner_id: member.number, id: selected }, {
                         $set: {
                             moves: pokemon.moves,
@@ -343,8 +314,8 @@ client.checkpokemon &#x3D; async function (msg, member, pokemons, selected) {
         }
     }
 };
-if (process.env.CHROME_PATH &#x3D;&#x3D; &quot;&quot;) {
-    console.log(&quot;CHROME_PATH not given, chromium will be used. Trying to send videos/gifs will throw an error&quot;);
+if (process.env.CHROME_PATH == "") {
+    console.log("CHROME_PATH not given, chromium will be used. Trying to send videos/gifs will throw an error");
 }
 /**
  * @memberof Client
@@ -352,32 +323,10 @@ if (process.env.CHROME_PATH &#x3D;&#x3D; &quot;&quot;) {
  * @type {Function}
  * @description Function to fetch cached users
 */
-client.curr &#x3D; function (userId) {
+client.curr = function (userId) {
     return new curr({ userId, users: client.cachedUsers });
 };
 function cp(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
-</code></pre>
-          </article>
-        </div>
-      </div>
-      <nav id="jsdoc-toc-nav" role="navigation"></nav>
-    </div>
-  </div>
-  <footer id="jsdoc-footer" class="jsdoc-footer">
-    <div id="jsdoc-footer-container">
-      <p>
-        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 4.0.2 on April 28, 2024.
-      </p>
-    </div>
-  </footer>
-  <script src="scripts/jquery.min.js"></script>
-  <script src="scripts/tree.jquery.js"></script>
-  <script src="scripts/prettify.js"></script>
-  <script src="scripts/jsdoc-toc.js"></script>
-  <script src="scripts/linenumber.js"></script>
-  <script src="scripts/scrollanchor.js"></script>
-</body>
-
-</html>
+</code></pre></article></section></div></div></div><div class="search-container" id="PkfLWpAbet" style="display:none"><div class="wrapper" id="iCxFxjkHbP"><button class="icon-button search-close-button" id="VjLlGakifb" aria-label="close search"><svg><use xlink:href="#close-icon"></use></svg></button><div class="search-box-c"><svg><use xlink:href="#search-icon"></use></svg> <input type="text" id="vpcKVYIppa" class="search-input" placeholder="Search..." autofocus></div><div class="search-result-c" id="fWwVHRuDuN"><span class="search-result-c-text">Type anything to view search result</span></div></div></div><div class="mobile-menu-icon-container"><button class="icon-button" id="mobile-menu" data-isopen="false" aria-label="menu"><svg><use xlink:href="#menu-icon"></use></svg></button></div><div id="mobile-sidebar" class="mobile-sidebar-container"><div class="mobile-sidebar-wrapper"><a href="/" class="sidebar-title sidebar-title-anchor">Home</a><div class="mobile-nav-links"></div><div class="mobile-sidebar-items-c"><div class="sidebar-section-title with-arrow" data-isopen="false" id="sidebar-modules"><div>Modules</div><svg><use xlink:href="#down-icon"></use></svg></div><div class="sidebar-section-children-container"><div class="sidebar-section-children"><a href="module-AI.html">AI</a></div></div><div class="sidebar-section-title with-arrow" data-isopen="false" id="sidebar-classes"><div>Classes</div><svg><use xlink:href="#down-icon"></use></svg></div><div class="sidebar-section-children-container"><div class="sidebar-section-children"><a href="API.html">API</a></div><div class="sidebar-section-children"><a href="Bing.html">Bing</a></div><div class="sidebar-section-children"><a href="Chess.html">Chess</a></div><div class="sidebar-section-children"><a href="Client.html">Client</a></div><div class="sidebar-section-children"><a href="Dev.html">Dev</a></div><div class="sidebar-section-children"><a href="Games.html">Games</a></div><div class="sidebar-section-children"><a href="General.html">General</a></div><div class="sidebar-section-children"><a href="HuggingFace.html">HuggingFace</a></div><div class="sidebar-section-children"><a href="Image.html">Image</a></div><div class="sidebar-section-children"><a href="InfiniteCraft.html">InfiniteCraft</a></div><div class="sidebar-section-children"><a href="Monopoly.html">Monopoly</a></div><div class="sidebar-section-children"><a href="Pokemon.html">Pokemon</a></div><div class="sidebar-section-children"><a href="Shazam.html">Shazam</a></div><div class="sidebar-section-children"><a href="UNO.html">UNO</a></div></div><div class="sidebar-section-title with-arrow" data-isopen="false" id="sidebar-global"><div>Global</div><svg><use xlink:href="#down-icon"></use></svg></div><div class="sidebar-section-children-container"><div class="sidebar-section-children"><a href="global.html#db">db</a></div><div class="sidebar-section-children"><a href="global.html#maxParallelDownload">maxParallelDownload</a></div></div></div><div class="mobile-navbar-actions"><div class="navbar-right-item"><button class="icon-button search-button" aria-label="open-search"><svg><use xlink:href="#search-icon"></use></svg></button></div><div class="navbar-right-item"><button class="icon-button theme-toggle" aria-label="toggle-theme"><svg><use class="theme-svg-use" xlink:href="#light-theme-icon"></use></svg></button></div><div class="navbar-right-item"><button class="icon-button font-size" aria-label="change-font-size"><svg><use xlink:href="#font-size-icon"></use></svg></button></div></div></div></div><script type="text/javascript" src="scripts/core.min.js"></script><script src="scripts/search.min.js" defer="defer"></script><script src="scripts/third-party/fuse.js" defer="defer"></script><script type="text/javascript">var tocbotInstance=tocbot.init({tocSelector:"#eed4d2a0bfd64539bb9df78095dec881",contentSelector:".main-content",headingSelector:"h1, h2, h3",hasInnerContainers:!0,scrollContainer:".main-content",headingsOffset:130,onClick:bringLinkToView})</script></body></html>

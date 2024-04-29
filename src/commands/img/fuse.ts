@@ -12,6 +12,9 @@ export const aliases: string[] = [];
 export const description = 'Fuse two pfp together';
 export const category = 'Image';
 /**
+ * @memberof! Image
+ * @name fuse
+ * @description
  * Generate modified image of a members pfp
  * 
  * **Usage:**

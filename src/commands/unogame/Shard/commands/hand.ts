@@ -6,6 +6,9 @@ export default class HandCommand extends BaseCommand {
 		super(client, 'hand');
 	}
 	/** 
+	 * @memberof! UNO
+ 	 * @name hand
+ 	 * @description
 	 * Sends the player's current hand in a private message.
 	 *
 	 * **Usage:**

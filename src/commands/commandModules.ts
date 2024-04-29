@@ -1,100 +1,84 @@
 /**
  * @module AI
- * @class AI
- * @description Commands that interact with artificial intelligence models, such as ChatGPT, Gemini, Claude, and WolframAlpha, 
- * to provide conversational capabilities, information retrieval, and more.
+ * @description Commands that interact with artificial intelligence models
  */
 
 /**
  * @module API
  * @class API
- * @description a 
+ * @description Commands using the lolhuman.xyz API
  */
 
 /**
  * @module Bing
  * @class Bing
- * @description a 
+ * @description Commands specifically related to interacting with Bing/Sydney
  */
 
 /**
  * @module Chess
  * @class Chess
- * @description a
+ * @description Commands related to chess, playing chess puzzles
  */
 
 /**
  * @module Dev
  * @class Dev
- * @description a 
+ * @description Commands for bot owners
  */
 
 /**
  * @module Games
  * @class Games
- * @description a
+ * @description Commands for games to play in a whatsapp chat
  */
 
 
 /**
  * @module General
  * @class General
- * @description a
+ * @description General purposed commands
  */
 
 /**
  * @module HuggingFace
  * @class HuggingFace
- * @description a
+ * @description Commands for AI models on huggingface
  */
 
 /**
  * @module Image
  * @class Image
- * @description a
+ * @description Commands for image manipulation
  */
 
 /**
  * @module InfiniteCraft
  * @class InfiniteCraft
- * @description a
+ * @description Commands for infinitecraft by neal.fun
  */
 
 /**
  * @module Monopoly
  * @class Monopoly
- * @description a
+ * @description Commands to play monopoly within the bot
  */
 
 /**
  * @module Pokemon
  * @class Pokemon
- * @description a
+ * @description Commands for pokemon themed games
  */
 
 /**
  * @module Shazam
  * @class Shazam
- * @description a
+ * @description Commands for music recognition using shazam
  */
 
 /**
  * @module UNO
  * @class UNO
- * @description a
+ * @description Commands for the UNO bot
  */
 
-/*
-Command Category Descriptions:
-AI: 
-API: Commands that utilize external APIs to access data and services from various sources, such as YouTube, Urban Dictionary, Twitter, and Instagram.
-Bing: Commands specifically related to interacting with Bing AI (Sydney) for conversational purposes.
-Chess: Commands related to chess, including playing chess puzzles and potentially other chess-related features.
-Dev: Commands intended for developers or bot administrators, providing functionalities like evaluating code, executing system commands, and restarting the bot.
-Games: Commands for playing various games within WhatsApp chats, including Wordle, Duodle, Crossword, Connections, Connect Four, Charades, 20 Questions, Hangman, and several word-based games.
-General: Commands with general-purpose functionalities, such as creating stickers, generating handwritten text, setting reminders, and retrieving information.
-HuggingFace: Commands that utilize models and tools from Hugging Face, including Stable Diffusion for image generation and potentially other models for tasks like voice cloning or text-to-speech.
-Image: Commands specifically related to image processing or manipulation. (Note: This category may overlap with some other categories depending on the specific commands).
-InfiniteCraft: Commands related to the Infinite Craft game, including crafting items and viewing unlocked recipes.
-Pokemon: Commands related to Pokemon-themed games or activities. (Note: More information about the specific functionalities would be needed to provide a detailed description).
-Shazam: Commands that utilize the Shazam API for music recognition, including identifying songs from audio/video messages and searching for song information. */

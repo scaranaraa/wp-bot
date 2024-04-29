@@ -91,14 +91,16 @@
 		"whatsapp-web.js": "git+https://github.com/scaranaraa/whatsapp-web.js.git",
 		"wordnet": "^2.0.0",
 		"yt-dl-playlist": "^2.1.0",
-		"yt-search": "^2.10.4"
+		"yt-search": "^2.10.4",
+		"ytdl-core": "^4.11.5"
 	},
 	"packageManager": "yarn@4.1.1",
 	"scripts": {
 		"start": "npm run build && (pm2 stop all && pm2 start dist/index.js -n wwjs || pm2 start dist/index.js -n wwjs)",
 		"build": "rimraf dist && tsc",
 		"lint": "eslint --ext .js,.jsx,.ts,.tsx --ignore-path .gitignore .",
-		"lint:fix": "eslint --ext .js,.jsx,.ts,.tsx --ignore-path .gitignore . --fix"
+		"lint:fix": "eslint --ext .js,.jsx,.ts,.tsx --ignore-path .gitignore . --fix",
+		"generate-docs": "jsdoc --configure jsdoc.json --verbose"
 	},
 	"simple-git-hooks": {},
 	"devDependencies": {
@@ -107,6 +109,7 @@
 		"@types/request": "^2.48.12",
 		"@typescript-eslint/eslint-plugin": "7.7.1",
 		"@typescript-eslint/parser": "7.7.1",
+		"clean-jsdoc-theme": "^4.2.18",
 		"eslint": "9.1.1",
 		"eslint-config-airbnb-typescript": "18.0.0",
 		"eslint-config-prettier": "9.1.0",

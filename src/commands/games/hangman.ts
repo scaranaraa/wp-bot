@@ -161,6 +161,9 @@ export const aliases = ['h'];
 export const description = 'Play a game of hangman';
 export const category = 'Games';
 /**
+ * @memberof! Games
+ * @name hangman
+ * @description
  * Implements the Hangman word game with definitions within WhatsApp.
  *
  * **Usage (within the bot):**

@@ -8,6 +8,22 @@ export const args = true;
 export const aliases: string[] = [];
 export const description = 'Select pokemon for your team';
 export const category = 'Pokemon';
+/**
+ * @memberof! Pokemon
+ * @name select
+ * @description
+ * Allows users to select Pokemon for their team in the Pokemon game. 
+ *
+ * This command manages the selection process, allowing users to add or view 
+ * their currently selected Pokemon.
+ *
+ * **Usage:**
+ * - `!select {Pokedex ID}` - Adds the specified Pokemon to the user's team.
+ * - `!select` - Displays the user's currently selected Pokemon. 
+ * 
+ * **Notes:**
+ * - Users can have a maximum of 3 Pokemon on their team.
+ */ 
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

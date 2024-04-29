@@ -8,7 +8,7 @@
 - Chess puzzles
 
 ## Installation
-```powershell
+```bash
 npm i -g yarn@latest
 yarn install
 ```
@@ -16,12 +16,12 @@ yarn install
 ## Starting the bot
 
 ### With pm2
-```powershell
+```bash
 npm start
 ```
 
 ### Without pm2
-```powershell
+```bash
 node dist/index.js
 ```
 

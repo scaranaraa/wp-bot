@@ -7,6 +7,19 @@ export const args = true;
 export const aliases: string[] = [];
 export const description = 'Buy something from the shop';
 export const category = 'Pokemon';
+/**
+ * @memberof! Pokemon
+ * @name buy
+ * @description
+ * Allows users to buy items from the shop in the Pokemon game.
+ * 
+ * This command handles the purchasing process, checking affordability, deducting coins, 
+ * and adding items to the user's inventory. 
+ *
+ * **Usage:**
+ * - `!buy {item name} [amount]` - Buys the specified item from the shop.
+ *
+ */
 export async function run(
 	client: pkg.Client,
 	msg: pkg.Message,

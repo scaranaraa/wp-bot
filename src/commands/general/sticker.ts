@@ -6,6 +6,9 @@ export const aliases = ['st', 's'];
 export const description = 'Convert any media into a sticker';
 export const category = 'General';
 /**
+ * @memberof! General
+ * @name sticker
+ * @description
  * Converts a media message (image, video, GIF) into a sticker. 
  *
  * **Usage:**

@@ -12,6 +12,9 @@ export const description = 'Check all unlocked recipies';
 export const category = 'InfiniteCraft';
 const { Client, LocalAuth, MessageMedia } = pkg;
 /**
+ * @memberof! InfiniteCraft
+ * @name unlocked
+ * @description
  * Displays a list of unlocked recipes in the Infinite Craft game.
  * 
  * **Usage:**

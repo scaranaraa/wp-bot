@@ -23,6 +23,9 @@ export const aliases = ['audio', 'yt'];
 export const description = 'Download audio from youtube';
 export const category = 'General';
 /**
+ * @memberof! General
+ * @name song
+ * @description
  * Downloads audio from YouTube videos and sends them as audio messages within WhatsApp. 
  *
  * **Usage:**

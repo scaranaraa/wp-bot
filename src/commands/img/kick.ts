@@ -13,6 +13,9 @@ export const aliases: string[] = [];
 export const description = 'Kick someone';
 export const category = 'Image';
 /**
+ * @memberof! Image
+ * @name kick
+ * @description
  * Get a random anime gif for kicking someone
  * 
  * **Usage:**

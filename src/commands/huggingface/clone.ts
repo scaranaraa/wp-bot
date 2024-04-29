@@ -14,6 +14,9 @@ export const aliases = ['say', 'talk'];
 export const description = 'Clone someones voice/make the bot say anything';
 export const category = 'HuggingFace';
 /**
+ * @memberof! HuggingFace
+ * @name clone
+ * @description
  * Clones a voice from a provided audio message or generates speech from text.
  * 
  * **Usage:**

@@ -10,6 +10,9 @@ export const description =
 	'Download any form of content available on instagram on a public account';
 export const category = 'API';
 /**
+ * @memberof! API
+ * @name instagram
+ * @description
  * Downloads content (images, videos) from a public Instagram post and sends them or provides links within WhatsApp.
  * 
  * **Usage:**

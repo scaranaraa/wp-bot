@@ -88,6 +88,9 @@ export const aliases = ['aki'];
 export const description = 'Start a game of akinator';
 export const category = 'General';
 /**
+ * @memberof! General
+ * @name akinator
+ * @description
  * Implements the Akinator game within WhatsApp.
  * 
  * **Usage:** 

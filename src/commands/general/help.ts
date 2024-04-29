@@ -6,6 +6,9 @@ export const aliases = ['commands'];
 export const description = 'Check all the commands';
 export const category = 'General';
 /**
+ * @memberof! General
+ * @name help
+ * @description
  * Provides a help message with a list of available commands and their descriptions.
  *
  * **Usage:**

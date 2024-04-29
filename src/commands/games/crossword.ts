@@ -256,6 +256,9 @@ export const aliases = ['cw'];
 export const description = 'Play crossword from NYT games';
 export const category = 'Games';
 /**
+ * @memberof! Games
+ * @name crossword
+ * @description
  * Implements a crossword puzzle game using NYT crosswords within WhatsApp, including image generation.
  * 
  * **Usage (within the bot):**
