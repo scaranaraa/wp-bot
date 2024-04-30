@@ -16,7 +16,6 @@ src/commands/utils/rm.json
 /pngs
 
 #not needed
-/.yarn
 
 #other
 a.js
