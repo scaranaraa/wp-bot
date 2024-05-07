@@ -14,6 +14,8 @@ src/commands/utils/rm.json
 #big files
 /src/commands/chess/lichess_db_puzzle.csv
 /pngs
+/src/events/gemchat.ts
+/src/commands/dev/gemchat.ts
 
 #not needed
 

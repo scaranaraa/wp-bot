@@ -23,6 +23,7 @@ export async function run(
 	msg: pkg.Message,
 	args: string[]
 ) {
+	const user = await msg.getContact();
 	await msg.reply('restarting..');
 	pm2.restart('wwjs', async (err, proc) => {
 		console.log(err);

@@ -415,7 +415,6 @@ export default class baseuser implements BaseUserClient {
 		}
 		if (type == 'monthly') {
 			this.users.get(this.userId).msgcount.daily = 0;
-			this.users.get(this.userId).msgcount.weekly = 0;
 			this.users.get(this.userId).msgcount.monthly = 0;
 			await users.updateOne(
 				{ userId: this.userId },

@@ -18,11 +18,10 @@ RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable 
 RUN apt-get update && apt-get install -y google-chrome-stable --no-install-recommends
 ENV CHROME_BIN=google-chrome-stable
 
+COPY package.json yarn.lock ./
 
-RUN --mount=type=bind,source=package.json,target=package.json \
-    --mount=type=bind,source=yarn.lock,target=yarn.lock \
-    --mount=type=cache,target=/root/.yarn \
-    yarn install --pure-lockfile
+
+RUN yarn install --no-lockfile
 # Run the application as a non-root user.
 USER root
 
