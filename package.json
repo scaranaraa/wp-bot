@@ -23,6 +23,7 @@
 	"type": "module",
 	"dependencies": {
 		"@anthropic-ai/sdk": "^0.20.6",
+		"@azure/openai": "^1.0.0-beta.12",
 		"@ffmpeg-installer/ffmpeg": "^1.1.0",
 		"@ffmpeg/ffmpeg": "^0.12.10",
 		"@google-cloud/storage": "^7.10.2",
@@ -68,6 +69,7 @@
 		"keyv-file": "^0.3.1",
 		"langchain": "^0.1.35",
 		"lodash": "^4.17.21",
+		"microsoft-cognitiveservices-speech-sdk": "^1.36.0",
 		"moment": "^2.30.1",
 		"mongodb": "^6.5.0",
 		"mongoose": "^8.3.2",
@@ -96,7 +98,7 @@
 		"yt-search": "^2.10.4",
 		"ytdl-core": "^4.11.5"
 	},
-	"packageManager": "yarn@4.1.1",
+	"packageManager": "yarn@4.2.2",
 	"scripts": {
 		"start": "npm run build && (pm2 stop all && pm2 start dist/index.js -n wwjs || pm2 start dist/index.js -n wwjs)",
 		"build": "rimraf dist && tsc",

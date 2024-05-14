@@ -61,6 +61,108 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@azure-rest/core-client@npm:^1.1.7":
+  version: 1.4.0
+  resolution: "@azure-rest/core-client@npm:1.4.0"
+  dependencies:
+    "@azure/abort-controller": "npm:^2.0.0"
+    "@azure/core-auth": "npm:^1.3.0"
+    "@azure/core-rest-pipeline": "npm:^1.5.0"
+    "@azure/core-tracing": "npm:^1.0.1"
+    "@azure/core-util": "npm:^1.0.0"
+    tslib: "npm:^2.6.2"
+  checksum: 10c0/be389a5ba39f97d09f9a927c07caac2a6dc8e607bcdcf1b81f25c43ea78192b3d6414af79962531948c14314edc1363aead27fbe96a8a93b41cfc9b297c2e2e9
+  languageName: node
+  linkType: hard
+
+"@azure/abort-controller@npm:^2.0.0":
+  version: 2.1.2
+  resolution: "@azure/abort-controller@npm:2.1.2"
+  dependencies:
+    tslib: "npm:^2.6.2"
+  checksum: 10c0/3771b6820e33ebb56e79c7c68e2288296b8c2529556fbd29cf4cf2fbff7776e7ce1120072972d8df9f1bf50e2c3224d71a7565362b589595563f710b8c3d7b79
+  languageName: node
+  linkType: hard
+
+"@azure/core-auth@npm:^1.3.0, @azure/core-auth@npm:^1.4.0":
+  version: 1.7.2
+  resolution: "@azure/core-auth@npm:1.7.2"
+  dependencies:
+    "@azure/abort-controller": "npm:^2.0.0"
+    "@azure/core-util": "npm:^1.1.0"
+    tslib: "npm:^2.6.2"
+  checksum: 10c0/2b4c489855308cea46363dc8f216eeb63cb85aea08f1ab7cff0a6e47604eed2b0fc46415d7f6d71da0aa7922b81c631920d05698eb14454b65be07825c5c599a
+  languageName: node
+  linkType: hard
+
+"@azure/core-rest-pipeline@npm:^1.13.0, @azure/core-rest-pipeline@npm:^1.5.0":
+  version: 1.16.0
+  resolution: "@azure/core-rest-pipeline@npm:1.16.0"
+  dependencies:
+    "@azure/abort-controller": "npm:^2.0.0"
+    "@azure/core-auth": "npm:^1.4.0"
+    "@azure/core-tracing": "npm:^1.0.1"
+    "@azure/core-util": "npm:^1.9.0"
+    "@azure/logger": "npm:^1.0.0"
+    http-proxy-agent: "npm:^7.0.0"
+    https-proxy-agent: "npm:^7.0.0"
+    tslib: "npm:^2.6.2"
+  checksum: 10c0/9a798563eb1514e1eabaa9c072c3dc0d25ca837e94bf1e778431a749b3634d661866fe00ac0f49dd2938917001a241ea2de84ac6ea5179b5410b3a0807054a0b
+  languageName: node
+  linkType: hard
+
+"@azure/core-sse@npm:^2.0.0":
+  version: 2.1.2
+  resolution: "@azure/core-sse@npm:2.1.2"
+  dependencies:
+    tslib: "npm:^2.6.2"
+  checksum: 10c0/40c8199caefae6ada133105a445a1c08e7e37b8c6a6691c269e877a7b6edef24cef32d54b8cd10205203155ada43e2a9d7558dc2369f3ae3bbaa92b0fbb69513
+  languageName: node
+  linkType: hard
+
+"@azure/core-tracing@npm:^1.0.1":
+  version: 1.1.2
+  resolution: "@azure/core-tracing@npm:1.1.2"
+  dependencies:
+    tslib: "npm:^2.6.2"
+  checksum: 10c0/0e844d581117ae81318a503ddfc143146b847ed9152d0c84f20fdc4cb0b2187a4e9da29aed13d5b7a201f39fe601a59c4db6455005ed8e0d3b5aab0ee77a56e1
+  languageName: node
+  linkType: hard
+
+"@azure/core-util@npm:^1.0.0, @azure/core-util@npm:^1.1.0, @azure/core-util@npm:^1.4.0, @azure/core-util@npm:^1.9.0":
+  version: 1.9.0
+  resolution: "@azure/core-util@npm:1.9.0"
+  dependencies:
+    "@azure/abort-controller": "npm:^2.0.0"
+    tslib: "npm:^2.6.2"
+  checksum: 10c0/6eb6efc8b8401fd6e3b56631e8e9a1dbc23a0048ae3bf498d10163624f805032a7730905465b2ebe95c840e5e939e66bf320448de8df50f66346e89b1295f9e7
+  languageName: node
+  linkType: hard
+
+"@azure/logger@npm:^1.0.0, @azure/logger@npm:^1.0.3":
+  version: 1.1.2
+  resolution: "@azure/logger@npm:1.1.2"
+  dependencies:
+    tslib: "npm:^2.6.2"
+  checksum: 10c0/829c1da363b8fe732ca26326400575dc824e1032974dc499db539e9599e0e4f1b1f4bf936b68329171fece7e2d4bba3ffaaebb35ac60b73db4715c6dc026147a
+  languageName: node
+  linkType: hard
+
+"@azure/openai@npm:^1.0.0-beta.12":
+  version: 1.0.0-beta.12
+  resolution: "@azure/openai@npm:1.0.0-beta.12"
+  dependencies:
+    "@azure-rest/core-client": "npm:^1.1.7"
+    "@azure/core-auth": "npm:^1.4.0"
+    "@azure/core-rest-pipeline": "npm:^1.13.0"
+    "@azure/core-sse": "npm:^2.0.0"
+    "@azure/core-util": "npm:^1.4.0"
+    "@azure/logger": "npm:^1.0.3"
+    tslib: "npm:^2.4.0"
+  checksum: 10c0/b132630c8a74a444b44a6dc1daaa362bc9a30b9f3a020f78af753bcd3820178adfc99a20fe3fd6027141e5d68018569c111e37a5df355d7de6e2f6f4968909b5
+  languageName: node
+  linkType: hard
+
 "@babel/code-frame@npm:^7.0.0":
   version: 7.24.2
   resolution: "@babel/code-frame@npm:7.24.2"
@@ -1832,9 +1934,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@napi-rs/canvas-linux-x64-gnu@npm:0.1.52":
+"@napi-rs/canvas-linux-x64-gnu@npm:0.1.52, @napi-rs/canvas-linux-x64-gnu@npm:^0.1.52":
   version: 0.1.52
   resolution: "@napi-rs/canvas-linux-x64-gnu@npm:0.1.52"
+  checksum: 10c0/fe428006510b86c54a455a3888e6a5c440a3ad8e53017b8574015d737c40c4f76baa27eaf8bb39a3155f0062be86eb5d18caa6685fe38989dd5b64167c2ba1fd
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
@@ -1846,10 +1949,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@napi-rs/canvas-win32-x64-msvc@npm:0.1.52, @napi-rs/canvas-win32-x64-msvc@npm:^0.1.52":
+"@napi-rs/canvas-win32-x64-msvc@npm:0.1.52":
   version: 0.1.52
   resolution: "@napi-rs/canvas-win32-x64-msvc@npm:0.1.52"
-  checksum: 10c0/6f52888b719f9f37ff6e874e877f4a14b1fdfdeee5e019a5727a2bc9ae5d047a1e3aab02cf45ef381cc2bb48a38fb5a2af165e111fb7b6e34467329ff3d16006
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -2902,6 +3004,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/webrtc@npm:^0.0.37":
+  version: 0.0.37
+  resolution: "@types/webrtc@npm:0.0.37"
+  checksum: 10c0/7d4d4e1c9b22cfa2ac74678df83f76157f8a81471545a147155c0926e461d6c099bb81cf1a6a8eab0f4ef46af4c429e2000369f21d9f27402ee860df01ba4a3e
+  languageName: node
+  linkType: hard
+
 "@types/whatwg-url@npm:^11.0.2":
   version: 11.0.4
   resolution: "@types/whatwg-url@npm:11.0.4"
@@ -3214,7 +3323,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"agent-base@npm:6":
+"agent-base@npm:5":
+  version: 5.1.1
+  resolution: "agent-base@npm:5.1.1"
+  checksum: 10c0/3baa3f01072c16e3955ce7802166e576cde9831af82b262aae1c780af49c0c84e82e64ba9ef9e7d1704fe29e9f0096a78a4f998ec137360fee3cb95186f97161
+  languageName: node
+  linkType: hard
+
+"agent-base@npm:6, agent-base@npm:^6.0.1":
   version: 6.0.2
   resolution: "agent-base@npm:6.0.2"
   dependencies:
@@ -3954,6 +4070,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bent@npm:^7.3.12":
+  version: 7.3.12
+  resolution: "bent@npm:7.3.12"
+  dependencies:
+    bytesish: "npm:^0.4.1"
+    caseless: "npm:~0.12.0"
+    is-stream: "npm:^2.0.0"
+  checksum: 10c0/20f77364bcb462a6eb0ea7322442a1125ca6181ea6b94ad498b8348c678a2adf56c231a653bcac016c5d017aee91ff55b2169b69d8263a4b3c710f4121cbe615
+  languageName: node
+  linkType: hard
+
 "big-integer@npm:^1.6.17":
   version: 1.6.52
   resolution: "big-integer@npm:1.6.52"
@@ -4212,6 +4339,13 @@ __metadata:
   version: 3.1.2
   resolution: "bytes@npm:3.1.2"
   checksum: 10c0/76d1c43cbd602794ad8ad2ae94095cddeb1de78c5dddaa7005c51af10b0176c69971a6d88e805a90c2b6550d76636e43c40d8427a808b8645ede885de4a0358e
+  languageName: node
+  linkType: hard
+
+"bytesish@npm:^0.4.1":
+  version: 0.4.4
+  resolution: "bytesish@npm:0.4.4"
+  checksum: 10c0/469088f0020797dfbb61b6ce3972c91d95d79df8aacca55841ea93ac59ef3209bb04be8212b6265dfbafb7583a58dd73ca2f14e4feae36d3333a4f1509dd2eef
   languageName: node
   linkType: hard
 
@@ -7657,6 +7791,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"https-proxy-agent@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "https-proxy-agent@npm:4.0.0"
+  dependencies:
+    agent-base: "npm:5"
+    debug: "npm:4"
+  checksum: 10c0/fbba3e037ec04e1850e867064a763b86dd884baae9c5f4ad380504e321068c9e9b5de79cf2f3a28ede7c36036dce905b58d9f51703c5b3884d887114f4887f77
+  languageName: node
+  linkType: hard
+
 "https-proxy-agent@npm:^6.2.1":
   version: 6.2.1
   resolution: "https-proxy-agent@npm:6.2.1"
@@ -9402,6 +9546,20 @@ __metadata:
     braces: "npm:^3.0.2"
     picomatch: "npm:^2.3.1"
   checksum: 10c0/3d6505b20f9fa804af5d8c596cb1c5e475b9b0cd05f652c5b56141cf941bd72adaeb7a436fda344235cef93a7f29b7472efc779fcdb83b478eab0867b95cdeff
+  languageName: node
+  linkType: hard
+
+"microsoft-cognitiveservices-speech-sdk@npm:^1.36.0":
+  version: 1.36.0
+  resolution: "microsoft-cognitiveservices-speech-sdk@npm:1.36.0"
+  dependencies:
+    "@types/webrtc": "npm:^0.0.37"
+    agent-base: "npm:^6.0.1"
+    bent: "npm:^7.3.12"
+    https-proxy-agent: "npm:^4.0.0"
+    uuid: "npm:^9.0.0"
+    ws: "npm:^7.5.6"
+  checksum: 10c0/53e8c6401e179dd35afd2dd536d4273ff7679771641955d0a7b2e707ed0c7f0a3218eba6cc6ebf9120d392e25a54b1af64055eac189928213f625ed6d4a4b8c3
   languageName: node
   linkType: hard
 
@@ -13675,6 +13833,7 @@ __metadata:
   resolution: "wp-bot@workspace:."
   dependencies:
     "@anthropic-ai/sdk": "npm:^0.20.6"
+    "@azure/openai": "npm:^1.0.0-beta.12"
     "@eslint/eslintrc": "npm:^3.0.2"
     "@eslint/js": "npm:^9.1.1"
     "@ffmpeg-installer/ffmpeg": "npm:^1.1.0"
@@ -13686,7 +13845,7 @@ __metadata:
     "@langchain/anthropic": "npm:^0.1.16"
     "@langchain/community": "npm:^0.0.51"
     "@napi-rs/canvas": "npm:^0.1.52"
-    "@napi-rs/canvas-win32-x64-msvc": "npm:^0.1.52"
+    "@napi-rs/canvas-linux-x64-gnu": "npm:^0.1.52"
     "@typegoose/typegoose": "npm:^12.4.0"
     "@types/cheerio": "npm:^0.22.35"
     "@types/chess.js": "npm:^0.13.7"
@@ -13738,6 +13897,7 @@ __metadata:
     langchain: "npm:^0.1.35"
     lint-staged: "npm:15.2.2"
     lodash: "npm:^4.17.21"
+    microsoft-cognitiveservices-speech-sdk: "npm:^1.36.0"
     moment: "npm:^2.30.1"
     mongodb: "npm:^6.5.0"
     mongoose: "npm:^8.3.2"
@@ -13867,7 +14027,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ws@npm:^7.0.0":
+"ws@npm:^7.0.0, ws@npm:^7.5.6":
   version: 7.5.9
   resolution: "ws@npm:7.5.9"
   peerDependencies:
