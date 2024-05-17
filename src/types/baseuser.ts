@@ -13,6 +13,7 @@ export type BaseUserType = {
 	crossword: number;
 	wchain: number;
 	commands: Map<string, number>;
+	words: Map<string,number>;
 	trivia: number;
 	inventory: any[];
 	typerace: number;

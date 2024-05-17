@@ -97,6 +97,10 @@ const user = new Schema<BaseUserType>({
 			default: true,
 		},
 	},
+	words: {
+		type: Map,
+		default: {},
+	},
 	status: {
 		blacklist: {
 			type: Boolean,

@@ -3,6 +3,7 @@ import { prop, getModelForClass } from '@typegoose/typegoose';
 import { type BaseUserType } from '../types/baseuser.js';
 
 class user implements BaseUserType {
+	words: Map<string, number>;
 	crossword: number;
 
 	wchain: number;

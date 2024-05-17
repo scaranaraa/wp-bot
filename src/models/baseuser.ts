@@ -363,6 +363,30 @@ export default class baseuser implements BaseUserClient {
 		);
 	}
 
+	async addWords(names: string[]) {
+		for(const name of names){
+			const amt = this.users.get(this.userId).words.get(name);
+			const globalamt = this.users.get(`${process.env.PHONE}`).words.get(name);
+	
+			this.users.get(this.userId).words.set(name, amt ? amt + 1 : 1);
+			this.users
+				.get(`${process.env.PHONE}`)
+				.words.set(name, globalamt ? globalamt + 1 : 1);
+	
+		}
+		await users.updateOne(
+			{ userId: `${process.env.PHONE}` },
+			{
+				$set: { words: this.users.get(`${process.env.PHONE}`).words },
+			}
+		);
+		await users.updateOne(
+			{ userId: this.userId },
+			{
+				$set: { words: this.users.get(this.userId).words },
+			}
+		);
+	}
 	async addmsg() {
 		this.users.get(this.userId).msgcount.daily++;
 		this.users.get(`${process.env.PHONE}`).msgcount.daily++;
