@@ -93,7 +93,7 @@ client.prefix = `@${process.env.PHONE} `;
  * @type {string[]}
  * @description List of secondary prefixes for the bot
 */
-client.s_prefix = ['$','/','?','-','&','*','>',',','.','£','₹','¢','√','π','%','©','®','™','✓','§','∆',];
+client.s_prefix = ['$','/','?','-','&','*','>',',','.','£','₹','¢','√','π','%','©','®','™','✓','§','∆','pls'];
 
 /**
  * @memberof Client
@@ -352,6 +352,7 @@ client.checkpokemon = async function (
 			let res = `Your ${cp(client.data.findSpeciesByNumber(pokemon.species_id).slug)} learnt these moves :-\n`;
 			let flag = false;
 			for (const move of pokemon.species.moves) {
+				//@ts-ignore
 				if (move?.method?.level == pokemon.level) {
 					pokemon.moves.push(move.move_id);
 					flag = true;

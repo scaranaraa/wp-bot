@@ -21,25 +21,42 @@ client.on('message', async msg => {
 	const curr = new baseuser({ userId: user.number, users: client.cachedUsers });
 	if (!curr.checkCached()) await curr.cache();
 	curr.addmsg();
+  //remove all non letters
+  curr.addWords(msg.body.replace(/[^a-zA-Z0-9\s]/g, '').toLowerCase().split(/\s+/))
 	// await checkpokemon(user)
 	if (msg.body.toLowerCase().startsWith('uno')) {
 		await executeCommand(msg);
 		return;
 	}
+  if(client.blacklist == null){
+    client.blacklist = []
+  }
+  for(const word of client.blacklist){
+    if(msg.body.toLowerCase().includes(word)) {
+        await msg.delete(true);
+        return;
+    }
+  }
 
 	const { prefix } = client;
 	if (
 		!msg.body.toLowerCase().startsWith(prefix.toLowerCase()) &&
-		!client.s_prefix.includes(msg.body[0])
+		!client.s_prefix.includes(msg.body[0]) && 
+    client.s_prefix.filter(x => msg.body.toLowerCase().startsWith(x.toLowerCase())).length == 0
 	) {
 		return;
 	}
 
 	let args: string[];
-	if (msg.body.toLowerCase().startsWith(prefix))
+	if (msg.body.toLowerCase().startsWith(prefix)){
 		args = msg.body.slice(prefix.length).trim().split(/ +/);
-	else args = msg.body.slice(1).trim().split(/ +/);
+  }
+	else {
+    const slicelength = client.s_prefix.filter(x => msg.body.toLowerCase().startsWith(x.toLowerCase()))[0].length
+    args = msg.body.slice(slicelength).trim().split(/ +/);
+  }
 	const cmd = args.shift()?.toLowerCase();
+  
 
 	const command =
 		client.commands.get(cmd.toLowerCase()) ||
@@ -47,8 +64,7 @@ client.on('message', async msg => {
 	if (!command) {
 		return;
 	}
-
-	// dont async itll increase ping by ~500ms
+  // dont async itll increase ping by ~500ms
 	curr.addCommand(command.name);
 	if (command.name == 'eval') {
 		return command.run(client, msg, args);

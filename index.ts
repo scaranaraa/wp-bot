@@ -59,6 +59,7 @@ client.on('ready', (_: any) => {
 	handlers.forEach((handler: string) => {
 		import(`./src/handlers/${handler}`).then(module => module.default(client));
 	});
+	console.log("Problems with microsoft-cognitiveservices-speech-sdk for gemspeak.ts can be fixed by removing gradio")
 });
 
 process.on('unhandledRejection', (err: Error) => {
